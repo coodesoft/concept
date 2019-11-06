@@ -2,14 +2,14 @@
 
 
 class ListaPrecios{
-    
+
     const PLUGIN_PREFIX = 'gs_';
-    
+
     static function getTableName($name){
         global $wpdb;
         return  $wpdb->prefix . self::PLUGIN_PREFIX . $name;
     }
-    
+
     static function createTables(){
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -26,7 +26,7 @@ class ListaPrecios{
 
             dbDelta( $sql );
         }
-        
+
         $table_name = self::getTableName('productPrices');
         if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name ) {
 
@@ -39,15 +39,14 @@ class ListaPrecios{
                 PRIMARY KEY  (id)
             ) $charset_collate;";
 
-            throw  new Exception($charset_collate, 1);
             dbDelta( $sql );
-        }        
-        
-    }
-    
+        }
 
-    
-    
+    }
+
+
+
+
 }
 
 ?>

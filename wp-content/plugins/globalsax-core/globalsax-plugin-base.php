@@ -176,7 +176,7 @@ function globalsax_on_activate_callback() {
 
     ListaPrecios::createTables();
     // do something on activation
-    
+
 }
 
 /**
