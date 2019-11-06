@@ -26,10 +26,11 @@ function theme_settings_page()
         <h1 class="panel-title">GLOBALSAX - CORE</h1>
           <h2 class="nav-tab-wrapper">
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=sincronizar')?>" class="nav-tab">Sincronizar</a>
-          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignClient')?>" class="nav-tab">Asignar clientes</a>
+          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignClient')?>" class="nav-tab">Asignar Clientes</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignSeller')?>" class="nav-tab">Asignar Seller</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=adminUrl')?>" class="nav-tab">Administrar URL</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=errorTab')?>" class="nav-tab">Listado de errores</a>
+          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignPrices')?>" class="nav-tab">Asignar Precios</a>
         </h2>
 
       <div class="panel-body">
@@ -59,6 +60,9 @@ function theme_settings_page()
   				<div class="gs-tab" id="errorTab"><?php errorTab(); ?></div>
   			<?php } ?>
 
+        <?php  if ($activeTab == 'assignPrices'){ ?>
+          <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
+        <?php } ?>
 		</div>
 	<?php
 }
@@ -165,6 +169,31 @@ function display_opcion_sincronizar_vendedores() {
   </script>
 <?php
 }
+function display_opcion_sincronizar_precios() {
+  ?>
+
+		<input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
+    <script>
+
+      function sincronizarPrecios(){
+
+        jQuery.ajax({
+          type : "post",
+          url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
+          data : 'action=get_sincronizar_precios&security=<?php echo wp_create_nonce('globalsax'); ?>',
+          success: function( response ) {
+            console.log(response);
+            //location.reload();
+        },
+        error: function( data ) {
+          console.log(data);
+        }
+        });
+      }
+    </script>
+	<?php
+
+}
 
 function display_opcion_administrar_url() {
   $commonurl = get_user_meta(1, "url", true);
@@ -188,6 +217,8 @@ function display_theme_panel_fields(){
     register_setting("section", "url");
   add_settings_field("error", "4) Ver errores", "display_opcion_ver_errores","theme-options", "section");
     register_setting("section", "error");
+  add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
+    register_setting("section", "precios");
 	/**/
 }
 add_action("admin_init", "display_theme_panel_fields");
