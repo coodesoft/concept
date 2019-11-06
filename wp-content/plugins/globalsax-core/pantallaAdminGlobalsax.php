@@ -1,8 +1,7 @@
 <?php
 define('GLOBALSAX_CORE','globalsax-core');
 
-function theme_settings_page()
-{
+function theme_settings_page(){
   global $wpdb;
   $error_table = $wpdb->prefix . ('gs_error');
   if($wpdb->get_var("SHOW TABLES LIKE '$error_table'") != $error_table) {
@@ -26,10 +25,11 @@ function theme_settings_page()
         <h1 class="panel-title">GLOBALSAX - CORE</h1>
           <h2 class="nav-tab-wrapper">
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=sincronizar')?>" class="nav-tab">Sincronizar</a>
-          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignClient')?>" class="nav-tab">Asignar clientes</a>
+          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignClient')?>" class="nav-tab">Asignar Clientes</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignSeller')?>" class="nav-tab">Asignar Seller</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=adminUrl')?>" class="nav-tab">Administrar URL</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=errorTab')?>" class="nav-tab">Listado de errores</a>
+          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignPrices')?>" class="nav-tab">Asignar Precios</a>
         </h2>
 
       <div class="panel-body">
@@ -58,6 +58,9 @@ function theme_settings_page()
         <?php  if ($activeTab == 'errorTab'){ ?>
   				<div class="gs-tab" id="errorTab"><?php errorTab(); ?></div>
   			<?php } ?>
+        <?php  if ($activeTab == 'assignPrices'){ ?>
+          <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
+        <?php } ?>
 
 		</div>
 	<?php
@@ -73,8 +76,7 @@ function settings(){
 </form>
 <?php
 }
-function display_opcion_sincronizar_productos()
-{
+function display_opcion_sincronizar_productos(){
 
 	?>
 
@@ -163,7 +165,36 @@ function display_opcion_sincronizar_vendedores() {
       });
     }
   </script>
-<?php
+  <?php
+}
+
+function display_opcion_sincronizar_precios() {
+  ?>
+
+		<input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
+    <script>
+      function sincronizarPrecios(){
+        var data = {
+          action: 'get_sincronizar_precios',
+          security : '<?php echo wp_create_nonce('globalsax'); ?>',
+        }
+
+        jQuery.ajax({
+          type : "post",
+          url : ajaxurl,
+          data : data,
+          success: function( response ) {
+            console.log(response);
+            //location.reload();
+        },
+        error: function( data ) {
+
+          console.log('Error:' + data);
+        }
+        });
+      }
+    </script>
+	<?php
 }
 
 function display_opcion_administrar_url() {
@@ -189,7 +220,10 @@ function display_theme_panel_fields(){
   add_settings_field("error", "4) Ver errores", "display_opcion_ver_errores","theme-options", "section");
     register_setting("section", "error");
 	/**/
+  add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
+    register_setting("section", "precios");
 }
+
 add_action("admin_init", "display_theme_panel_fields");
 
 function get_Sellers(){
@@ -286,7 +320,7 @@ function assignClient(){
       delete_GS_rel($_POST['borrar']);
   }
 
-?>
+  ?>
 
   <table>
       <tr>
@@ -337,7 +371,7 @@ function assignClient(){
     </div>
   </form>
 
-<?php
+  <?php
 }
 
 function adminUrl(){

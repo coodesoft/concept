@@ -1,7 +1,5 @@
 <?php
 /**LLAMADA AJAX**/
-add_action('wp_ajax_get_sincronizar_precios', 'ajax_get_sincronizar_precios');
-add_action('wp_ajax_nopriv_get_sincronizar_precios', 'ajax_get_sincronizar_precios');
 
 function ajax_get_sincronizar_precios(){
 	get_sincronizar_precios();

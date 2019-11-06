@@ -28,7 +28,7 @@ define('GLOBALSAX_URL_INCLUDES', GLOBALSAX_URL . '/inc');
 class GLOBALSAX_Plugin_Base {
 
     public function __construct() {
-		add_action('wp_enqueue_scripts', array($this,'globalsax_add_JS'));
+		    add_action('wp_enqueue_scripts', array($this,'globalsax_add_JS'));
         add_action('wp_enqueue_scripts', array($this,'globalsax_add_CSS'));
 
         // add scripts and styles only available in admin
@@ -173,7 +173,6 @@ class GLOBALSAX_Plugin_Base {
  */
 function globalsax_on_activate_callback() {
     require_once('db/ListaPrecios.php');
-
     ListaPrecios::createTables();
     // do something on activation
 
@@ -207,6 +206,7 @@ $globalsax_plugin_base = new GLOBALSAX_Plugin_Base();
 /**************************************************************************************************************/
 add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
+  require_once("util/Requester.php");
 	require_once("funcionalidades/test.php");
 	require_once("funcionalidades/sincronizarProductos.php");
 	require_once("funcionalidades/sincronizarClientes.php");
@@ -215,6 +215,8 @@ function cargar_funcionalidades() {
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
   require_once("funcionalidades/gbs_catalogo.php");
+  require_once('controllers/ListaPreciosController.php');
+
 
 }
 

@@ -32,8 +32,8 @@ class ListaPrecios{
 
             $sql = "CREATE TABLE $table_name (
                 id bigint(20) NOT NULL AUTO_INCREMENT,
-                product_id varchar(50) NOT NULL,
-                variation_id varchar(50),
+                product_id bigint(20) NOT NULL,
+                variation_sku varchar(50),
                 price float(10) NOT NULL,
                 list_id bigint(20) NOT NULL,
                 PRIMARY KEY  (id)
@@ -41,10 +41,7 @@ class ListaPrecios{
 
             dbDelta( $sql );
         }
-
     }
-
-
 
 
 }
