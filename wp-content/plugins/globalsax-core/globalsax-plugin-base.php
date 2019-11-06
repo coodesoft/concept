@@ -172,7 +172,11 @@ class GLOBALSAX_Plugin_Base {
  * Register activation hook
  */
 function globalsax_on_activate_callback() {
+    require_once('db/ListaPrecios.php');
+
+    ListaPrecios::createTables();
     // do something on activation
+    
 }
 
 /**

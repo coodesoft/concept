@@ -287,7 +287,7 @@ function get_do_checkout(){
 
 
 /* FUNCIONES INTERNAS DE RETORNO */
-function gbs_catalog(){
+function gbs_catalog($atts){
   $categories = gbs_get_categories();
   ?>
   <div id="gbsCatalog">

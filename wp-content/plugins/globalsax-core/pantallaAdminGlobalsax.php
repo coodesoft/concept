@@ -170,11 +170,12 @@ function display_opcion_administrar_url() {
   $commonurl = get_user_meta(1, "url", true);
   echo "La URL actual es: " . $commonurl;
 }
+
 function display_opcion_ver_errores() {
   echo "Abrir la solapa para poder revisar los pedidos y las sincronizaciones erroneas";
   }
-function display_theme_panel_fields()
-{
+
+function display_theme_panel_fields(){
 	add_settings_section("section", "Configuracion de opciones de sistema", null, "theme-options");
 	/**/
   add_settings_field("productos", "Sincronizar lista de productos de todos los productos! - Es un proceso lento y que genera mucho estress a la base de datos, por favor sincronizar cuando este seguro que se debe hacer.", "display_opcion_sincronizar_productos","theme-options", "section");
@@ -189,8 +190,8 @@ function display_theme_panel_fields()
     register_setting("section", "error");
 	/**/
 }
-
 add_action("admin_init", "display_theme_panel_fields");
+
 function get_Sellers(){
 
     global $wpdb;
@@ -222,6 +223,7 @@ function assignSeller(){
   </table>
   <?php
 }
+
 function get_clients_user_table(){
 
   global $wpdb;
@@ -243,6 +245,7 @@ function insert_GS_user($GS_client_id, $WP_user_id){
   return $wpdb->insert($gs_client_table, array('user_id' => $WP_user_id, 'Client_ID'=> $GS_client_id), array('%d', '%d'));
 
 }
+
 function get_GS_clients(){
 
   global $wpdb;
