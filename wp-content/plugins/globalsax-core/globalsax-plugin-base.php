@@ -173,7 +173,8 @@ class GLOBALSAX_Plugin_Base {
  */
 function globalsax_on_activate_callback() {
     require_once('db/ListaPrecios.php');
-    ListaPrecios::createTables();
+    require_once('db/PreciosProductos.php');
+    ListaPrecios::createTable();
     // do something on activation
 
 }
