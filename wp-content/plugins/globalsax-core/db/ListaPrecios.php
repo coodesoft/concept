@@ -37,7 +37,7 @@ class ListaPrecios extends GSModel{
             
             if ($result){
                 foreach($items as $item){
-                    $result = PreciosProductos::add($item);
+                    PreciosProductos::add($item);
                 }
                 return $wpdb->insert_id;
             }

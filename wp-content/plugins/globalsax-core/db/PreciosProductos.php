@@ -49,8 +49,10 @@ class PreciosProductos extends GSModel{
 
                     global $wpdb;
                     $result = $wpdb->insert($table_name, $toSave);
-                    if ($result)
+                    if ($result !== false)
                         return $wpdb->insert_id;
+                    else
+                        throw new Exception('PreciosProductos - Se produjo un error al guardar un precio', 1);
 
                 }
             }
