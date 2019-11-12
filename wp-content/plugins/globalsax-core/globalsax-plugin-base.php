@@ -175,6 +175,7 @@ function globalsax_on_activate_callback() {
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
     ListaPrecios::createTable();
+    PreciosProductos::createTable();
     // do something on activation
 
 }
@@ -207,18 +208,18 @@ $globalsax_plugin_base = new GLOBALSAX_Plugin_Base();
 /**************************************************************************************************************/
 add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
-  require_once("util/Requester.php");
+    require_once("util/Requester.php");
+    require_once('db/ListaPrecios.php');
+    require_once('db/PreciosProductos.php');
 	require_once("funcionalidades/test.php");
 	require_once("funcionalidades/sincronizarProductos.php");
 	require_once("funcionalidades/sincronizarClientes.php");
 	require_once("funcionalidades/sincronizarPrecios.php");
-  require_once("funcionalidades/sincronizarVendedores.php");
+    require_once("funcionalidades/sincronizarVendedores.php");
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
-  require_once("funcionalidades/gbs_catalogo.php");
-  require_once('controllers/ListaPreciosController.php');
-
-
+    require_once("funcionalidades/gbs_catalogo.php");
+    require_once('controllers/ListaPreciosController.php');
 }
 
 add_action('wp_head', 'globalsax_ajaxurl');

@@ -1,10 +1,10 @@
 <?php
 
-require_once('db/GSModel.php');
+require_once('GSModel.php');
 
 class ListaPrecios extends GSModel{
 
-    static function createTables(){
+    static function createTable(){
 
         global $wpdb;
         $table_name = static::getTableName('priceList');
@@ -25,21 +25,22 @@ class ListaPrecios extends GSModel{
     static function add($params){
 
         $name = trim($params['Name']);
-        $items = $parmams['Items'];
+        $items = $params['Items'];
         if (!is_array($items))
             throw new Exception('ListaPrecios - Tpo de datos inválido! : Items no es un array.');
         
         $stored = self::getByName($name, 1);
         
         if (!$stored){
+            global $wpdb;
             $table_name = self::getTableName('priceList');
             $result = $wpdb->insert( $table_name, ['id'=> 0, 'name' => $name], ['%d', '%s'] );
-            
+            $newId = $wpdb->insert_id;
             if ($result){
                 foreach($items as $item){
-                    PreciosProductos::add($item);
+                    PreciosProductos::add($item, $newId);
                 }
-                return $wpdb->insert_id;
+                return $newId;
             }
         }
         return null;
@@ -49,8 +50,11 @@ class ListaPrecios extends GSModel{
         global $wpdb;
         $table_name = static::getTableName('priceList');
         
-        if ($name == trim($name) && strpos($name, ' ') !== false)
-            throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios.');
+        $trimed = trim($name);
+        $name = stripslashes($trimed);
+        
+        if ($name != $trimed)
+            throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios: ['.$name. "] [".$spaces ."] [". $trimed."]");
         
         $query = "SELECT * FROM " . $table_name . " WHERE name='" . $name . "'";
         

@@ -1,6 +1,6 @@
 <?php
 
-require_once('db/GSModel.php');
+require_once('GSModel.php');
 
 class PreciosProductos extends GSModel{
 
@@ -9,11 +9,13 @@ class PreciosProductos extends GSModel{
 
         global $wpdb;
         $table_name = static::getTableName('productPrices');
+        $charset_collate = $wpdb->get_charset_collate();
+
         if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name ) {
 
             $sql = "CREATE TABLE $table_name (
                 id bigint(20) NOT NULL AUTO_INCREMENT,
-                product_id bigint(20) NOT NULL,
+                product_id varchar(20) NOT NULL,
                 variation_sku varchar(50),
                 price float(10) NOT NULL,
                 list_id bigint(20) NOT NULL,
@@ -29,32 +31,46 @@ class PreciosProductos extends GSModel{
         $product_sku = $params['Product_Id'];
         $variation_sku = $params['ProductVariation_Id'];
         $price = $params['Price'];
-
+        
         if ($price != 0){
             if ($product_sku && is_string($product_sku)){
-                $product_id = wc_get_product_id_by_sku( $product_sku );
+                
+                $product_id = static::getProductIdBySku($product_sku);
 
-                $exist = static::getProductPrice($product_id, $product_sku, $list_id);
-
-                if (!$exist){
-                    $toSave = [
-                        'id' => 0,
-                        'product_id'    => $product_id,
-                        'variation_sku' => $variation_sku,
-                        'price'         => $price,
-                        'list_id'       => $list_id
-                    ];
-
-                    $table_name = static::getTableName('productPrices');
+                if ($product_id){
+                    $stored = static::getProductPrice($product_id, $product_sku, $list_id);
 
                     global $wpdb;
-                    $result = $wpdb->insert($table_name, $toSave);
-                    if ($result !== false)
-                        return $wpdb->insert_id;
-                    else
-                        throw new Exception('PreciosProductos - Se produjo un error al guardar un precio', 1);
+                    $table_name = static::getTableName('productPrices');
 
+                    if (!$stored){
+                        $toSave = [
+                            'id' => 0,
+                            'product_id'    => $product_id,
+                            'variation_sku' => $variation_sku,
+                            'price'         => $price,
+                            'list_id'       => $list_id
+                        ];
+
+                        $query = "INSERT INTO $table_name ('id', 'product_id', 'variation_sku', 'price', 'list_id') VALUES ($0, $product_id, $variation_sku, $price, $list_id)";
+                        $result = $wpdb->insert($table_name, $toSave, ['%d', '%s', '%s', '%f', '%d']);
+                        $return = $wpdb->intert_id;
+                    } else{
+                        $stored['price'] = $price;
+                        $result = $wpdb->update($table_name, $stored, [ 'id' => $stored['id'] ]);
+                        $return = $result;
+                    }
+                } else{
+                    $result = 0;
+                    $return = 0;
                 }
+                    
+                
+
+                if ($result !== false)
+                    return $return;
+                else
+                    throw new Exception('PreciosProductos - Se produjo un error al guardar un precio', 1);
             }
         }
         return null;
@@ -63,12 +79,13 @@ class PreciosProductos extends GSModel{
 
 
     static function getProductPrice($product_id, $variation_sku, $list_id){
-
-        if ( !is_numeric($product_id) || !is_string($variation_sku) || !is_string($priceList) )
-            throw new Exception('PreciosProductos - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos');
+ 
+        if ( strpos($product_id, ' ') || strpos($variation_sku, ' ') || strpos($priceList, ' ') ){
+            throw new Exception('PreciosProductos - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
+        }
 
         global $wpdb;
-        $table_name = static::getTableName('priceList');
+        $table_name = static::getTableName('productPrices');
 
         $query  = "SELECT * FROM ". $table_name . " WHERE ";
         $query .= "product_id='" . $product_id . "' AND ";
