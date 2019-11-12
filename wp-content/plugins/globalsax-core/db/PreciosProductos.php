@@ -31,10 +31,10 @@ class PreciosProductos extends GSModel{
         $product_sku = $params['Product_Id'];
         $variation_sku = $params['ProductVariation_Id'];
         $price = $params['Price'];
-        
+
         if ($price != 0){
             if ($product_sku && is_string($product_sku)){
-                
+
                 $product_id = static::getProductIdBySku($product_sku);
 
                 if ($product_id){
@@ -52,7 +52,7 @@ class PreciosProductos extends GSModel{
                             'list_id'       => $list_id
                         ];
 
-                        $query = "INSERT INTO $table_name ('id', 'product_id', 'variation_sku', 'price', 'list_id') VALUES ($0, $product_id, $variation_sku, $price, $list_id)";
+                        $query = "INSERT INTO $table_name ('id', 'product_id', 'variation_sku', 'price', 'list_id') VALUES (0, $product_id, $variation_sku, $price, $list_id)";
                         $result = $wpdb->insert($table_name, $toSave, ['%d', '%s', '%s', '%f', '%d']);
                         $return = $wpdb->intert_id;
                     } else{
@@ -64,8 +64,8 @@ class PreciosProductos extends GSModel{
                     $result = 0;
                     $return = 0;
                 }
-                    
-                
+
+
 
                 if ($result !== false)
                     return $return;
@@ -76,10 +76,58 @@ class PreciosProductos extends GSModel{
         return null;
     }
 
+    static function batchSave($items, $list_id){
+        global $wpdb;
 
+        $valuesInsert = [];
+        $valuesUpdate = [];
+
+        foreach ( $items as $key => $item ) {
+
+            $variation_sku  = $item['ProductVariation_Id'];
+            $product_sku    = $item['Product_Id'];
+            $price          = number_format($item['Price'], 2);
+
+            if ($price != 0){
+              if ($product_sku && is_string($product_sku)){
+                  $product_id = static::getProductIdBySku($product_sku);
+                  if ($product_id){
+                      $stored = static::getProductPrice($product_id, $variation_sku, $list_id);
+
+                      if (!$stored)
+                          $valuesInsert[] = $wpdb->prepare( "(%d, %s, %s, %f, %d)", [ 0, $product_id, $variation_sku, $price, $list_id ]);
+                      else{
+                        if ($stored['price'] != $price)
+                          $valuesUpdate[] = [$stored['id'], $price];
+                      }
+                  }
+              }
+            }
+          }
+          $table_name = static::getTableName('productPrices');
+
+          if (count($valuesInsert)){
+            $query = "INSERT INTO $table_name (id, product_id, variation_sku, price, list_id) VALUES " . implode( ", ", $valuesInsert );
+            $resultInsert = $wpdb->query( $query );
+          }
+
+          if (count($valuesUpdate))
+            foreach($valuesUpdate as $value){
+              $query = "UPDATE $table_name SET price=$value[1] WHERE id=$value[0];";
+              $result = $wpdb->query( $query );
+              if ($result === false)
+                throw new Exception('Se produjo un error al actualizar precios existentes: [id: '.$value[0].']');
+            }
+
+          if ($resultInsert === false)
+            throw new Exception('Se produjo un error al guardar nuevos precios en la db');
+
+          return true;
+
+    }
 
     static function getProductPrice($product_id, $variation_sku, $list_id){
- 
+
         if ( strpos($product_id, ' ') || strpos($variation_sku, ' ') || strpos($priceList, ' ') ){
             throw new Exception('PreciosProductos - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
         }
@@ -92,7 +140,7 @@ class PreciosProductos extends GSModel{
         $query .= "variation_sku='" . $variation_sku . "' AND ";
         $query .= "list_id='" . $list_id . "'";
 
-        return $wpdb->get_row($query);
+        return $wpdb->get_row($query, ARRAY_A);
 
     }
 }
