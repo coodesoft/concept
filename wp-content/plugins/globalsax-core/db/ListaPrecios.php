@@ -29,7 +29,7 @@ class ListaPrecios extends GSModel{
         if (!is_array($items))
             throw new Exception('ListaPrecios - Tpo de datos inválido! : Items no es un array.');
 
-        $stored = self::getByName($name, 1);
+        $stored = static::getByName($name, 1);
 
         if (!$stored){
             global $wpdb;
@@ -37,7 +37,6 @@ class ListaPrecios extends GSModel{
             $result = $wpdb->insert( $table_name, ['id'=> 0, 'name' => $name], ['%d', '%s'] );
             $newId = $wpdb->insert_id;
             if ($result){
-                //foreach($items as $item)
                 PreciosProductos::batchSave($items, $newId);
                 return $newId;
             }
