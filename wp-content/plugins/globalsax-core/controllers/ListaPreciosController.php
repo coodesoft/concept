@@ -9,18 +9,32 @@ class ListaPreciosController {
 
     public function sincronizar(){
         $jsonLists = Requester::get('PriceList');
-        //echo $jsonLists;
-        
+        $lists = json_decode($jsonLists, true);
 
-        $listas = json_decode($jsonLists, true);
-        
         $errors = [];
-        foreach($listas as $lista){
-            $result = ListaPrecios::add($lista);
-            if (!$result)
-                $errors[] = $lista['Name'];
+        $newLists = [];
+        $storedLists = ListaPrecios::getAll();
+        PreciosProductos::batchReset();
+
+        $criteria = new ListaPreciosCriteria();
+        foreach($lists as $list){
+            $name = $list['Name'];
+
+            $criteria->preprare($name);
+            $stored = Filter::filterArrayElement($storedLists, $criteria);
+
+            if (!$stored){
+                $result = ListaPrecios::add($name);
+                if ($result['status']){
+                  $newLists[] = $name;
+                  $items = $list['Items'];
+                  PreciosProductos::batchSave($items, $result['insert_id']);
+                }
+            } else {
+                PreciosProductos::batchSave($items, $stored['id']);
+            }
         }
-        
+
         if (count($errors)==0)
             echo 'Salio todo regio';
         else
