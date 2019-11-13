@@ -1,0 +1,221 @@
+/*
+Theme Name: One Page Coodesoft
+Author: Coodesoft Dev Team
+Author URI: https://coodesoft.com.ar
+Description: One Page theme with parallax features, portfolio, and extras
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: black, green, one-page, flexible-width, custom-header, custom-menu, rtl-language-support, i18n
+Text Domain: coodetheme
+Template:	twentysixteen
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool. A great power carries a great responsibility
+*/
+
+html {
+  scroll-behavior: smooth;
+}
+
+.sticky {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+}
+
+section.page_section{
+  position: relative;
+	min-height: 100vh;
+}
+
+.wrapper_page{
+  position: relative;
+  z-index: 120;
+  color: #ddd;
+}
+
+.page_background{
+  background-size: cover !important;
+  position: absolute;
+  min-height: 100%;
+  min-width: 100%;
+  z-index: 100;
+/*
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+*/
+}
+
+.page_cover{
+  min-height: 100%;
+  min-width: 100%;
+  position: absolute;
+  z-index: 110;
+  background-color: rgba(0, 0, 0, 0.8);
+
+}
+
+#main_menu{
+  padding: 0!important;
+  z-index: 130;
+  position: relative;
+}
+
+#menu-coode_nav_menu-container{
+  background-color: #000 !important;
+  text-align: center;
+
+}
+
+#menu-coode_nav_menu{
+  margin: auto;
+  padding: 10px 0;
+}
+
+#menu-coode_nav_menu li{
+  display: inline-block;
+}
+
+#menu-coode_nav_menu li a{
+  color: #ccc !important;
+  font-size: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: color 0.3s;
+  text-transform: uppercase;
+}
+
+#menu-coode_nav_menu li a:hover{
+  color: #00a400 !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.home_content{
+  font-family: 'Comfortaa', cursive;
+  padding-top: 10vh;
+}
+
+#home_page .home_content{
+  padding-top: 0vh;
+}
+
+.home_image{
+  padding-top: 40vh;
+  position: relative;
+}
+
+.home_image_wrapper{
+    margin: auto;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+}
+
+.home_image_wrapper img{
+  width: 100%;
+}
+
+.home_content{
+  text-align: center;
+}
+
+#home_page .home_content p{
+    text-transform: uppercase;
+    font-size: 1.8vw;
+    color: #ccc;
+}
+
+#home_page .home_content p:first-child{
+  margin-bottom: 0;
+ }
+
+.home_link{
+    margin-top: 40px;
+    text-align: center;
+}
+
+.home_link a{
+    color: #ccc;
+    -webkit-transition: color 0.5s; /* Safari */
+    transition: color .5s;
+}
+
+.home_link a:hover{
+      color: #00a400 !important;
+}
+
+h2, h3{
+  margin-bottom: 20px!important;
+  padding-top: 20px!important;
+}
+
+h4{
+  margin-top: 10vh !important;
+  margin-bottom: 3vh !important;
+}
+
+.wpcf7-form label{
+    text-align: left;
+}
+
+.coode_footer{
+    padding-top: 10px;
+    background: #000;
+    text-align: center;
+}
+
+.coode_footer_content .sfsi_wDiv{
+    left: 0;
+    right: 0;
+    text-align: center !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.coode_footer_title{
+    margin: auto;
+    color: whitesmoke;
+    font-family: 'Comfortaa', cursive;
+    padding: 10px;
+    font-size: 18px;
+    
+
+}
+
+.coode_footer .sfsi_wicons{
+    margin-left: 10px!important;
+    margin-right: 10px!important;
+}
+
+.coode_footer .coode_footer_info{
+    text-align: right;
+    padding-right: 10px;
+}
+.coode_footer .coode_footer_info{
+    color: #bbb;
+}
+
+.coode_footer .coode_footer_info a{
+    color: #666;
+}
+
+.navbar-brand{
+    display: none !important;
+}
+
+@media (max-width: 992px){
+    .navbar-brand{
+        display: inline-block !important;
+        max-width: 200px;
+        padding: 5px;
+        margin-left: 15px;
+        img{
+            width: 100%;
+        }
+    }    
+    #main_menu{
+        background: #000!important;
+        padding: 10px!important;
+    }
+}

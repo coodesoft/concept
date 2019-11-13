@@ -16,32 +16,27 @@
 
 get_header();
 ?>
+<main id="main" class="site-main">
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+	<?php
+		$args = ['post_type' => 'page', 'orderby' => 'menu_order', 'order' => 'ASC'];
+		$query = new WP_Query( $args );
+		while ( $query->have_posts() ) : $query->the_post();
 
-		<?php
-		if ( have_posts() ) {
+			if ($query->post->post_type != 'page')
+				echo 'lalita';
+			elseif ($query->post->menu_order == 0){
+				get_template_part( 'template-parts/content', 'home' );
+				
+			} else
+				get_template_part( 'template-parts/content', 'page' );
 
-			// Load posts loop.
-			while ( have_posts() ) {
-				the_post();
-				get_template_part( 'template-parts/content/content' );
-			}
 
-			// Previous/next page navigation.
-			
+		endwhile;
 
-		} else {
+ ?>
 
-			// If no content, include the "No posts found" template.
-			get_template_part( 'template-parts/content/content', 'none' );
-
-		}
-		?>
-
-		</main><!-- .site-main -->
-	</section><!-- .content-area -->
+</main><!-- .site-main -->
 
 <?php
 get_footer();
