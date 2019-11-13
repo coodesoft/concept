@@ -38,7 +38,7 @@ class PreciosProductos extends GSModel{
                 $product_id = static::getProductIdBySku($product_sku);
 
                 if ($product_id){
-                    $stored = static::getProductPrice($product_id, $product_sku, $list_id);
+                    $stored = static::get($product_id, $product_sku, $list_id);
 
                     global $wpdb;
                     $table_name = static::getTableName('productPrices');
@@ -75,6 +75,9 @@ class PreciosProductos extends GSModel{
         }
         return null;
     }
+
+    static function removeByListId()
+
 
     static function batchSave($items, $list_id){
         global $wpdb;
@@ -126,7 +129,19 @@ class PreciosProductos extends GSModel{
 
     }
 
-    static function getProductPrice($product_id, $variation_sku, $list_id){
+    static function batchReset(){
+      $table_name = static::getTableName('productPrices');
+      $query = 'UPDATE $table_name SET price=0';
+
+      global $wpdb;
+      $result = $wpdb->query( $query );
+      if ($result === false)
+        throw new Exception('Se produjo un error al reiniciar los precios de los productos!');
+
+      return true;
+    }
+
+    static function get($product_id, $variation_sku, $list_id){
 
         if ( strpos($product_id, ' ') || strpos($variation_sku, ' ') || strpos($priceList, ' ') ){
             throw new Exception('PreciosProductos - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
