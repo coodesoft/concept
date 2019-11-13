@@ -1,4 +1,4 @@
-<?
+<?php
 
 add_action( 'woocommerce_after_cart_table', 'gbs_cartFunctions' );
 
