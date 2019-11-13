@@ -22,48 +22,53 @@ class ListaPrecios extends GSModel{
         }
     }
 
-    static function add($params){
+    static function validate($param){
+      return ( isset($param) && is_string($param) && strlen($param)>0 );
+    }
 
-        $name = trim($params['Name']);
-        $items = $params['Items'];
-        if (!is_array($items))
-            throw new Exception('ListaPrecios - Tpo de datos inválido! : Items no es un array.');
+    static function add($name){
 
-        $stored = static::getByName($name, 1);
-
-        if (!$stored){
+        if ( static::validate($name) ){
             global $wpdb;
             $table_name = self::getTableName('priceList');
             $result = $wpdb->insert( $table_name, ['id'=> 0, 'name' => $name], ['%d', '%s'] );
-            $newId = $wpdb->insert_id;
-            if ($result){
-                PreciosProductos::batchSave($items, $newId);
-                return $newId;
-            }
-        } else{
-          PreciosProductos::batchSave($items, $stored[0]['id']);
-          return $stored[0]['id'];
+            if ($result)
+                return [ 'status' => true, 'insert_id' => $wpdb->insert_id ];
+            else
+                return [ 'status' => false, 'insert_id' => 0 ];
         }
+        return [ 'status' => false, 'insert_id' => 0 ];
     }
 
     static function getByName($name, $limit = null){
-        global $wpdb;
-        $table_name = static::getTableName('priceList');
 
-        $trimed = trim($name);
-        $name = stripslashes($trimed);
+        if (static::validate($name)){
+          global $wpdb;
+          $table_name = static::getTableName('priceList');
 
-        if ($name != $trimed)
-            throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios: ['.$name. "] [".$spaces ."] [". $trimed."]");
+          $trimed = trim($name);
+          $name = stripslashes($trimed);
 
-        $query = "SELECT * FROM " . $table_name . " WHERE name='" . $name . "'";
+          if ($name != $trimed)
+              throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios: ['.$name. "] [".$spaces ."] [". $trimed."]");
 
-        if (!$limit && is_numeric($limit) && $limit > 0)
-            $query .= ' LIMIT ' . $limit;
+          $query = "SELECT * FROM " . $table_name . " WHERE name='" . $name . "'";
 
-        return $wpdb->get_results($query, ARRAY_A);
+          if (!$limit && is_numeric($limit) && $limit > 0)
+              $query .= ' LIMIT ' . $limit;
+
+          return $wpdb->get_results($query, ARRAY_A);
+        }
+
+        return null;
     }
 
+    static function getAll(){
+      global $wpdb;
+      $table_name = static::getTableName('priceList');
+      $query = "SELECT * FROM " . $table_name;
+      return $wpdb->get_results($query, ARRAY_A);
+    }
 }
 
 ?>
