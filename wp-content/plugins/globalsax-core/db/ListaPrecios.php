@@ -69,6 +69,15 @@ class ListaPrecios extends GSModel{
       $query = "SELECT * FROM " . $table_name;
       return $wpdb->get_results($query, ARRAY_A);
     }
+
+
+    static function delete($lists){
+        
+        foreach($lists as $list){
+            
+        }
+        
+    }
 }
 
 ?>
