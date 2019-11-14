@@ -76,10 +76,19 @@ class PreciosProductos extends GSModel{
         return null;
     }
 
-    static function removeByListId(){
-        
-    }
+    static function deleteByListId($list_id){
+      global $wpdb;
+      if ($list_id && is_numeric($list_id) && $list_id>0){
+          $table_name = static::getTableName('productPrices');
+          $result = $wpdb->delete( $table_name, ['list_id' => $list_id], ['%d']);
+          if ($result)
+            return true;
+          else
+            throw new Exception("Se produjo un error al eliminar un registro de precio. ListId: ".$list_id, 1);
 
+      } else
+        throw new Exception("Se produjo un error de validación de datos al eliminar un registro de precio.", 1);
+    }
 
     static function batchSave($items, $list_id){
         global $wpdb;
@@ -97,7 +106,7 @@ class PreciosProductos extends GSModel{
               if ($product_sku && is_string($product_sku)){
                   $product_id = static::getProductIdBySku($product_sku);
                   if ($product_id){
-                      $stored = static::getProductPrice($product_id, $variation_sku, $list_id);
+                      $stored = static::get($product_id, $variation_sku, $list_id);
 
                       if (!$stored)
                           $valuesInsert[] = $wpdb->prepare( "(%d, %s, %s, %f, %d)", [ 0, $product_id, $variation_sku, $price, $list_id ]);
@@ -133,7 +142,7 @@ class PreciosProductos extends GSModel{
 
     static function batchReset(){
       $table_name = static::getTableName('productPrices');
-      $query = 'UPDATE $table_name SET price=0';
+      $query = 'UPDATE '.$table_name.' SET price=0';
 
       global $wpdb;
       $result = $wpdb->query( $query );
@@ -145,7 +154,7 @@ class PreciosProductos extends GSModel{
 
     static function get($product_id, $variation_sku, $list_id){
 
-        if ( strpos($product_id, ' ') || strpos($variation_sku, ' ') || strpos($priceList, ' ') ){
+        if ( strpos($product_id, ' ') || strpos($variation_sku, ' ') || strpos($list_id, ' ') ){
             throw new Exception('PreciosProductos - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
         }
 
