@@ -144,24 +144,10 @@ function insert_client($client_data)
     $wpdb->insert($gs_clients_table, $values, $types);
 
     if (sizeof($client_data['Sucs']) > 0) {
-		insert_client_suc($client_data['Client_ID'], $client_data['Sucs']);
+			insert_client_suc($client_data['Client_ID'], $client_data['Sucs']);
     }
 		update_user_meta(1,'client_key_'.$client_data['Client_ID'], $client_data['Client_ID']);
-	} else {
-		/*$post = array(
-			'ID'  => $IdWp,
-			'post_author'  => 1,
-			'post_content' => $product_data['Description'],
-			'post_status'  => 'publish',
-			'post_title'   => $product_data['Name'],
-			'post_parent'  => '',
-			'post_type'    => 'product'
-		);*/
-		/*$post_id = wp_update_post($post);
-		$product_category = $product_data['Category'];
-		borrarVariacionesProductos($post_id);*/
-		//if (sizeof($client_data['Sucs']) < 0){
-    }
+	}
 }
 
 function insert_client_suc($client_id, $sucursales){
