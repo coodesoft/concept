@@ -35,9 +35,10 @@ class ListaPrecios extends GSModel{
             if ($result)
                 return [ 'status' => true, 'insert_id' => $wpdb->insert_id ];
             else
-                return [ 'status' => false, 'insert_id' => 0 ];
-        }
-        return [ 'status' => false, 'insert_id' => 0 ];
+                throw new Exception("Se produjo un error al guardar una lista nueva. Name: ".$name, 1);
+
+        } else
+            throw new Exception("Se produjo un error de validación de datos al guardar una lista nueva. Name: ".$name, 1);
     }
 
     static function getByName($name, $limit = null){
@@ -70,13 +71,18 @@ class ListaPrecios extends GSModel{
       return $wpdb->get_results($query, ARRAY_A);
     }
 
+    static function delete($id){
+        if ($id && is_numeric($id) && $id>0){
+          global $wpdb;
+          $table_name = static::getTableName('priceList');
 
-    static function delete($lists){
-        
-        foreach($lists as $list){
-            
-        }
-        
+          $result = $wpdb->delete( $table_name, ['id' => $id], ['%d'] );
+          if ($result)
+            return true;
+          else
+            throw new Exception("Se produjo un error al borrar una lista. Id: ".$id, 1);
+        } else
+          throw new Exception("Se produjo un error al borrar una lista. Error de validación en el parámetro", 1);
     }
 }
 
