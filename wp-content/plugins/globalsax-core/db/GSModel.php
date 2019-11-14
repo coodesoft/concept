@@ -1,14 +1,14 @@
 <?php
 
 class GSModel {
-    
+
     const PLUGIN_PREFIX = 'gs_';
 
     static function getTableName($name){
         global $wpdb;
         return  $wpdb->prefix . static::PLUGIN_PREFIX . $name;
     }
-    
+
     static function getProductIdBySku( $sku ) {
         global $wpdb;
 
@@ -18,6 +18,22 @@ class GSModel {
 
         return null;
     }
+
+    static function transaction(){
+      global $wpdb;
+      $wpdb->query("START TRANSACTION");
+    }
+
+    static function commit(){
+      global $wpdb;
+      $wpdb->query("COMMIT");
+    }
+
+    static function rollBack(){
+      global $wpdb;
+      $wpdb->query("ROLLBACK");
+    }
+
 }
 
 ?>
