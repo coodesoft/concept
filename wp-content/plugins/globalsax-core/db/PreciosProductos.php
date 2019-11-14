@@ -76,7 +76,9 @@ class PreciosProductos extends GSModel{
         return null;
     }
 
-    static function removeByListId()
+    static function removeByListId(){
+        
+    }
 
 
     static function batchSave($items, $list_id){
