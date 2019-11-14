@@ -12,29 +12,38 @@ class ListaPreciosController {
         $lists = json_decode($jsonLists, true);
 
         $errors = [];
-        $newLists = [];
+        $wsNormalizedLists = [];
         $storedLists = ListaPrecios::getAll();
-        PreciosProductos::batchReset();
+
+        //PreciosProductos::batchReset();
 
         $criteria = new ListaPreciosCriteria();
         foreach($lists as $list){
             $name = $list['Name'];
 
-            $criteria->preprare($name);
+            //normalizo la clave ya que dede el webservice viene de la forma "Name: value"
+            //así puedo comparar usando el objeto criteria para luego ver que listas
+            //se deben borrar.
+            $wsNormalizedLists[]['name'] = $name;
+                
+            $criteria->prepare( ['name' => $name] );
             $stored = Filter::filterArrayElement($storedLists, $criteria);
-
+            
             if (!$stored){
-                $result = ListaPrecios::add($name);
+               // $result = ListaPrecios::add($name);
                 if ($result['status']){
-                  $newLists[] = $name;
                   $items = $list['Items'];
-                  PreciosProductos::batchSave($items, $result['insert_id']);
+                 // PreciosProductos::batchSave($items, $result['insert_id']);
                 }
             } else {
-                PreciosProductos::batchSave($items, $stored['id']);
+               // PreciosProductos::batchSave($items, $stored['id']);
             }
         }
-
+        
+        //filtro las listas de la db que no vienen en el webservice, asi se borran
+        $listsToDelete = Filter::diffArrays($storedLists, $wsNormalizedLists, $criteria);
+        echo json_encode($listsToDelete);
+        
         if (count($errors)==0)
             echo 'Salio todo regio';
         else
