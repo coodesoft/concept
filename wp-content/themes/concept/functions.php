@@ -9,9 +9,36 @@
  * @since 1.0.0
  */
 
+
+add_theme_support( 'automatic-feed-links' );
+
+register_nav_menus(	['menu-1' => __( 'Primary', 'concept' )] );
+
+add_theme_support(
+  'html5',
+  array(
+    'search-form',
+    'comment-form',
+    'comment-list',
+    'gallery',
+    'caption',
+  )
+);
+
 /**
- * Enqueue scripts and styles.
+ * Add support for core custom logo.
+ *
+ * @link https://codex.wordpress.org/Theme_Logo
  */
+add_theme_support(
+  'custom-logo',
+  array(
+    'height'      => 190,
+    'width'       => 190,
+    'flex-width'  => false,
+    'flex-height' => false,
+  )
+);
 
 wp_register_script('jquery_coode',    get_stylesheet_directory_uri().'/js/jquery-3.2.1.min.js', [],               false, true );
 wp_register_script('popper',          get_stylesheet_directory_uri().'/js/popper.min.js',       ['jquery_coode'], false, true );
