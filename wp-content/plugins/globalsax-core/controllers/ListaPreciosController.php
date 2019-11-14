@@ -8,46 +8,78 @@ class ListaPreciosController {
     }
 
     public function sincronizar(){
-        $jsonLists = Requester::get('PriceList');
-        $lists = json_decode($jsonLists, true);
-
-        $errors = [];
-        $wsNormalizedLists = [];
-        $storedLists = ListaPrecios::getAll();
-
-        //PreciosProductos::batchReset();
-
-        $criteria = new ListaPreciosCriteria();
-        foreach($lists as $list){
-            $name = $list['Name'];
-
-            //normalizo la clave ya que dede el webservice viene de la forma "Name: value"
-            //así puedo comparar usando el objeto criteria para luego ver que listas
-            //se deben borrar.
-            $wsNormalizedLists[]['name'] = $name;
-                
-            $criteria->prepare( ['name' => $name] );
-            $stored = Filter::filterArrayElement($storedLists, $criteria);
-            
-            if (!$stored){
-               // $result = ListaPrecios::add($name);
-                if ($result['status']){
-                  $items = $list['Items'];
-                 // PreciosProductos::batchSave($items, $result['insert_id']);
-                }
-            } else {
-               // PreciosProductos::batchSave($items, $stored['id']);
-            }
+        $successOperation = false;
+        $errorMessage = '';
+        ListaPrecios::transaction();
+        try {
+            PreciosProductos::batchReset();
+            $successOperation = true;
+        } catch (Exception $e) {
+            $successOperation = false;
+            $errorMessage = $e->getMessage();
         }
-        
-        //filtro las listas de la db que no vienen en el webservice, asi se borran
-        $listsToDelete = Filter::diffArrays($storedLists, $wsNormalizedLists, $criteria);
-        echo json_encode($listsToDelete);
-        
-        if (count($errors)==0)
-            echo 'Salio todo regio';
-        else
-            echo 'Saltaron los siguientes errores: ' . json_encode($errors);
+
+
+        if ($successOperation){
+
+          $wsNormalizedLists = [];
+          $jsonLists = Requester::get('PriceList');
+          $lists = json_decode($jsonLists, true);
+          $storedLists = ListaPrecios::getAll();
+
+          $criteria = new ListaPreciosCriteria();
+
+          foreach($lists as $list){
+              //normalizo la clave ya que dede el webservice viene de la forma "Name: value"
+              //así puedo comparar usando el objeto criteria para luego ver que listas
+              //se deben borrar. Dejo todas las claves en lowercase.
+              $list = array_change_key_case($list, CASE_LOWER);
+              $wsNormalizedLists[] = $list;
+
+              $criteria->prepare($list);
+              $stored = Filter::filterArrayElement($storedLists, $criteria);
+
+              try {
+                if (!$stored) {
+                    $result = ListaPrecios::add($list['name']);
+                    if ($result['status'])
+                       PreciosProductos::batchSave($list['items'], $result['insert_id']);
+                } else
+                    PreciosProductos::batchSave($list['items'], $stored['id']);
+
+                $successOperation = true;
+              } catch (Exception $e) {
+                $successOperation = false;
+                $errorMessage = $e->getMessage();
+                break;
+              }
+          }
+        }
+
+
+        if ($successOperation){
+          //filtro las listas de la db que no vienen en el webservice, asi se borran.
+          $listsToDelete = Filter::diffArrays($storedLists, $wsNormalizedLists, $criteria);
+          foreach($listsToDelete as $toDelete){
+            try {
+              ListaPrecios::delete($toDelete['id']);
+              PreciosProductos::deleteByListId($toDelete['id']);
+              $successOperation = true;
+            } catch (Exception $e) {
+              $successOperation = false;
+              $errorMessage = $e->getMessage();
+            }
+          }
+        }
+
+        if ($successOperation){
+          ListaPrecios::commit();
+          echo 'Salio todo regio';
+        } else{
+          ListaPrecios::rollBack();
+          echo 'Se produjo el siguiente error: '. $errorMessage;
+        }
+
         wp_die();
 
     }
