@@ -5,16 +5,15 @@ class ListaPreciosCriteria {
 
   private $internal_name;
 
-  function prepare($name){
-    $this->internal_name = strtolower($name);
+  public function prepare($param){
+    $this->internal_name = strtolower($param['name']);
   }
 
-  fnction
 
-  function check($listElement){
+  public function check($listElement){
     return strtolower($listElement['name']) == $this->internal_name;
   }
 
 }
 
- ?>
+?>

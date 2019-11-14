@@ -17,12 +17,20 @@ class Filter {
 
     foreach($arrayA as $elementA){
       $criteria->prepare($elementA);
-
+      $checked = false;    
       foreach($arrayB as $elementB){
-        if ( $criteria->check($elementB) )
-          
+        if ( $criteria->check($elementB) ){
+            $checked = true;
+            break;
+        }
       }
+        
+      if (!$checked)
+          $diffs[] = $elementA;
+      
     }
+    
+    return $diffs;
 
   }
 
