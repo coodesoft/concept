@@ -4,8 +4,8 @@ require_once('GSModel.php');
 
 
 class Sucursales extends GSModel{
-    
-    
+
+
     static function createTable(){
 
         global $wpdb;
@@ -18,28 +18,49 @@ class Sucursales extends GSModel{
                 client_id bigint(20) NOT NULL,
                 sucursal varchar(20) NOT NULL,
                 seller_id bigint(20) NOT NULL,
-                PRIMARY KEY  (id)
+                PRIMARY KEY (id)
             ) $charset_collate;";
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             dbDelta( $sql );
         }
-    }  
-    
+    }
+
+    static function validate($params){
+
+      if ( !isset($params['Client_id']) || !isset($params['SucName']) || !isset($params['Seller_id']) )
+        return false;
+
+      if (trim($params['Client_id']) != $params['Client_id'])
+        return false;
+
+      if (trim($params['SucName']) != $params['SucName'])
+        return false;
+
+      if (trim($params['Seller_id']) != $params['Seller_id'])
+        return false;
+
+      return true;
+    }
+
     static function add($params){
         $client_id = trim($params['Client_id']);
         $sucursal = trim($params['SucName']);
         $sellerId = trim($params['Seller_id']);
-        
-        $pricesLists = [];
-        foreach($params['PriceList'] as $list){
-            $pricesLists[] = $list;
+
+        if (static::validate($params)){
+          
+          $pricesLists = [];
+          foreach($params['PriceList'] as $list){
+              $pricesLists[] = $list;
+          }
+
+          $stored = static::getSucursal($client_id, $sucursal);
         }
-        
-        $stored = static::getSucursal($client_id, $sucursal);
-        
+
+
     }
-    
+
 }
 
 
