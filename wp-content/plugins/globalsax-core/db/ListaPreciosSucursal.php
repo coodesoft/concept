@@ -13,8 +13,7 @@ class ListaPreciosSucursal extends GSModel{
 
             $sql = "CREATE TABLE $table_name (
                 sucursal_id bigint(20) NOT NULL,
-                list_id bigint(20) NOT NULL,
-                PRIMARY KEY (id)
+                list_id bigint(20) NOT NULL
             ) $charset_collate;";
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

@@ -13,8 +13,7 @@ class ListaPreciosCliente extends GSModel{
 
             $sql = "CREATE TABLE $table_name (
                 client_id bigint(20) NOT NULL,
-                list_id bigint(20) NOT NULL,
-                PRIMARY KEY (id)
+                list_id bigint(20) NOT NULL
             ) $charset_collate;";
 
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -38,7 +37,7 @@ class ListaPreciosCliente extends GSModel{
       $table_name = static::getTableName('priceListClient');
 
       $data = ['client_id' => $params['client_id'], 'list_id' => $params['list_id'] ];
-      $result = $query->insert($table_name,  $data, ['%d', '%d']);
+      $result = $wpdb->insert($table_name,  $data, ['%d', '%d']);
       if ($result !== false)
         return true;
       else
