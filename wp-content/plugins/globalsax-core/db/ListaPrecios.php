@@ -41,7 +41,7 @@ class ListaPrecios extends GSModel{
             throw new Exception("Se produjo un error de validación de datos al guardar una lista nueva. Name: ".$name, 1);
     }
 
-    static function getByName($name, $limit = null){
+    static function getByName($name, $limit = 1){
 
         if (static::validate($name)){
           global $wpdb;
