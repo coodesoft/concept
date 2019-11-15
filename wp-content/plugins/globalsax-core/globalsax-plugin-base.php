@@ -2,10 +2,10 @@
 /**
  * Plugin Name: GLOBALSAX - Core
  * Description: Agregar funcionalidades a nuestro Ecommerce GLOBALSAX
- * Plugin URI: http://quintesco.com/
- * Author: Eduardo Quintero
- * Author URI: http://quintesco.com/
- * Version: 1.0
+ * Plugin URI: https://coodesoft.com.ar
+ * Author: Coodesoft Development Team
+ * Author URI: https://coodesoft.com.ar
+ * Version: 2.0
  * Text Domain: globalsax-core
  * License: GPL2
  */
@@ -174,10 +174,10 @@ class GLOBALSAX_Plugin_Base {
 function globalsax_on_activate_callback() {
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
-    require_once('db/Sucursales.php');
+    require_once('db/Sucursal.php');
     ListaPrecios::createTable();
     PreciosProductos::createTable();
-    Sucursales::createTable();
+    Sucursal::createTable();
     // do something on activation
 
 }
@@ -215,6 +215,7 @@ function cargar_funcionalidades() {
     require_once("filter/ListaPreciosCriteria.php");
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
+    require_once('db/Sucursal.php');
 	  require_once("funcionalidades/test.php");
 	  require_once("funcionalidades/sincronizarProductos.php");
 	  require_once("funcionalidades/sincronizarClientes.php");
