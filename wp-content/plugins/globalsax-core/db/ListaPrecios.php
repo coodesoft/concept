@@ -51,7 +51,7 @@ class ListaPrecios extends GSModel{
           $name = stripslashes($trimed);
 
           if ($name != $trimed)
-              throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios: ['.$name. "] [".$spaces ."] [". $trimed."]");
+              throw new Exception('ListaPrecios - Dato inválido! : El nombre contiene espacios:', 1);
 
           $query = "SELECT * FROM " . $table_name . " WHERE name='" . $name . "'";
 
