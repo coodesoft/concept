@@ -3,8 +3,8 @@ $cantidadImportar = get_user_meta(1,"importar_clients",true);
 $totalImportar = get_user_meta(1,"total_importar_clients",true);
 //echo 'Cantidad total: '.$cantidadImportar;
 /**LLAMADA AJAX**/
-add_action('wp_ajax_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
-add_action('wp_ajax_nopriv_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
+//add_action('wp_ajax_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
+//add_action('wp_ajax_nopriv_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
 
 /*function console_log( $data ){
   echo '<script>';
