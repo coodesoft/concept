@@ -3,50 +3,99 @@
 class ClientesController {
 
     public function __construct(){
-        add_action('wp_ajax_get_sincronizar_clientes', array($this, 'sincronizar') );
+        add_action('wp_ajax_get_sincronizar_cliente', array($this, 'sincronizar') );
     }
 
     public function sincronizar(){
         $successOperation = false;
         $errorMessage = '';
-
+        
+        //$wsNormalizedClients = [];
+        
         $jsonClients = Requester::get('Client');
         $clients = json_decode($jsonClients, true);
 
         $storedClients = Clientes::getAll();
-
-        Clientes::transtaction();
+        $storedPriceLists = ListaPrecios::getAll();
+        
+        $criteria = new ClientesCriteria();
+        $listaCriteria = new ListaPreciosCriteria();
+        
+        Clientes::transaction();
         foreach($clients as $client){
             $client = array_change_key_case($client, CASE_LOWER);
+            
+            //$wsNormalizedClients[] = $client;
 
-            $stored = Clientes::getByClientId($client['client_id']);
+            $criteria->prepare($client);
+            $stored = Filter::filterArrayElement($storedClients, $criteria);
             if (!$stored){
+                
+                try{
+                    $result = Clientes::add($client);
+                    if($result['status']){
+                        /*
+                         * Vinculo las listas de precios al cliente 
+                         */
+                        $priceLists = $client['pricelist'];
+                        foreach($priceLists as $listName){
 
-                $result = Clientes::add($client);
-                if($result['status']){
-                    ListaPreciosCliente::add($client['pricelist']);
-                    $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
+                            $listaCriteria->prepare(['name' => $listName]);
+                            $list = Filter::filterArrayElement($storedPriceLists, $listaCriteria);
 
-                    foreach($sucursales as $sucursal){
-                        $result = Sucursal::add($sucursal);
-                        if ($result['status']){
-                            $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
-                            foreach($listasPreciosSucursales as $listaPrecioSuc){
-                                $list = ListaPrecios::getByName($listaPrecioSuc);
-                                $sucListaPrecio = ListaPreciosSucursal::get($result['insert_id'], $list['id']);
-                                if (empty($sucListaPrecio))
-                                  ListaPreciosSucursal::add($list);
+                            if ( $list ){
+                                $data = [
+                                    'client_id' => $client['client_id'], 
+                                    'list_id' => $list['id']
+                                ];
+                                ListaPreciosCliente::add($data);    
                             }
-                        } else{
-                          $successOperation = false;
-                          break;
-                        }
-                    }
 
-                } else{
+                        }
+                         /*
+                         * Agrego y vinculo sucursales con listas de precios existentes
+                         */                   
+                        $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
+                        foreach($sucursales as $sucursal){
+
+                            $result = Sucursal::add($sucursal);
+                            //retorna status=true si la pudo agregar o si ya existía.
+                            if ($result['status']){
+
+                                $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
+                                foreach($listasPreciosSucursales as $listaPrecioSucName){
+                                    $listaCriteria->prepare(['name' => $listaPrecioSucName]);
+                                    $list = Filter::filterArrayElement($storedPriceLists, $listaCriteria);
+
+                                    //si existe la lista de precios, hago la vinculación con la sucursal
+                                    if ($list){
+                                        $data = [
+                                            'sucursal_id' => $result['insert_id'],
+                                            'list_id' => $list['id'],
+                                        ];
+                                        ListaPreciosSucursal::add($data);
+
+                                    }
+                                }
+
+                            } 
+                        }
+
+                    } else{
+                        $successOperation = false;
+                        $errorMessage = 'No se pudo guardar el cliente';
+                        break;
+                    }                    
+                    
+                } catch (Exception $e){
                     $successOperation = false;
+                    $errorMessage = $e->getMessage();
                     break;
                 }
+
+
+            } else{
+                // TO DO: agregar soporte para actualización y borrado
             }
             
         }
@@ -56,7 +105,7 @@ class ClientesController {
             echo 'Todo pio';
         }else{
             Clientes::rollBack();
-            echo 'Cagamos la verga';
+            echo $errorMessage;
         }
 
         wp_die();
@@ -65,5 +114,7 @@ class ClientesController {
 
 
 }
+
+$clientesController = new ClientesController();
 
 ?>
