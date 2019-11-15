@@ -216,6 +216,8 @@ function cargar_funcionalidades() {
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
     require_once('db/Sucursal.php');
+    require_once('controllers/ListaPreciosController.php');
+    require_once('controllers/ClientesController.php');
 	  require_once("funcionalidades/test.php");
 	  require_once("funcionalidades/sincronizarProductos.php");
 	  require_once("funcionalidades/sincronizarClientes.php");
@@ -224,7 +226,6 @@ function cargar_funcionalidades() {
 	  require_once("funcionalidades/catalogo.php");
 	  require_once("funcionalidades/botonComprar.php");
     require_once("funcionalidades/gbs_catalogo.php");
-    require_once('controllers/ListaPreciosController.php');
 }
 
 add_action('wp_head', 'globalsax_ajaxurl');
