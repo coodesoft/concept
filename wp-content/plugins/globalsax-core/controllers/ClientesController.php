@@ -21,27 +21,34 @@ class ClientesController {
 
             $stored = Clientes::getByClientId($client['client_id']);
             if (!$stored){
-                
+
                 $result = Clientes::add($client);
                 if($result['status']){
                     ListaPreciosCliente::add($client['pricelist']);
                     $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
-                    
+
                     foreach($sucursales as $sucursal){
                         $result = Sucursal::add($sucursal);
                         if ($result['status']){
                             $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
                             foreach($listasPreciosSucursales as $listaPrecioSuc){
                                 $list = ListaPrecios::getByName($listaPrecioSuc);
-                                ListaPreciosSucursal::add($list);
+                                $sucListaPrecio = ListaPreciosSucursal::get($result['insert_id'], $list['id']);
+                                if (empty($sucListaPrecio))
+                                  ListaPreciosSucursal::add($list);
                             }
-                        } 
+                        } else{
+                          $successOperation = false;
+                          break;
+                        }
                     }
+
                 } else{
                     $successOperation = false;
                     break;
-                } 
+                }
             }
+            
         }
 
         if ($successOperation){
@@ -51,9 +58,9 @@ class ClientesController {
             Clientes::rollBack();
             echo 'Cagamos la verga';
         }
-        
+
         wp_die();
-        
+
     }
 
 
