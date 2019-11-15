@@ -58,14 +58,13 @@ function get_sincronizar_cliente(){
 
 		$amount = (int) sizeof($clients);
 
-        update_user_meta(1,'total_importar_clients',$amount);
+		update_user_meta(1,'total_importar_clients',$amount);
 
 		/**Crear los atributos si no existen**/
 
 		/*create_att($clients);
 
 		/**Insertar los productos**/
-
 		insert_clients($clients);
 
 		/**********************************************************************************************************************/
@@ -113,6 +112,8 @@ function insert_clients ($clients)
 function insert_client($client_data)
 {
 	$IdWp = get_user_meta(1,'client_key_'.$client_data['Client_ID'], true);
+	var_dump($IdWp);
+
 	if (empty($IdWp)){
 		$values = array(
  			'Client_ID'  => $client_data['Client_ID'],
@@ -152,7 +153,8 @@ function insert_client($client_data)
 
 function insert_client_suc($client_id, $sucursales){
   foreach ($sucursales as $key => $suc) {
-    add_user_meta($client_id, 'id_sucursal', $suc['SucName']);
+	add_user_meta($client_id, 'id_sucursal', $suc['SucName']);
+	Sucursal::add($suc);
   }
 }
 ?>
