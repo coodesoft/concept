@@ -20,7 +20,30 @@ get_header();
 <section class="page_section even" id="productos">
   <div id="explore_page" class="wrapper_page container">
     <div class="container" style="padding-top: 50px;">
-      Nueva temporada
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center" style="position: relative;"><h3>Nueva temporada</h3><div class="borde-inf" style="left: 36%;"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-12 col-sm-8 offset-2">
+          <div class="row">
+            <div class="col col-12 col-sm-5" style="padding-top: 65px;">
+              <div class="row">
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 1</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 2</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 3</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 4</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 5</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 6</div></div>
+                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 7</div></div>
+              </div>
+            </div>
+            <div class="col col-sm-7">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 	</div>
 
@@ -29,7 +52,58 @@ get_header();
 <section class="page_section odd" id="categorias">
   <div id="explore_page" class="wrapper_page container">
     <div class="container" style="padding-top: 50px;">
-      Categorias
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf" style="left: 46%;"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-8 offset-2">
+          <div class="row">
+            <div class="col col-12 col-sm-4">
+              <div class="row">
+                <div class="col col-12 col-sm-11">
+
+                  <div class="card" style="width: 100%;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <p class="card-text">Categoría 1</p>
+                      <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%; margin-top:92px;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 2</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 3</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 	</div>
 
@@ -42,13 +116,13 @@ get_header();
         <div class="col-12 col col-sm-10 offset-sm-1">
           <div class="row">
             <div class="col-12 col col-sm-7">
-              <h3 class="text-center">¿Quienes somos?</h3>
+              <div class="text-center" style="position: relative;"><h3>¿Quienes somos?</h3><div class="borde-inf" style="left: 36%;"></div></div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
 
-              <h3 class="text-center">¿Que hacemos y cómo?</h3>
+              <div class="text-center" style="position: relative;"><h3>¿Que hacemos y cómo?</h3><div class="borde-inf" style="left: 25%;"></div></div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -56,7 +130,7 @@ get_header();
             </div>
             <div class="col-12 col col-sm-4 offset-sm-1">
               <div style="position: absolute;bottom: 0px;">
-                <h3 class="text-center">Nuestros valores</h3>
+                <div class="text-center" style="position: relative;"><h3>Nuestros valores </h3><div class="borde-inf" style="left: 40%;"></div></div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -74,7 +148,9 @@ get_header();
 <section class="page_section odd" id="contacto">
   <div id="explore_page" class="wrapper_page container">
     <div class="container" style="padding-top: 50px;">
-      contacto
+      <div class="row">
+
+      </div>
     </div>
 	</div>
 

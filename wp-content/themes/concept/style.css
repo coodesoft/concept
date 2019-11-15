@@ -2,12 +2,39 @@ html {
   scroll-behavior: smooth;
 }
 
+.borde-inf{
+  border-bottom: 2.5px solid #fdc42f;
+  width: 51px; position: absolute; bottom: -4px;
+}
+
+.prod-cont-1{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding-top: 18px;
+  font-size: 18px;
+  padding-left: 20px;
+  border: 1px solid #333;
+  font-family: Comfortaa Thin;
+  padding-bottom: 18px;
+}
+
+.square {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border: 1px solid #333;
+  margin-right: 20px;
+}
+
 /* FUENTES */
 @font-face { font-family: "Comfortaa Regular"; src: "fonts/Comfortaa Regular.ttf"; }
 @font-face { font-family: "Comfortaa Thin";    src: "fonts/Comfortaa Thin.ttf"; }
 
 html, h3 { font-family:"Comfortaa Regular" !important; }
-p { font-family:"Comfortaa Thin" !important; }
+p, .btn, .card-text { font-family:"Comfortaa Thin" !important; }
 
 
 .home_link a, .home_link a:hover {color:#000; }
@@ -20,6 +47,7 @@ section.page_section {
   position: relative;
   min-height: 100vh;
   padding-top: 97px;
+  padding-bottom: 127px;
 }
 .wrapper_page {
   position: relative;
