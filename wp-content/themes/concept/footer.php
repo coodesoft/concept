@@ -16,7 +16,13 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer">
-		
+		<div class="social-content">
+			<div class="title">Encontranos en nuestras redes</div>
+			<div class="social-icons">
+				<a href=""><i class="fab fa-instagram"></i></a>
+				<a href=""><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+			</div>
+		</div>
 	</footer><!-- #colophon -->
 
 </div><!-- #page -->

@@ -6,21 +6,21 @@ $( document ).ready(function() {
 
   	function myFunction() {
   	  if (document.documentElement.scrollTop >= sticky -10) {
-  		 navbar.classList.add("sticky")
+  		 navbar.classList.add("fixed-top")
   	  } else {
-  		 navbar.classList.remove("sticky");
+  		 navbar.classList.remove("fixed-top");
   	  }
   	}
 
   	window.onscroll = function() {
   		myFunction()
   	};
-      
+
       $('body').off().on('click', '#navbarCollapse li a', function(){
           $('#navbarCollapse li a').removeClass('active-item');
           $(this).addClass('active-item');
       })
-      
+
 
   })(jQuery);
 });

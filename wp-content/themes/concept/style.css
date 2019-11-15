@@ -1,14 +1,25 @@
 html {
   scroll-behavior: smooth;
 }
-.sticky {
-  position: fixed !important;
-  top: 0;
-  width: 100%;
+
+/* FUENTES */
+@font-face { font-family: "Comfortaa Regular"; src: "fonts/Comfortaa Regular.ttf"; }
+@font-face { font-family: "Comfortaa Thin";    src: "fonts/Comfortaa Thin.ttf"; }
+
+html, h3 { font-family:"Comfortaa Regular" !important; }
+p { font-family:"Comfortaa Thin" !important; }
+
+
+.home_link a, .home_link a:hover {color:#000; }
+.home_link {
+  text-align: center; margin-top: 12px;
+  padding-top: 10px;
 }
+
 section.page_section {
   position: relative;
   min-height: 100vh;
+  padding-top: 97px;
 }
 .wrapper_page {
   position: relative;
@@ -40,12 +51,12 @@ section.page_section {
   padding-top: 0vh;
 }
 .home_image {
-  padding-top: 40vh;
+  padding-top: 14vh;
   position: relative;
 }
 .home_image_wrapper {
   margin: auto;
-  height: 30vh;
+  height: 9vh;
   display: flex;
   align-items: center;
 }
@@ -99,16 +110,36 @@ coode_footer {
 .coode_footer .coode_footer_info a {
   color: #666;
 }
-
-
-/* FUENTES */
-@font-face {
-  font-family: "Comfortaa Regular";
-  src: "fonts/Comfortaa Regular.ttf";
+/* SECCIONES */
+.odd {
+  background-color: #fff;
 }
 
-html { font-family:"Comfortaa Regular" !important; }
+.even {
+  background-color: #e6e6e6;
+}
 
+/* FOOTER */
+footer{
+  background-color: #e6e6e6;
+}
+
+footer .social-content{
+  padding: 30px;
+}
+
+footer .title{
+  width: 100%;
+  text-align: center; font-size: 20px; font-family: "Comfortaa Thin";
+}
+
+footer .social-icons{
+  width: 100%;
+  text-align: center; font-size: 37px;
+  margin-top: 11px;
+}
+
+footer .social-icons a { color:#000; }
 
 /*  MENU PRINCIPAL **/
 .nav-light{  background-color: #FFF !important; }
@@ -128,7 +159,7 @@ html { font-family:"Comfortaa Regular" !important; }
   margin-right: 4px;
 }
 
-.nav-link:hover { border-bottom: 2.5px solid #fdc42f; }
+.nav-link:hover, .navbar .active-item{ border-bottom: 2.5px solid #fdc42f; }
 
 .brand-img {
   width: 75px;   height: auto; margin-right: 45px;

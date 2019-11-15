@@ -6,7 +6,7 @@
   <div class="page_background" style=""></div>
   <div class="page_cover"></div>
 
-	<div id="home_page" class="wrapper_page container">
+	<div id="home" class="wrapper_page container">
 
     <div class="home_image">
 			<div class="home_image_wrapper col-sm-3 col-8">
@@ -18,11 +18,11 @@
 			<?php the_content(); ?>
 		</div>
 
-		<div class="home_link">
-			<a href="#explore">
-				<i class="fal fa-angle-double-down fa-2x"></i>
-			</a>
-		</div>
+    <div class="home_link">
+      <a href="#productos">
+        <div><i class="fal fa-angle-double-down fa-2x"></i></div>
+      </a>
+    </div>
 	</div>
 
 </section>
