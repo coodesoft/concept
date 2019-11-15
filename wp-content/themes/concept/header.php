@@ -28,7 +28,7 @@
 
 		<div id="content" class="site-content">
 			<?php get_template_part( 'template-parts/content/content-home' ); ?>
-			<nav id="main_menu" class="navbar navbar-expand-md fixed-top nav-light">
+			<nav id="main_menu" class="navbar navbar-expand-md nav-light">
 
 					<a class="navbar-brand" href="#"><img class="brand-img  d-sm-block d-md-none" src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

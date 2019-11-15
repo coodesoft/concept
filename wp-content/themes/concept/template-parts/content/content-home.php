@@ -1,6 +1,5 @@
 <?php
  $theme_mod_background = get_theme_mod('background_'.strtolower(get_the_id()));
- $theme_mod_home_logo = get_theme_mod('home_image_setting');
 ?>
 
 <section class="page_section" id="<?php echo strtolower(get_the_title()) ?>">
@@ -10,8 +9,8 @@
 	<div id="home_page" class="wrapper_page container">
 
     <div class="home_image">
-			<div class="home_image_wrapper col-sm-5 col-8">
-				<img src="<?php echo $theme_mod_home_logo ?>" alt="home page main image" />
+			<div class="home_image_wrapper col-sm-3 col-8">
+				<img src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt="home page main image" />
 			</div>
 		</div>
 
