@@ -26,6 +26,10 @@ class Clientes extends GSModel{
         }
     }
 
+    static function validate($client){
+        return true;
+    }
+    
     static function add($client){
         if (static::validate($client)){
             global $wpdb;
@@ -35,7 +39,7 @@ class Clientes extends GSModel{
                 'client_id'   => $client['client_id'],
                 'name'        => $client['name'],
                 'seller_id'   => $client['seller_id'],
-                'group'       => $client['group'],
+                'group_id'    => $client['enterprisegroup'],
             ];
             
             $table_name = self::getTableName('clientes');
@@ -43,7 +47,7 @@ class Clientes extends GSModel{
             if ($result)
                 return ['status' => true, 'insert_id' => $wpdb->insert_id];
             else
-                throw new Exception("Se produjo un error al guardar el cliente: ".$client['client_id'], 1);
+                throw new Exception("Se produjo un error al guardar el cliente: " . json_encode([$wpdb->last_error, $wpdb->last_query]), 1);
         } else
             throw new Exception("Se produjo un error de validación de parámetros al guardar un cliente con id: ".$client['client_id'], 1);
             
@@ -59,6 +63,13 @@ class Clientes extends GSModel{
         } else
             throw new Exception('Clientes - Dato inválido! : El id es inválido', 1);
 
+    }
+    
+    static function getAll(){
+        global $wpdb;
+        $table_name = static::getTableName('clientes');
+        $query = "SELECT * FROM " . $table_name;
+        return $wpdb->get_results($query, ARRAY_A);
     }
 }
 
