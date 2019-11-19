@@ -71,7 +71,7 @@ class Sucursal extends GSModel{
             return ['status' => true, 'insert_id' => $stored['id']];
 
         } else
-          throw new Exception("Se produjo un error al guardar una sucursal. Error de validación en los parámetros", 1);
+          throw new Exception("Se produjo un error al guardar una sucursal. Error de validación en los parámetros ". json_encode($params), 1);
           
     }
 

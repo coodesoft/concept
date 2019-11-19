@@ -35,19 +35,22 @@ class Clientes extends GSModel{
             global $wpdb;
 
             $toSave = [
-                'id'          => 0,
-                'client_id'   => $client['client_id'],
-                'name'        => $client['name'],
-                'seller_id'   => $client['seller_id'],
-                'group_id'    => $client['enterprisegroup'],
+                $client['client_id'],
+                $client['name'],
+                $client['seller_id'],
+                $client['enterprisegroup'] ? $client['enterprisegroup']: null,
             ];
             
             $table_name = self::getTableName('clientes');
-            $result = $wpdb->insert( $table_name, $toSave, ['%d','%d','%s', '%d', '%s'] );
+            $statement = "INSERT INTO ". $table_name ." (`client_id`, `name`, `seller_id`, `group_id`) VALUES (%d, %s, %d, %s)";
+            
+            $query = $wpdb->prepare( $statement, $toSave );
+            $result = $wpdb->query($query);
+            
             if ($result)
                 return ['status' => true, 'insert_id' => $wpdb->insert_id];
             else
-                throw new Exception("Se produjo un error al guardar el cliente: " . json_encode([$wpdb->last_error, $wpdb->last_query]), 1);
+                throw new Exception("Se produjo un error al guardar el cliente: " . json_encode([$toSave, $wpdb->last_query]), 1);
         } else
             throw new Exception("Se produjo un error de validación de parámetros al guardar un cliente con id: ".$client['client_id'], 1);
             

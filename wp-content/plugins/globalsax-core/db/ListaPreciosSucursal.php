@@ -36,7 +36,7 @@ class ListaPreciosSucursal extends GSModel{
       $table_name = static::getTableName('priceListSucursal');
 
       $data = ['sucursal_id' => $params['sucursal_id'], 'list_id' => $params['list_id'] ];
-      $result = $query->insert($table_name,  $data, ['%d', '%d']);
+      $result = $wpdb->insert($table_name,  $data, ['%d', '%d']);
       if ($result !== false)
         return true;
       else
