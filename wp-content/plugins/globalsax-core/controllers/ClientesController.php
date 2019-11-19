@@ -7,7 +7,7 @@ class ClientesController {
     }
 
     public function sincronizar(){
-        $successOperation = false;
+        $successOperation = true;
         $errorMessage = '';
         
         //$wsNormalizedClients = [];
@@ -18,68 +18,28 @@ class ClientesController {
         $storedClients = Clientes::getAll();
         $storedPriceLists = ListaPrecios::getAll();
         
-        $criteria = new ClientesCriteria();
+        $clientCriteria = new ClientesCriteria();
         $listaCriteria = new ListaPreciosCriteria();
         
         Clientes::transaction();
         foreach($clients as $client){
             $client = array_change_key_case($client, CASE_LOWER);
             
-            //$wsNormalizedClients[] = $client;
-
-            $criteria->prepare($client);
-            $stored = Filter::filterArrayElement($storedClients, $criteria);
+            $clientCriteria->prepare($client);
+            $stored = Filter::filterArrayElement($storedClients, $clientCriteria);
             if (!$stored){
                 
                 try{
                     $result = Clientes::add($client);
+                    
                     if($result['status']){
-                        /*
-                         * Vinculo las listas de precios al cliente 
-                         */
-                        $priceLists = $client['pricelist'];
-                        foreach($priceLists as $listName){
+                        
+                        // Vinculo las listas de precios al cliente 
+                        $parcial = static::linkPriceListToClient($storedPriceLists, $client['pricelist'], $client, $listaCriteria);
 
-                            $listaCriteria->prepare(['name' => $listName]);
-                            $list = Filter::filterArrayElement($storedPriceLists, $listaCriteria);
-
-                            if ( $list ){
-                                $data = [
-                                    'client_id' => $client['client_id'], 
-                                    'list_id' => $list['id']
-                                ];
-                                ListaPreciosCliente::add($data);    
-                            }
-
-                        }
-                         /*
-                         * Agrego y vinculo sucursales con listas de precios existentes
-                         */                   
+                        // Agrego y vinculo sucursales con listas de precios existentes
                         $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
-                        foreach($sucursales as $sucursal){
-
-                            $result = Sucursal::add($sucursal);
-                            //retorna status=true si la pudo agregar o si ya existía.
-                            if ($result['status']){
-
-                                $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
-                                foreach($listasPreciosSucursales as $listaPrecioSucName){
-                                    $listaCriteria->prepare(['name' => $listaPrecioSucName]);
-                                    $list = Filter::filterArrayElement($storedPriceLists, $listaCriteria);
-
-                                    //si existe la lista de precios, hago la vinculación con la sucursal
-                                    if ($list){
-                                        $data = [
-                                            'sucursal_id' => $result['insert_id'],
-                                            'list_id' => $list['id'],
-                                        ];
-                                        ListaPreciosSucursal::add($data);
-
-                                    }
-                                }
-
-                            } 
-                        }
+                        static::addSucursales($sucursales, $storedPriceLists, $listaCriteria);
 
                     } else{
                         $successOperation = false;
@@ -112,6 +72,52 @@ class ClientesController {
 
     }
 
+    static function linkPriceListToClient($storedLists, $priceLists, $client, $criteria){
+        
+        foreach($priceLists as $listName){
+
+            $criteria->prepare(['name' => $listName]);
+            $list = Filter::filterArrayElement($storedLists, $criteria);
+
+            if ( $list ){
+                $data = [
+                    'client_id' => $client['client_id'], 
+                    'list_id' => $list['id']
+                ];
+                ListaPreciosCliente::add($data);    
+            }
+        }
+    }
+    
+    static function linkPriceListToSucursal($listasPrecios, $storedPriceLists, $criteria, $id){
+        
+        foreach($listasPrecios as $listaPrecioSucName){
+            $criteria->prepare(['name' => $listaPrecioSucName]);
+            $list = Filter::filterArrayElement($storedPriceLists, $criteria);
+
+            //si existe la lista de precios, hago la vinculación con la sucursal
+            if ($list){
+                $data = [
+                    'sucursal_id' => $id,
+                    'list_id' => $list['id'],
+                ];
+                ListaPreciosSucursal::add($data);
+            }
+        }        
+    }
+    
+    static function addSucursales($sucursales, $storedPriceLists, $criteria){
+        $result = true;
+        foreach($sucursales as $sucursal){
+            $sucursal = array_change_key_case($sucursal, CASE_LOWER);
+            $result = Sucursal::add($sucursal);
+            //retorna status=true si la pudo agregar o si ya existía.
+              
+            $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
+            static::linkPriceListToSucursal($listasPreciosSucursales, $storedPriceLists, $criteria, $result['insert_id'] );
+        }
+    }
+    
 
 }
 
