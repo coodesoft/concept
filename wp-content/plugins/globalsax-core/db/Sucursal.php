@@ -55,7 +55,7 @@ class Sucursal extends GSModel{
             global $wpdb;
             $table_name = static::getTableName('sucursales');
             $data = [
-              'id' => 0, 
+              'id' => 0,
               'client_id' => $client_id,
               'sucursal'  => $sucursal,
               'seller_id' => $seller_id,
@@ -65,28 +65,39 @@ class Sucursal extends GSModel{
               return ['status' => true, 'insert_id' => $wpdb->insert_id];
             else
               throw new Exception("Se produjo un error al guardar una sucursal", 1);
-              
+
           } else
             // ahora se retorna esto pero habría que pensar el esquema de actualización
             return ['status' => true, 'insert_id' => $stored['id']];
 
         } else
           throw new Exception("Se produjo un error al guardar una sucursal. Error de validación en los parámetros ". json_encode($params), 1);
-          
+
     }
 
     static function get($client_id, $sucursal){
       if (!$client_id || !$sucursal)
-        throw new Exception('Sucursales Get - Parámetros inválidos', 1);
-      
+        throw new Exception('Sucursal Get - Parámetros inválidos', 1);
+
       global $wpdb;
       $table_name = static::getTableName('sucursales');
-      
+
       $query = "SELECT * FROM " . $table_name . " WHERE ";
       $query .= "client_id='" . $client_id . "' AND ";
       $query .= "sucursal='" . $sucursal ."'";
 
       return $wpdb->get_row($query, ARRAY_A);
+    }
+
+    static function getByClientId($id){
+      if ( $id && is_numeric($id) ){
+        global $wpdb;
+        $table_name = static::getTableName('sucursales');
+
+        $query = $wpdb->prepare("SELECT * FROM $table_name WHERE client_id=%d", [$id]);
+        return $wpdb->get_results($query, ARRAY_A);
+      } else
+        throw new Exception('Sucursal getByClientId - Parámetro inválido', 1);
     }
 }
 
