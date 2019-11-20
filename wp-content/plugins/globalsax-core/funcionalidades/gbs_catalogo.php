@@ -21,6 +21,8 @@ function gbs_get_categories(){
   }
   return $categories;
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_get_products_by_category', 'gbs_get_products_by_category' );
 add_action( 'wp_ajax_gbs_get_products_by_category', 'gbs_get_products_by_category' );
 
@@ -45,6 +47,8 @@ function gbs_get_products_by_category(){
   echo gbs_products_list($products, $cartItems);
   wp_die();
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_load_variations', 'gbs_load_variations' );
 add_action( 'wp_ajax_gbs_load_variations', 'gbs_load_variations' );
 
@@ -79,9 +83,10 @@ function gbs_load_variations(){
 
   wp_die();
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_add_variations_to_cart', 'gbs_add_variations_to_cart' );
 add_action( 'wp_ajax_gbs_add_variations_to_cart', 'gbs_add_variations_to_cart' );
-
 function gbs_add_variations_to_cart(){
   $variations = array();
   parse_str($_POST['data'], $variations);
