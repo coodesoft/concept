@@ -1,6 +1,8 @@
 <?php
 define('GLOBALSAX_CORE','globalsax-core');
 
+require_once('db/')
+
 function theme_settings_page(){
   global $wpdb;
   $error_table = $wpdb->prefix . ('gs_error');
