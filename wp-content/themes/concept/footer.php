@@ -19,8 +19,8 @@
 		<div class="social-content">
 			<div class="title">Encontranos en nuestras redes</div>
 			<div class="social-icons">
-				<a href=""><i class="fab fa-instagram"></i></a>
-				<a href=""><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+				<a href=""><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/instagram.svg"/></a>
+				<a href=""><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/facebook.svg"/></a>
 			</div>
 		</div>
 	</footer><!-- #colophon -->

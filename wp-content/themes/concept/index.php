@@ -29,14 +29,21 @@ get_header();
         <div class="col col-12 col-sm-8 offset-2">
           <div class="row">
             <div class="col col-12 col-sm-5" style="padding-top: 65px;">
-              <div class="row">
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 1</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 2</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 3</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 4</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 5</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 6</div></div>
-                <div class="col-12"><div class="prod-cont-1"><div class="square"></div>Producto 7</div></div>
+              <div class="row cont-prodcat-l" >
+                <?php
+                $args = [
+                  'taxonomy'     => 'product_cat',
+                  'hierarchical' => 1,
+                  'hide_empty'   => 1
+                ];
+                $all_categories = get_categories( $args );
+                $salida         = '';
+
+                foreach ($all_categories as $k => $v){
+                  $salida .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>'.$v->name.'</span></div></div>';
+                }
+                ?>
+                <?php echo $salida; ?>
               </div>
             </div>
             <div class="col col-sm-7">
@@ -131,7 +138,7 @@ get_header();
             <div class="col-12 col col-sm-4 offset-sm-1">
               <div style="position: absolute;bottom: 0px;">
                 <div class="text-center" style="position: relative;"><h3>Nuestros valores </h3><div class="borde-inf" style="left: 40%;"></div></div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
