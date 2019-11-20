@@ -178,6 +178,8 @@ function globalsax_on_activate_callback() {
     require_once('db/ListaPreciosCliente.php');
     require_once('db/ListaPreciosSucursal.php');
     require_once('db/Clientes.php');
+    require_once('db/UserClientRelation.php');
+
     
     ListaPrecios::createTable();
     PreciosProductos::createTable();
@@ -185,6 +187,7 @@ function globalsax_on_activate_callback() {
     ListaPreciosCliente::createTable();
     ListaPreciosSucursal::createTable();
     Clientes::createTable();
+    UserClientRelation::createTable();
 }
 
 /**
@@ -225,6 +228,7 @@ function cargar_funcionalidades() {
     require_once('db/ListaPreciosCliente.php');
     require_once('db/ListaPreciosSucursal.php');
     require_once('db/Clientes.php');
+    require_once('db/UserClientRelation.php');
     
     require_once('controllers/ListaPreciosController.php');
     require_once('controllers/ClientesController.php');
@@ -236,6 +240,7 @@ function cargar_funcionalidades() {
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
     require_once("funcionalidades/gbs_catalogo.php");
+    require_once("templates/cart.php");
 }
 
 add_action('wp_head', 'globalsax_ajaxurl');
