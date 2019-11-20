@@ -101,5 +101,5 @@ function opal_varient_price( $price, $variation ) {
 }
 //add_filter( 'woocommerce_product_variation_get_regular_price', 'opal_varient_price' , 99, 2 );
 //add_filter( 'woocommerce_product_variation_get_sale_price', 'opal_varient_price' , 99, 2 );
-add_filter( 'woocommerce_product_variation_get_price', 'opal_varient_price', 99, 2 );
+//add_filter( 'woocommerce_product_variation_get_price', 'opal_varient_price', 99, 2 );
 ?>
