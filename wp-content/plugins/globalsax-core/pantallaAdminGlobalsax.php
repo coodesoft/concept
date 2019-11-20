@@ -1,7 +1,8 @@
 <?php
 define('GLOBALSAX_CORE','globalsax-core');
 
-require_once('db/')
+require_once('db/UserClientRelation.php');
+require_once('db/Clientes.php');
 
 function theme_settings_page(){
   global $wpdb;
@@ -316,10 +317,11 @@ function delete_GS_rel($rel_ID){
 function assignClient(){
   if (!empty($_POST['client'])){
     if (!empty($_POST['user'])) {
-      insert_GS_user($_POST['client'], $_POST['user']);
+      UserClientRelation::add($_POST['user'], $_POST['client']);
+      //insert_GS_user($_POST['client'], $_POST['user']);
     }}
     if (!empty($_POST['borrar'])){
-      delete_GS_rel($_POST['borrar']);
+      UserClientRelation::delete($_POST['borrar']);
   }
 
   ?>
@@ -333,15 +335,15 @@ function assignClient(){
       <tr>
         <?php
         $users_assigned = array();
-        $rel_clientes_usuarios = get_clients_user_table();
-        foreach ($rel_clientes_usuarios as $key => $cliente_usuario) {
-          $userByID = get_user_by('ID', $cliente_usuario->user_id);
-          $gs_client = get_GS_client($cliente_usuario->client_id);
+        $userClientRelation = UserClientRelation::getAll();
+        foreach ($userClientRelation as $key => $relation) {
+          $userByID = get_user_by('ID', $relation['user_id']);
+          $gs_client = Clientes::getByClientId($relation['client_id']);
           ?>
           <form class="" method="post" >
-            <td><?php echo $gs_client[0]["Name"]; ?></td>
+            <td><?php echo $gs_client["name"]; ?></td>
             <td><?php echo $userByID->display_name; ?></td>
-            <td><button type="submit" name="borrar" value="<?php echo $cliente_usuario->rel_id?>">Borrar</button></td>
+            <td><button type="submit" name="borrar" value="<?php echo $relation['id']?>">Borrar</button></td>
         </form>
       </tr>
     <?php } ?>
@@ -355,7 +357,7 @@ function assignClient(){
 
       foreach ($gs_clientes as $key => $cliente) {
         ?>
-                <option value="<?php echo $cliente->Client_ID ?> "><?php echo $cliente->Name ?></option>
+                <option value="<?php echo $cliente->Client_ID ?>"><?php echo $cliente->Name ?></option>
       <?php } ?>
   </select>
   <select name="user" id="user" required>
