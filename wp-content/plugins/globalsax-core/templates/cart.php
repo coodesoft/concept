@@ -19,11 +19,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+require_once(__DIR__.'/../db/UserClientRelation.php');
 
 add_shortcode( 'gbs_cart_template', 'gbs_cart');
 function gbs_cart($atts){
-        do_action( 'woocommerce_before_cart' ); 
-
+		if ( !is_admin() ){
+        do_action( 'woocommerce_before_cart' );
         ?>
 
         <div id="gbsCheckout">
@@ -39,7 +40,8 @@ function gbs_cart($atts){
 
                     <?php
 
-                        global $wpdb;
+										/*
+											  global $wpdb;
                         $client_user_table = $wpdb->prefix .  ('clients_users_rel');
                         $clients_table = $wpdb->prefix .  ('gs_clients');
 
@@ -48,6 +50,8 @@ function gbs_cart($atts){
                           AND $client_user_table.client_id = $clients_table.Client_ID");
 
                         $clientes = $wpdb->get_results($select_datos_clientes);
+												*/
+												$clientes = UserClientRelation::getClientByUserId($user->ID);
                         if (sizeof($clientes) >= 1) {?>
                             <div id="clienteSelection cuatrocol" style="margin-right:1%">
                                     <div>Seleccione la Razón Social:</div>
@@ -55,7 +59,7 @@ function gbs_cart($atts){
                                             <select name="cliente_id" id ="cliente_id" required>
                                                     <option  value="" disabled selected>Seleccione una Razón Social</option>
                                                     <?php foreach ($clientes as $key => $cliente) { ?>
-                                                    <option value="<?php echo $cliente->Client_ID; ?>"><?php echo $cliente->Name?></option>
+                                                    <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['name']?></option>
                                                     <?php }?>
                                             </select>
                                         </div>
@@ -63,7 +67,7 @@ function gbs_cart($atts){
                             <?php	} else{ ?>
                             <input type="hidden" name="cliente_id" value="gbs_noCliente">
                             <?php }
-                            ?> 
+                            ?>
                             <div class="target"></div>
                             <?php
                 } ?>
@@ -191,5 +195,5 @@ function gbs_cart($atts){
         <?php
 
         do_action( 'woocommerce_after_cart' );
-    
+    }
 }
