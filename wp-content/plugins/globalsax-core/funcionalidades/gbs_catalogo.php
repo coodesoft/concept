@@ -270,27 +270,28 @@ function gbs_biuld_ws_object($user_id, $adicionales, $order){
 }
 
 
-add_action('wp_ajax_get_do_checkout', 'get_do_checkout');
-add_action('wp_ajax_nopriv_get_do_checkout', 'get_do_checkout');
-function get_do_checkout(){
+add_action('wp_ajax_gbs_client_checkout', 'gbs_client_checkout');
+add_action('wp_ajax_nopriv_gbs_client_checkout', 'gbs_client_checkout');
+function gbs_client_checkout(){
      //$sucursales = get_user_meta(($_POST['user']),'id_sucursal', false);
      $sucursales = Sucursal::getByClientId($_POST['user']);
-				if (sizeof($sucursales)>= 1) { ?>
-				<div id="sucursalSelection cuatrocol">
-		            <div>Seleccione la sucursal:</div>
-		            <div id="sucursalesList">
-		              <select name="sucursal" required>
-		                  <option value="" disabled selected>Seleccione una sucursal</option>
-    								  <?php	foreach ($sucursales as $key => $sucursal) { ?>
-											<option value="<?php echo $sucursal?>"><?php echo $sucursal?></option>
-										  <?php }?>
-		              </select>
-		            </div>
-		            </div>
-				<?php } else{ ?>
-					<input type="hidden" name="sucursal" value="gbs_noSucursal">
-				<?php }
-				wp_die();
+	 if (sizeof($sucursales)>= 1) { ?>
+	    <div id="sucursalSelection cuatrocol">
+          <input id="clientId" type="hidden" name="clientId" value="<?php echo $_POST['user'] ?>">
+		  <div>Seleccione la sucursal:</div>
+		  <div id="sucursalesList">
+		      <select id="selectSucursal" name="sucursal" required>
+		          <option value="" disabled selected>Seleccione una sucursal</option>
+    		      <?php	foreach ($sucursales as $key => $sucursal) { ?>
+				     <option value="<?php echo $sucursal['id']?>"><?php echo $sucursal['sucursal']?></option>
+				  <?php }?>
+		      </select>
+		  </div>
+        </div>
+	<?php } else{ ?>
+    	<input type="hidden" name="sucursal" value="gbs_noSucursal">
+	<?php }
+	wp_die();
 }
 
 
