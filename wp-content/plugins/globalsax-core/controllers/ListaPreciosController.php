@@ -4,10 +4,10 @@
 class ListaPreciosController {
 
     public function __construct(){
-      add_action('wp_ajax_get_sincronizar_precios', array($this,'sincronizar'));
+      add_action('wp_ajax_get_sincronizar_precios', array($this,'sincronice'));
     }
 
-    public function sincronizar(){
+    public function sincronice(){
         $successOperation = false;
         $errorMessage = '';
         ListaPrecios::transaction();
@@ -84,6 +84,19 @@ class ListaPreciosController {
 
     }
 
+    
+    public function getPriceListsByClient(){
+        
+        
+    }
+    
+    public function getPriceListsBySucursal($sucursal_id){
+        
+        if ( !isset($sucursal_id) )
+            return null;
+        
+        
+    }
 }
 
 $listaPreciosController = new ListaPreciosController();
