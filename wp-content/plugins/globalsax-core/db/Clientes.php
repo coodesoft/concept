@@ -29,6 +29,7 @@ class Clientes extends GSModel{
     static function validate($client){
         return true;
     }
+    
     static function add($client){
         if (static::validate($client)){
             global $wpdb;
@@ -66,7 +67,8 @@ class Clientes extends GSModel{
             throw new Exception('Clientes - Dato inválido! : El id es inválido', 1);
 
     }
-
+    
+    
     static function getAll(){
         global $wpdb;
         $table_name = static::getTableName('clientes');
