@@ -140,15 +140,26 @@
     $('#clientesList').on('change', '#cliente_id', function(){
 		var data = {
 	    'user' : this.value,
-	    'action' : 'get_do_checkout',
+	    'action' : 'gbs_client_checkout',
 
-	};
+	   };
 
-	$.post(ajaxurl, data, function(response){
-	    $(".target").html(response);
+        $.post(ajaxurl, data, function(response){
+            $(".target").html(response);
+        });
 	});
-	});
 
+    $('#sucursalesList').on('change', '#selectSucursal', function(){
+        var data = {
+            'client' : $('#clientId').val(),
+            'sucursal': this.value,
+            'action': 'gbs_sucursal_checkout',
+        };
+        
+        $.post(ajaxurl, data, function(response){
+            console.log(response);
+        });
+    });
 
 
 
