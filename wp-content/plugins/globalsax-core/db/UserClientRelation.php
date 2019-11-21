@@ -72,7 +72,6 @@ class UserClientRelation extends GSModel{
 
         $table_name = static::getTableName('user_client_relation');
         $client_table = static::getTableName('clientes');
-
         $query = $wpdb->prepare("SELECT * FROM $table_name
                                  LEFT JOIN $client_table
                                  ON $table_name.user_id=%d
