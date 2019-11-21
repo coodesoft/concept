@@ -51,7 +51,7 @@ function gbs_cart($atts){
 
                         $clientes = $wpdb->get_results($select_datos_clientes);
 												*/
-												$clientes = UserClientRelation::getClientByUserId($user->ID);
+				       $clientes = UserClientRelation::getClientByUserId($user->ID);
                         if (sizeof($clientes) >= 1) {?>
                             <div id="clienteSelection cuatrocol" style="margin-right:1%">
                                     <div>Seleccione la Razón Social:</div>
@@ -105,11 +105,9 @@ function gbs_cart($atts){
                             <th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php do_action( 'woocommerce_before_cart_contents' ); ?>
+                    <tbody id="gsCartContent">
 
                         <?php
-                    //echo json_encode(WC()->cart->get_cart());
                         $product_list = [];
                         foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
                             $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
@@ -126,7 +124,6 @@ function gbs_cart($atts){
                                 $product_list[$product_cat]['name'] = $product_cat;
                                 $product_list[$product_cat]['cant'] = $cart_item['quantity'];
                             }
-
                         }
                         foreach ($product_list as $key => $category) { ?>
                             <tr>
