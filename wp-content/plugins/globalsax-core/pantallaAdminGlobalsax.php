@@ -318,7 +318,7 @@ function assignClient(){
   if (!empty($_POST['client'])){
     if (!empty($_POST['user'])) {
       UserClientRelation::add($_POST['user'], $_POST['client']);
-      //insert_GS_user($_POST['client'], $_POST['user']);
+
     }}
     if (!empty($_POST['borrar'])){
       UserClientRelation::delete($_POST['borrar']);
@@ -353,11 +353,11 @@ function assignClient(){
     <select name="client" id="client" required>
       <option value="" disabled selected>Seleccione un cliente</option>
       <?php
-        $gs_clientes = get_GS_clients();
+        $gs_clientes = Clientes::getAll();
 
       foreach ($gs_clientes as $key => $cliente) {
         ?>
-                <option value="<?php echo $cliente->Client_ID ?>"><?php echo $cliente->Name ?></option>
+                <option value="<?php echo $cliente['client_id'] ?>"><?php echo $cliente['name'] ?></option>
       <?php } ?>
   </select>
   <select name="user" id="user" required>
