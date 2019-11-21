@@ -28,10 +28,10 @@ class Sucursal extends GSModel{
 
     static function validate($params){
 
-      if ( !isset($params['client_id']) || !isset($params['sucname']) || !isset($params['seller_id']) )
+      if ( !isset($params['insert_id']) || !isset($params['sucname']) || !isset($params['seller_id']) )
         return false;
 
-      if (trim($params['client_id']) != $params['client_id'])
+      if (trim($params['insert_id']) != $params['insert_id'])
         return false;
 
       if (trim($params['sucname']) != $params['sucname'])
@@ -44,7 +44,7 @@ class Sucursal extends GSModel{
     }
 
     static function add($params){
-        $client_id = trim($params['client_id']);
+        $client_id = trim($params['insert_id']);
         $sucursal = trim($params['sucname']);
         $seller_id = trim($params['seller_id']);
 
