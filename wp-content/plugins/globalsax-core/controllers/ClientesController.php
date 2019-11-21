@@ -34,12 +34,12 @@ class ClientesController {
                     
                     if($result['status']){
                         
-                        // Vinculo las listas de precios al cliente 
-                        $parcial = static::linkPriceListToClient($storedPriceLists, $client['pricelist'], $client, $listaCriteria);
+                        // Vinculo las listas de precios al cliente (se pasa el id interno de wordpress, no el que viene del webservice)
+                        $parcial = static::linkPriceListToClient($storedPriceLists, $client['pricelist'], $result['insert_id'], $listaCriteria);
 
                         // Agrego y vinculo sucursales con listas de precios existentes
                         $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
-                        static::addSucursales($sucursales, $storedPriceLists, $listaCriteria);
+                        static::addSucursales($sucursales, $storedPriceLists, $result['insert_id'], $listaCriteria);
 
                     } else{
                         $successOperation = false;
@@ -71,8 +71,8 @@ class ClientesController {
         wp_die();
 
     }
-
-    static function linkPriceListToClient($storedLists, $priceLists, $client, $criteria){
+    
+    static function linkPriceListToClient($storedLists, $priceLists, $client_id, $criteria){
         
         foreach($priceLists as $listName){
 
@@ -81,7 +81,7 @@ class ClientesController {
 
             if ( $list ){
                 $data = [
-                    'client_id' => $client['client_id'], 
+                    'client_id' => $client_id, 
                     'list_id' => $list['id']
                 ];
                 ListaPreciosCliente::add($data);    
@@ -106,18 +106,18 @@ class ClientesController {
         }        
     }
     
-    static function addSucursales($sucursales, $storedPriceLists, $criteria){
+    static function addSucursales($sucursales, $storedPriceLists, $insert_id, $criteria){
         $result = true;
         foreach($sucursales as $sucursal){
             $sucursal = array_change_key_case($sucursal, CASE_LOWER);
+            $sucursal['insert_id'] = $insert_id;
             $result = Sucursal::add($sucursal);
             //retorna status=true si la pudo agregar o si ya existía.
               
             $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
             static::linkPriceListToSucursal($listasPreciosSucursales, $storedPriceLists, $criteria, $result['insert_id'] );
         }
-    }
-    
+    }    
 
 }
 
