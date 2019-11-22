@@ -4,6 +4,8 @@ class ClientesController {
 
     public function __construct(){
         add_action('wp_ajax_get_sincronizar_cliente', array($this, 'sincronizar') );
+        add_action('wp_ajax_gs_load_sucursales', array($this, 'loadSucursales') );
+        add_action('wp_ajax_gs_load_pricelist_by_client', array($this, 'loadPriceLists') );
     }
 
     public function sincronizar(){
@@ -35,11 +37,11 @@ class ClientesController {
                     if($result['status']){
                         
                         // Vinculo las listas de precios al cliente (se pasa el id interno de wordpress, no el que viene del webservice)
-                        $parcial = static::linkPriceListToClient($storedPriceLists, $client['pricelist'], $result['insert_id'], $listaCriteria);
+                        $parcial = $this->linkPriceListToClient($storedPriceLists, $client['pricelist'], $result['insert_id'], $listaCriteria);
 
                         // Agrego y vinculo sucursales con listas de precios existentes
                         $sucursales = array_change_key_case($client['sucs'], CASE_LOWER);
-                        static::addSucursales($sucursales, $storedPriceLists, $result['insert_id'], $listaCriteria);
+                        $this->addSucursales($sucursales, $storedPriceLists, $result['insert_id'], $listaCriteria);
 
                     } else{
                         $successOperation = false;
@@ -62,17 +64,17 @@ class ClientesController {
 
         if ($successOperation){
             Clientes::commit();
-            echo 'Todo pio';
+            echo json_encode(['status' => true, 'msg' => 'Sincronización de clientes exitosa!']);
         }else{
             Clientes::rollBack();
-            echo $errorMessage;
+            echo json_encode(['status' => false, 'msg' => $errorMessage]);
         }
 
         wp_die();
 
     }
     
-    static function linkPriceListToClient($storedLists, $priceLists, $client_id, $criteria){
+    private function linkPriceListToClient($storedLists, $priceLists, $client_id, $criteria){
         
         foreach($priceLists as $listName){
 
@@ -89,7 +91,7 @@ class ClientesController {
         }
     }
     
-    static function linkPriceListToSucursal($listasPrecios, $storedPriceLists, $criteria, $id){
+    private function linkPriceListToSucursal($listasPrecios, $storedPriceLists, $criteria, $id){
         
         foreach($listasPrecios as $listaPrecioSucName){
             $criteria->prepare(['name' => $listaPrecioSucName]);
@@ -106,7 +108,7 @@ class ClientesController {
         }        
     }
     
-    static function addSucursales($sucursales, $storedPriceLists, $insert_id, $criteria){
+    private function addSucursales($sucursales, $storedPriceLists, $insert_id, $criteria){
         $result = true;
         foreach($sucursales as $sucursal){
             $sucursal = array_change_key_case($sucursal, CASE_LOWER);
@@ -115,9 +117,37 @@ class ClientesController {
             //retorna status=true si la pudo agregar o si ya existía.
               
             $listasPreciosSucursales = array_change_key_case($sucursal['pricelist'], CASE_LOWER);
-            static::linkPriceListToSucursal($listasPreciosSucursales, $storedPriceLists, $criteria, $result['insert_id'] );
+            $this->linkPriceListToSucursal($listasPreciosSucursales, $storedPriceLists, $criteria, $result['insert_id'] );
         }
     }    
+    
+    public function loadSucursales(){
+        if (isset($_POST['client'])){
+            $sucursales = Sucursal::getByClientId($_POST['client']);       
+            $count = count($sucursales);
+            
+            $return = $count ? [ 'state' => State::LIST_SUCURSALES, 'data'  => $sucursales ] :
+                               [ 'state' => State::NO_SUCURSALES, 'data'  => null ];
+        } else
+            $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
+        
+        echo json_encode($return);
+        wp_die();
+    }
+    
+    public function loadPriceLists(){
+        if (isset($_POST['client'])){
+            $priceLists = ListaPreciosCliente::getByClientId($_POST['client']);
+            $count = count($priceLists);
+            
+            $return = $count > 1 ? [ 'state' => State::MULTIPLE_PRICELIST, 'data'  => $priceLists ] :
+                                   [ 'state' => State::SINGLE_PRICELIST, 'data'  => $priceLists[0] ];
+        } else
+            $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
+        
+        echo json_encode($return);
+        wp_die();
+    }
 
 }
 
