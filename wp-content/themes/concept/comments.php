@@ -8,7 +8,7 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
- * @subpackage Twenty_Nineteen
+ * @subpackage Concept
  * @since 1.0.0
  */
 
@@ -21,7 +21,7 @@ if ( post_password_required() ) {
 	return;
 }
 
-$discussion = twentynineteen_get_discussion_data();
+$discussion = /*twentynineteen_get_discussion_data()*/[];
 ?>
 
 <div id="comments" class="<?php echo comments_open() ? 'comments-area' : 'comments-area comments-closed'; ?>">
@@ -121,7 +121,7 @@ $discussion = twentynineteen_get_discussion_data();
 	else :
 
 		// Show comment form.
-		twentynineteen_comment_form( true );
+		/*twentynineteen_comment_form( true );*/
 
 	endif; // if have_comments();
 	?>

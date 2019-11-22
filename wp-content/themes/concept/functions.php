@@ -5,7 +5,7 @@
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package WordPress
- * @subpackage Twenty_Nineteen
+ * @subpackage Concept
  * @since 1.0.0
  */
 
@@ -94,3 +94,167 @@ add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_customizer_sty
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/** EN LA INCIALIZACION DEL TEMPLATE **/
+function concept_after_setup_theme(){
+
+}
+add_action( 'after_setup_theme', 'concept_after_setup_theme' );
+
+/*--------------------SHORTCODES-----------------------*/
+function concept_woo_cat_0($attr){
+	$html = '<div class="container" style="padding-top: 50px;">
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center" style="position: relative;"><h3>Nueva temporada</h3><div class="borde-inf" style="left: 36%;"></div></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-12 col-sm-8 offset-2">
+        <div class="row">
+          <div class="col col-12 col-sm-5" style="padding-top: 65px;">
+            <div class="row cont-prodcat-l" >';
+
+    $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
+    $all_categories = get_categories( $args );
+
+    //echo json_encode($all_categories);
+    foreach ($all_categories as $k => $v){
+      if ($v->parent == 0)
+          $html .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>'.$v->name.'</span></div></div>';
+    }
+
+    $html .= '</div>
+          </div>
+          <div class="col col-sm-7">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>';
+
+  return $html;
+}
+add_shortcode('concept_woo_cat_0', 'concept_woo_cat_0');
+
+function concept_woo_cat_1($attr){
+	$html = '<div class="container" style="padding-top: 50px;">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf" style="left: 46%;"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-8 offset-2">
+          <div class="row">
+            <div class="col col-12 col-sm-4">
+              <div class="row">
+                <div class="col col-12 col-sm-11">
+
+                  <div class="card" style="width: 100%;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <p class="card-text">Categoría 1</p>
+                      <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%; margin-top:92px;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 2</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 3</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>';
+
+  return $html;
+}
+add_shortcode('concept_woo_cat_1', 'concept_woo_cat_1');
+
+
+
+function concept_contact($attr){
+	$html = '<div class="container" style="padding-top: 50px;">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf" style="left: 46%;"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-8 offset-2">
+          <div class="row">
+            <div class="col col-12 col-sm-4">
+              <div class="row">
+                <div class="col col-12 col-sm-11">
+
+                  <div class="card" style="width: 100%;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <p class="card-text">Categoría 1</p>
+                      <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%; margin-top:92px;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 2</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col col-12 col-sm-4">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card" style="width: 100%;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-text">Categoría 3</p>
+                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>';
+
+  return $html;
+}
+add_shortcode('concept_contact', 'concept_contact');

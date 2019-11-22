@@ -7,11 +7,10 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package WordPress
- * @subpackage Twenty_Nineteen
+ * @subpackage Concept
  * @since 1.0.0
  */
 
-  require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -27,23 +26,3 @@
 	<div id="page" class="site">
 
 		<div id="content" class="site-content">
-			<?php get_template_part( 'template-parts/content/content-home' ); ?>
-			<nav id="main_menu" class="navbar navbar-expand-md nav-light">
-
-					<a class="navbar-brand" href="#"><img class="brand-img  d-sm-block d-md-none" src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt=""></a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse center-margin" id="navbarCollapse">
-						<img class="brand-img d-none d-md-block" src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt="">
-						<?php /* Primary navigation */
-							wp_nav_menu( [
-								'menu'       => 'menu-1',
-								'depth'      => 2,
-								'container'  => false,
-								'menu_class' => 'navbar-nav',
-								'walker'     => new wp_bootstrap_navwalker()]
-							);
-							?>
-					</div>
-				</nav>

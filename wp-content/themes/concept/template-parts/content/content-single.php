@@ -5,7 +5,7 @@
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
- * @subpackage Twenty_Nineteen
+ * @subpackage Concept
  * @since 1.0.0
  */
 
@@ -45,7 +45,7 @@
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<?php twentynineteen_entry_footer(); ?>
+		<?php /*twentynineteen_entry_footer();*/ ?>
 	</footer><!-- .entry-footer -->
 
 	<?php if ( ! is_singular( 'attachment' ) ) : ?>
