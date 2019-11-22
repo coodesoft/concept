@@ -38,9 +38,10 @@ get_header();
                 ];
                 $all_categories = get_categories( $args );
                 $salida         = '';
-
+//echo json_encode($all_categories);
                 foreach ($all_categories as $k => $v){
-                  $salida .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>'.$v->name.'</span></div></div>';
+                  if ($v->parent == 0)
+                    $salida .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>'.$v->name.'</span></div></div>';
                 }
                 ?>
                 <?php echo $salida; ?>

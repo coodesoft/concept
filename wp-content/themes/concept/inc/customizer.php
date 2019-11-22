@@ -100,6 +100,30 @@ function twentynineteen_customize_register( $wp_customize ) {
 			'type'    => 'checkbox',
 		)
 	);
+
+	//enlace facebook
+	$wp_customize->add_setting('enlace_face');
+
+	$wp_customize->add_control(
+		'enlace_face',
+		array(
+			'label'   => __( 'Link págína de Facebook', 'twentynineteen' ),
+			'section' => 'title_tagline',
+			'type'    => 'text',
+		)
+	);
+
+	//enlace facebook
+	$wp_customize->add_setting('enlace_ig');
+
+	$wp_customize->add_control(
+		'enlace_ig',
+		array(
+			'label'   => __( 'Link perfil de Instagram', 'twentynineteen' ),
+			'section' => 'title_tagline',
+			'type'    => 'text',
+		)
+	);
 }
 add_action( 'customize_register', 'twentynineteen_customize_register' );
 

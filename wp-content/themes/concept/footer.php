@@ -19,8 +19,8 @@
 		<div class="social-content">
 			<div class="title">Encontranos en nuestras redes</div>
 			<div class="social-icons">
-				<a href=""><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/instagram.svg"/></a>
-				<a href=""><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/facebook.svg"/></a>
+				<a href="<?php echo get_theme_mod( 'enlace_face' ); ?>" target="_blank"><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/instagram.svg"/></a>
+				<a href="<?php echo get_theme_mod( 'enlace_ig' ); ?>" target="_blank"><img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/facebook.svg"/></a>
 			</div>
 		</div>
 	</footer><!-- #colophon -->
