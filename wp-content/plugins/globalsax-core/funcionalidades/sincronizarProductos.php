@@ -111,7 +111,6 @@ function insert_products ($products){
 function insert_product($product_data){
 
 	$IdWp = get_user_meta(1,'key_'.$product_data['Product_Id'], true);
-	echo $IdWp ." - ";
 
 	if( !isset($IdWp) || empty($IdWp)){
 
