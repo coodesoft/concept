@@ -68,7 +68,8 @@ function gbs_cart($atts){
                             <input type="hidden" name="cliente_id" value="gbs_noCliente">
                             <?php }
                             ?>
-                            <div class="target"></div>
+                            <div class="sucursalTarget"></div>
+                            <div class="priceListTarget"></div>
                             <?php
                 } ?>
                 </div>
@@ -103,6 +104,7 @@ function gbs_cart($atts){
                             <?php // ThemeFusion edit for Avada theme: change table layout and columns. ?>
                             <th class="product-name"><?php _e( 'Category', 'woocommerce' ); ?></th>
                             <th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
+                            <th class="product-price"><?php _e( 'Price', 'woocommerce' ); ?></th>
                         </tr>
                     </thead>
                     <tbody id="gsCartContent">
@@ -126,7 +128,7 @@ function gbs_cart($atts){
                             }
                         }
                         foreach ($product_list as $key => $category) { ?>
-                            <tr>
+                            <tr id="<?php echo strtoupper($category['name']) ?>">
                                 <td class="product_name">
                                     <div class="product-info">
                                         <a href="#" class="product-title"><?php echo strtoupper($category['name']) ?> </span>
@@ -135,11 +137,15 @@ function gbs_cart($atts){
                                 <td class="product-quantity">
                                     <div class="quantity"><?php echo $category['cant'] ?></div>
                                 </td>
+                                <td class="product-price">
+                                    <div class="price">0</div>
+                                </td>
                             </tr>
                         <?php } ?>
                         <tr>
                             <td></td>
                             <td class="total-ordered">Total pedido: <?php echo $cant_total ?></td>
+                            <td class="total-price">0</td>
                         </tr>
 
                         <?php do_action( 'woocommerce_cart_contents' ); ?>
