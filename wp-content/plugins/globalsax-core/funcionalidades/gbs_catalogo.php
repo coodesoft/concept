@@ -296,6 +296,8 @@ function gbs_client_checkout(){
 
 
 
+
+
 /* FUNCIONES INTERNAS DE RETORNO */
 function gbs_catalog($atts){
   $categories = gbs_get_categories();
