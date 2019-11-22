@@ -182,7 +182,9 @@ function gbs_create_order(){
 		'email'      => $user->user_lastname,
 		'country'    => 'ARG'
 	 );
-  $order = wc_create_order();
+  
+  $order = wc_create_order(array('customer_id' => $user->ID));
+    
   $cartItems = WC()->cart->get_cart();
   foreach ($cartItems as $key => $item) {
     $quantity = $item['quantity'];
