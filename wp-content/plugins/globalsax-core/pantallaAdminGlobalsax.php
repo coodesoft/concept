@@ -89,13 +89,24 @@ function display_opcion_sincronizar_productos(){
     <script>
 
       function sincronizarProductos(){
+        jQuery('body').addClass('loading-cursor');
+
         jQuery.ajax({
           type : "post",
           url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
           data : 'action=get_sincronizar_producto&security=<?php echo wp_create_nonce('globalsax'); ?>',
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_prductos"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_prductos"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function() {
           console.log('error');
@@ -129,14 +140,24 @@ function display_opcion_sincronizar_clientes() {
     <script>
 
       function sincronizarClientes(){
-
+        
+        jQuery('body').addClass('loading-cursor');
         jQuery.ajax({
           type : "post",
           url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
           data : 'action=get_sincronizar_cliente&security=<?php echo wp_create_nonce('globalsax'); ?>',
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_clientes"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_clientes"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {
           console.log(data);
@@ -153,14 +174,24 @@ function display_opcion_sincronizar_vendedores() {
   <script>
 
     function sincronizarVendedores(){
-
+    jQuery('body').addClass('loading-cursor')
       jQuery.ajax({
         type : "post",
         url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
         data : 'action=get_sincronizar_vendedor&security=<?php echo wp_create_nonce('globalsax'); ?>',
         success: function( response ) {
-          console.log(response);
-          //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_vendedores"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_vendedores"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');          
+            
       },
       error: function( data ) {
         console.log(data);
@@ -174,21 +205,32 @@ function display_opcion_sincronizar_vendedores() {
 function display_opcion_sincronizar_precios() {
   ?>
 
-		<input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
+    <input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
     <script>
       function sincronizarPrecios(){
+          
         var data = {
           action: 'get_sincronizar_precios',
           security : '<?php echo wp_create_nonce('globalsax'); ?>',
         }
-
+        
+        jQuery('body').addClass('loading-cursor')
         jQuery.ajax({
           type : "post",
           url : ajaxurl,
           data : data,
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_precios"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_precios"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {
 
