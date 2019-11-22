@@ -46,24 +46,25 @@ class ListaPreciosSucursal extends GSModel{
     static function get($sucursal_id, $list_id){
       $data = ['sucursal_id' => $sucursal_id, 'list_id' => $list_id];
       if (static::validate($data)){
-        global $wpdb;  
+        global $wpdb;
         $table_name = static::getTableName('priceListSucursal');
         $query = $wpdb->prepare("SELECT * FROM $table_name WHERE sucursal_id=%d AND list_id=%d", [$sucursal_id, $list_id]);
         return $wpdb->get_results($query, ARRAY_A);
       } else
         throw new Exception("Se produjo un error al recurar una relación entre lista de precio y sucursal", 1);
     }
-    
+
     static function getBySucursal($sucursal_id){
 
         if ( !$params['sucursal_id'] || !is_numeric($params['sucursal_id']) ){
             global $wpdb;
             $table_name = static::getTableName('priceListSucursal');
-            $query = $wpdb->prepare("SELECT * FROM $table_name WHERE sucursal_id=%d", [$sucursal_id]);
+            $table_list = static::getTableName('priceList');
+            $query = $wpdb->prepare("SELECT * FROM $table_name LEFT JOIN $table_list ON $table_list.id=$table_name.list_id WHERE sucursal_id=%d ", [$sucursal_id]);
             return $wpdb->get_results($query, ARRAY_A);
         } else
             throw new Exception("Se produjo un error de validación al recurar una relación listas de precio y sucursal", 1);
-        
+
     }
 
 }
