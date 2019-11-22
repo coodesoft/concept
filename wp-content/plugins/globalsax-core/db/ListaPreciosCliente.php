@@ -43,6 +43,19 @@ class ListaPreciosCliente extends GSModel{
       else
         throw new Exception('Se produjo un error al asociar una lista de precios a un cliente', 1);
     }
+    
+    
+    static function getByClientId($id){
+        if ($id && is_numeric($id)){
+            global $wpdb;
+            $table_name = static::getTableName('priceListClient'); 
+            
+            $query = $wpdb->prepare('SELECT * FROM '.$table_name.' WHERE client_id=%d', [$id]);
+            
+            return $wpdb->get_results($query, ARRAY_A);
+        } else
+            throw new Exception('Se produjo un error al recuperar una lista de precios por id de cliente. ID: '. $id, 1);
+    }
 
     
 
