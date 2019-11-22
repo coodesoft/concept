@@ -128,7 +128,7 @@ function gbs_cart($atts){
                             }
                         }
                         foreach ($product_list as $key => $category) { ?>
-                            <tr id="<?php echo strtoupper($category['name']) ?>">
+                            <tr id="<?php echo str_replace(' ', '-', strtoupper($category['name'])) ?>">
                                 <td class="product_name">
                                     <div class="product-info">
                                         <a href="#" class="product-title"><?php echo strtoupper($category['name']) ?> </span>
