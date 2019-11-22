@@ -1,7 +1,7 @@
 var ListaPreciosDOM = (function($){
-    
+
     var instance;
-    
+
     function ListaPreciosDOM(){
         let self = this;
 
@@ -18,27 +18,27 @@ var ListaPreciosDOM = (function($){
 
             for(let t=0; t<listas.length; t++){
                 let lista = listas[t];
-                html += '<option value="'+lista['list_id']+'">'+lista['list_id']+'</option>';
+                html += '<option value="'+lista['list_id']+'">'+lista['name']+'</option>';
             }
 
             html += '</select></div></div>';
 
 
-            $(target).html(html);                    
+            $(target).html(html);
         }
-    
+
         self.noListaPrecios = () => {
             return '<input type="hidden" name="sucursal" value="gbs_noSucursal">'
-        }        
+        }
     }
-    
+
     return {
         getInstance: function(){
           if (!instance)
             instance = new ListaPreciosDOM();
           return instance;
         }
-    }   
-        
-    
+    }
+
+
 })(jQuery);
