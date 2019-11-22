@@ -63,8 +63,7 @@ class ListaPreciosSucursal extends GSModel{
             $query = $wpdb->prepare("SELECT * FROM $table_name LEFT JOIN $table_list ON $table_list.id=$table_name.list_id WHERE sucursal_id=%d ", [$sucursal_id]);
             return $wpdb->get_results($query, ARRAY_A);
         } else
-            throw new Exception("Se produjo un error de validación al recurar una relación listas de precio y sucursal", 1);
+            throw new Exception("Se produjo un error de validación al recuperar una relación listas de precio y sucursal", 1);
 
     }
-
 }

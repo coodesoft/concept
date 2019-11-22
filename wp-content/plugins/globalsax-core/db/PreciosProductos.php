@@ -170,17 +170,35 @@ class PreciosProductos extends GSModel{
         return $wpdb->get_row($query, ARRAY_A);
 
     }
-    
+
     static function getByListId($list_id){
         if ( isset($list_id) && is_numeric($list_id) ){
             global $wpdb;
             $table_name = static::getTableName('productPrices');
 
             $query = $wpdb->prepare('SELECT * FROM '.$table_name.' WHERE list_id=%d', [$list_id] );
-            
+
             return $wpdb->get_results($query, ARRAY_A);
         } else
             throw new Exception('PreciosProductos -getByListId - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
+    }
+
+
+    static function getByMultiplesListsIds($ids){
+      if ( isset($ids) && is_array($ids) ){
+          global $wpdb;
+          $table_name = static::getTableName('productPrices');
+
+          $params = [];
+          foreach ($ids as $key => $id) {
+            $params[] = $wpdb->prepare('%d', $id);
+          }
+
+          $query = "SELECT * FROM $table_name WHERE list_id IN (". implode(', ', $params).")";
+          return $wpdb->get_results($query, ARRAY_A);
+      } else
+          throw new Exception('PreciosProductos -getByMultiplesListsIds - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.json_encode($ids));
+
     }
 }
 
