@@ -161,6 +161,7 @@ class PreciosProductos extends GSModel{
         global $wpdb;
         $table_name = static::getTableName('productPrices');
 
+        // TODO: Hay que filtrar los parametros con el método $wpdb->prepare para evitar posible inyección SQL
         $query  = "SELECT * FROM ". $table_name . " WHERE ";
         $query .= "product_id='" . $product_id . "' AND ";
         $query .= "variation_sku='" . $variation_sku . "' AND ";
@@ -168,6 +169,18 @@ class PreciosProductos extends GSModel{
 
         return $wpdb->get_row($query, ARRAY_A);
 
+    }
+    
+    static function getByListId($list_id){
+        if ( isset($list_id) && is_numeric($list_id) ){
+            global $wpdb;
+            $table_name = static::getTableName('productPrices');
+
+            $query = $wpdb->prepare('SELECT * FROM '.$table_name.' WHERE list_id=%d', [$list_id] );
+            
+            return $wpdb->get_results($query, ARRAY_A);
+        } else
+            throw new Exception('PreciosProductos -getByListId - Párametros inválidos! : Uno o mas parámetros recibidos son inválidos '.$data);
     }
 }
 
