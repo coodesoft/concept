@@ -6,18 +6,32 @@ class CheckoutController {
 
 
     public function __construct(){
-        add_action('wp_ajax_gs_calculate_prices_by_sucursal', array($this, 'calculate') );
+        add_action('wp_ajax_gs_calculate_prices', array($this, 'calculate') );
     }
 
 
     public function calculate(){
-        $lista_id = $_POST['lista_id'];
+        $priceLists = null;
 
-        if (isset($lista_id)){
-            $prices = PreciosProductos::getByListId($lista_id);
+        if (isset($_POST['sucursal']))
+            $priceLists = ListaPreciosSucursal::getBySucursal($_POST['sucursal']);
+
+        if (isset($_POST['client']))
+            $priceLists = ListaPreciosCliente::getByClientId($_POST['client']);
+
+        if ($priceLists && !empty($priceLists)){
+
+            $countPriceLists = count($priceLists);
+            $priceListIds = [];
+            for ($i=0; $i < $countPriceLists; $i++) {
+              $priceListIds[] = $priceLists[$i]['list_id'];
+            }
+            $prices = PreciosProductos::getByMultiplesListsIds($priceListIds);
+
             $criteria = new PrecioProductoCriteria();
             $product_list = [];
-            foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
+
+             foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
                 $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
                 $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
                 $product_cat = get_the_terms($product_id, 'product_cat');
@@ -34,10 +48,10 @@ class CheckoutController {
                 $arr[] = [$product_id, $variation->get_sku(), $price, $cart_item['quantity']];
 
                 if (array_key_exists($product_cat, $product_list) ){
-//                    if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ){
+                  //  if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ){
                     $product_list[$product_cat]['cant'] += $cart_item['quantity'];
                     $product_list[$product_cat]['price'] += $price['price'] * $cart_item['quantity'];
-  //                  }
+                //    }
                 } else{
                     $product_list[$product_cat] = [];
                     $product_list[$product_cat]['name'] = $product_cat;
@@ -45,6 +59,7 @@ class CheckoutController {
                     $product_list[$product_cat]['price'] = $price['price'] * $cart_item['quantity'];
                 }
             }
+
 
             $return =  ['state' => State::UPDATE_PRICELIST, 'data' => $product_list];
         } else
