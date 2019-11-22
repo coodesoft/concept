@@ -84,6 +84,7 @@ class ListaPrecios extends GSModel{
         } else
           throw new Exception("Se produjo un error al borrar una lista. Error de validación en el parámetro", 1);
     }
+
 }
 
 ?>
