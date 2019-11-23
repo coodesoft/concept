@@ -137,17 +137,6 @@
   });
 
 
-    $('#clientesList').on('change', '#cliente_id', function(){
-		var data = {
-	    'user' : this.value,
-	    'action' : 'get_do_checkout',
-
-	};
-
-	$.post(ajaxurl, data, function(response){
-	    $(".target").html(response);
-	});
-	});
 
 
 

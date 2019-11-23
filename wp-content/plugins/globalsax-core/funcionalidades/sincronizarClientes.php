@@ -3,8 +3,8 @@ $cantidadImportar = get_user_meta(1,"importar_clients",true);
 $totalImportar = get_user_meta(1,"total_importar_clients",true);
 //echo 'Cantidad total: '.$cantidadImportar;
 /**LLAMADA AJAX**/
-add_action('wp_ajax_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
-add_action('wp_ajax_nopriv_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
+//add_action('wp_ajax_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
+//add_action('wp_ajax_nopriv_get_sincronizar_cliente', 'ajax_get_sincronizar_cliente');
 
 /*function console_log( $data ){
   echo '<script>';
@@ -58,14 +58,13 @@ function get_sincronizar_cliente(){
 
 		$amount = (int) sizeof($clients);
 
-        update_user_meta(1,'total_importar_clients',$amount);
+		update_user_meta(1,'total_importar_clients',$amount);
 
 		/**Crear los atributos si no existen**/
 
 		/*create_att($clients);
 
 		/**Insertar los productos**/
-
 		insert_clients($clients);
 
 		/**********************************************************************************************************************/
@@ -113,6 +112,8 @@ function insert_clients ($clients)
 function insert_client($client_data)
 {
 	$IdWp = get_user_meta(1,'client_key_'.$client_data['Client_ID'], true);
+	var_dump($IdWp);
+
 	if (empty($IdWp)){
 		$values = array(
  			'Client_ID'  => $client_data['Client_ID'],
@@ -144,29 +145,16 @@ function insert_client($client_data)
     $wpdb->insert($gs_clients_table, $values, $types);
 
     if (sizeof($client_data['Sucs']) > 0) {
-		insert_client_suc($client_data['Client_ID'], $client_data['Sucs']);
+			insert_client_suc($client_data['Client_ID'], $client_data['Sucs']);
     }
 		update_user_meta(1,'client_key_'.$client_data['Client_ID'], $client_data['Client_ID']);
-	} else {
-		/*$post = array(
-			'ID'  => $IdWp,
-			'post_author'  => 1,
-			'post_content' => $product_data['Description'],
-			'post_status'  => 'publish',
-			'post_title'   => $product_data['Name'],
-			'post_parent'  => '',
-			'post_type'    => 'product'
-		);*/
-		/*$post_id = wp_update_post($post);
-		$product_category = $product_data['Category'];
-		borrarVariacionesProductos($post_id);*/
-		//if (sizeof($client_data['Sucs']) < 0){
-    }
+	}
 }
 
 function insert_client_suc($client_id, $sucursales){
   foreach ($sucursales as $key => $suc) {
-    add_user_meta($client_id, 'id_sucursal', $suc['SucName']);
+	add_user_meta($client_id, 'id_sucursal', $suc['SucName']);
+	Sucursal::add($suc);
   }
 }
 ?>

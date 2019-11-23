@@ -1,5 +1,8 @@
 <?php
 //require_once(ABSPATH . '/wp-content/plugins/woo-variations-table/woo-variations-table.php');
+
+require_once(__DIR__.'/../db/Sucursal.php');
+
 add_shortcode( 'gbs_catalog', 'gbs_catalog');
 function gbs_get_categories(){
   $orderby = 'name';
@@ -21,6 +24,8 @@ function gbs_get_categories(){
   }
   return $categories;
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_get_products_by_category', 'gbs_get_products_by_category' );
 add_action( 'wp_ajax_gbs_get_products_by_category', 'gbs_get_products_by_category' );
 
@@ -45,6 +50,8 @@ function gbs_get_products_by_category(){
   echo gbs_products_list($products, $cartItems);
   wp_die();
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_load_variations', 'gbs_load_variations' );
 add_action( 'wp_ajax_gbs_load_variations', 'gbs_load_variations' );
 
@@ -79,9 +86,10 @@ function gbs_load_variations(){
 
   wp_die();
 }
+
+
 add_action( 'wp_ajax_nopriv_gbs_add_variations_to_cart', 'gbs_add_variations_to_cart' );
 add_action( 'wp_ajax_gbs_add_variations_to_cart', 'gbs_add_variations_to_cart' );
-
 function gbs_add_variations_to_cart(){
   $variations = array();
   parse_str($_POST['data'], $variations);
@@ -174,7 +182,9 @@ function gbs_create_order(){
 		'email'      => $user->user_lastname,
 		'country'    => 'ARG'
 	 );
-  $order = wc_create_order();
+  
+  $order = wc_create_order(array('customer_id' => $user->ID));
+    
   $cartItems = WC()->cart->get_cart();
   foreach ($cartItems as $key => $item) {
     $quantity = $item['quantity'];
@@ -202,7 +212,7 @@ function gbs_create_order(){
     'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
     'body'        => json_encode($ws_json)
     );
-    
+
   $result = wp_remote_post($endpoint, $send_data);
   $values = array( 'cliente_id' => $user->ID,
                    'resultado' => $result,
@@ -262,27 +272,31 @@ function gbs_biuld_ws_object($user_id, $adicionales, $order){
 }
 
 
-add_action('wp_ajax_get_do_checkout', 'get_do_checkout');
-add_action('wp_ajax_nopriv_get_do_checkout', 'get_do_checkout');
-function get_do_checkout(){
-     $sucursales = get_user_meta(($_POST['user']),'id_sucursal', false);
-				if (sizeof($sucursales)>= 1) { ?>
-				<div id="sucursalSelection cuatrocol">
-		            <div>Seleccione la sucursal:</div>
-		            <div id="sucursalesList">
-		              <select name="sucursal" required>
-		                  <option value="" disabled selected>Seleccione una sucursal</option>
-    								  <?php	foreach ($sucursales as $key => $sucursal) { ?>
-											<option value="<?php echo $sucursal?>"><?php echo $sucursal?></option>
-										  <?php }?>
-		              </select>
-		            </div>
-		            </div>
-				<?php } else{ ?>
-					<input type="hidden" name="sucursal" value="gbs_noSucursal">
-				<?php }
-				wp_die();
+add_action('wp_ajax_gbs_client_checkout', 'gbs_client_checkout');
+add_action('wp_ajax_nopriv_gbs_client_checkout', 'gbs_client_checkout');
+function gbs_client_checkout(){
+     //$sucursales = get_user_meta(($_POST['user']),'id_sucursal', false);
+     $sucursales = Sucursal::getByClientId($_POST['user']);
+	 if (sizeof($sucursales)>= 1) { ?>
+	    <div id="sucursalSelection cuatrocol">
+          <input id="clientId" type="hidden" name="clientId" value="<?php echo $_POST['user'] ?>">
+		  <div>Seleccione la sucursal:</div>
+		  <div id="sucursalesList">
+		      <select id="selectSucursal" name="sucursal" required>
+		          <option value="" disabled selected>Seleccione una sucursal</option>
+    		      <?php	foreach ($sucursales as $key => $sucursal) { ?>
+				     <option value="<?php echo $sucursal['id']?>"><?php echo $sucursal['sucursal']?></option>
+				  <?php }?>
+		      </select>
+		  </div>
+        </div>
+	<?php } else{ ?>
+    	<input type="hidden" name="sucursal" value="gbs_noSucursal">
+	<?php }
+	wp_die();
 }
+
+
 
 
 
