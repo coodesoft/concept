@@ -4,6 +4,11 @@
 
 (function($){
 
+    let resetDynamicValues = function(){
+        $('.price').html('0');
+        $('.total-price').html('0');        
+    }
+    
     let calculatePrices = function(params){
         let target = params['target'];
         if (target != undefined)
@@ -12,8 +17,7 @@
             'client' : params['client'],
             'action' : 'gs_calculate_prices',
         };
-        $('.price').html('0');
-        $('.total-price').html('0');
+        resetDynamicValues();
         $('body').addClass('loading-cursor');
 
         $.post(ajaxurl, data, function(response){
@@ -57,6 +61,7 @@
 	       'client' : this.value,
 	       'action' : 'gs_load_sucursales',
         };
+        resetDynamicValues();
         $('body').addClass('loading-cursor');
         $.post(ajaxurl, data, function(response){
             response = JSON.parse(response);
@@ -79,10 +84,10 @@
         };
 
         $('body').addClass('loading-cursor');
+        resetDynamicValues();
         $.post(ajaxurl, data, function(response){
             response = JSON.parse(response);
-            $('.price').html('0');
-            $('.total-price').html('0');
+
             if (response['state'] == state.UPDATE_PRICELIST)
               register.notify(response['state'], response['data']);
         });
