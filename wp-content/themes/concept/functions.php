@@ -141,7 +141,7 @@ function concept_woo_cat_1($attr){
 	$html = '<div class="container" style="padding-top: 50px;">
       <div class="row">
         <div class="col-12">
-          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf" style="left: 46%;"></div></div>
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
         </div>
       </div>
       <div class="row">
@@ -203,7 +203,7 @@ function concept_contact($attr){
 	$html = '<div class="container" style="padding-top: 50px;">
       <div class="row">
         <div class="col-12">
-          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf" style="left: 46%;"></div></div>
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
         </div>
       </div>
       <div class="row">

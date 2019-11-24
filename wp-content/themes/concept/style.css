@@ -4,7 +4,8 @@ html {
 
 .borde-inf{
   border-bottom: 2.5px solid #fdc42f;
-  width: 51px; position: absolute; bottom: -4px;
+  width: 51px;
+  margin-left: auto; margin-right: auto;
 }
 
 .prod-cont-1{
@@ -189,7 +190,7 @@ footer .social-icons a img { width:39px; height: auto;}
   padding-bottom: 0px;
   padding-left: 14px;
   padding-right: 14px;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-family:Comfortaa !important;
   margin-left: 4px;
   margin-right: 4px;
@@ -208,3 +209,9 @@ footer .social-icons a img { width:39px; height: auto;}
 }
 
 .navbar-toggler { border: 1px solid #000; }
+
+.ingreso-registro-link a {
+  color: #000;
+  font-family: Comfortaa; font-size: 10px;
+  position: absolute; right: 20px; bottom:5px;
+}
