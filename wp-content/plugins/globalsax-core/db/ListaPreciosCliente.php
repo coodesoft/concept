@@ -46,7 +46,7 @@ class ListaPreciosCliente extends GSModel{
     
     
     static function getByClientId($id){
-        if ($id && is_numeric($id)){
+        if (isset($id) && is_numeric($id)){
             global $wpdb;
             $table_name = static::getTableName('priceListClient'); 
             

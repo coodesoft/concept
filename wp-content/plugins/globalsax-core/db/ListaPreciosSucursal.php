@@ -56,7 +56,7 @@ class ListaPreciosSucursal extends GSModel{
 
     static function getBySucursal($sucursal_id){
 
-        if ( !$params['sucursal_id'] || !is_numeric($params['sucursal_id']) ){
+        if ( isset($sucursal_id) && is_numeric($sucursal_id) ){
             global $wpdb;
             $table_name = static::getTableName('priceListSucursal');
             $table_list = static::getTableName('priceList');
