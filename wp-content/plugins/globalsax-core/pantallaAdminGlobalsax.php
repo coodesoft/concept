@@ -171,6 +171,7 @@ function display_opcion_sincronizar_clientes() {
 	<?php
 
 }
+
 function display_opcion_sincronizar_vendedores() {
   ?>
   <input type="button" name="sincronizar_vendedores" value="Sincronizar vendedores" onclick="sincronizarVendedores()"/>
@@ -243,31 +244,6 @@ function display_opcion_sincronizar_precios() {
       }
     </script>
 	<?php
-}
-function display_opcion_sincronizar_precios() {
-  ?>
-
-		<input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
-    <script>
-
-      function sincronizarPrecios(){
-
-        jQuery.ajax({
-          type : "post",
-          url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
-          data : 'action=get_sincronizar_precios&security=<?php echo wp_create_nonce('globalsax'); ?>',
-          success: function( response ) {
-            console.log(response);
-            //location.reload();
-        },
-        error: function( data ) {
-          console.log(data);
-        }
-        });
-      }
-    </script>
-	<?php
-
 }
 
 function display_opcion_administrar_url() {
