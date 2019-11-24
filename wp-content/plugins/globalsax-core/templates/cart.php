@@ -23,14 +23,16 @@ require_once(__DIR__.'/../db/UserClientRelation.php');
 
 add_shortcode( 'gbs_cart_template', 'gbs_cart');
 function gbs_cart($atts){
-		if ( !is_admin() ){
-        do_action( 'woocommerce_before_cart' );
+
+    if ( !is_admin() ){
+        
         ?>
 
         <div id="gbsCheckout">
             <form class="woocommerce-cart-form gbs-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 
                 <p class="woocommerce-store-notice demo_store"> Su pedido es un compromiso de compra </p>
+                
                 <div class="datos_user_cart">
 
                 <?php if( is_user_logged_in()  ) {
@@ -39,164 +41,48 @@ function gbs_cart($atts){
                     <div class="order-owner trescol"> Pedido de: <?php echo $user->user_firstname ." ". $user->user_lastname ?></div>
 
                     <?php
-
-										/*
-											  global $wpdb;
-                        $client_user_table = $wpdb->prefix .  ('clients_users_rel');
-                        $clients_table = $wpdb->prefix .  ('gs_clients');
-
-                        $select_datos_clientes = ("SELECT * FROM $clients_table RIGHT JOIN $client_user_table
-                          ON $client_user_table.user_id = $user->ID
-                          AND $client_user_table.client_id = $clients_table.Client_ID");
-
-                        $clientes = $wpdb->get_results($select_datos_clientes);
-												*/
-				       $clientes = UserClientRelation::getClientByUserId($user->ID);
-                        if (sizeof($clientes) >= 1) {?>
-                            <div id="clienteSelection cuatrocol" style="margin-right:1%">
-                                    <div>Seleccione la Razón Social:</div>
-                                        <div id="clientesList">
-                                            <select name="cliente_id" id ="cliente_id" required>
-                                                    <option  value="" disabled selected>Seleccione una Razón Social</option>
-                                                    <?php foreach ($clientes as $key => $cliente) { ?>
-                                                    <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['name']?></option>
-                                                    <?php }?>
-                                            </select>
-                                        </div>
-                            </div>
-                            <?php	} else{ ?>
-                            <input type="hidden" name="cliente_id" value="gbs_noCliente">
-                            <?php }
-                            ?>
-                            <div class="sucursalTarget"></div>
-                            <div class="priceListTarget"></div>
-                            <?php
-                } ?>
-                </div>
-                        <?php
-                            $product_list = [];
-                            foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
-                                $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-                                $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
-
-                                $product_cat = get_the_terms($product_id, 'product_cat');
-                                $product_cat = $product_cat[0]->name;
-
-                                if (array_key_exists($product_cat, $product_list)){
-                                    if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) )
-                                        $product_list[$product_cat]['cant'] += $cart_item['quantity'];
-                                } else{
-                                    $product_list[$product_cat] = [];
-                                    $product_list[$product_cat]['name'] = $product_cat;
-                                    $product_list[$product_cat]['cant'] = $cart_item['quantity'];
-                                }
-
-                            }
-                            $cant_total = 0;
-                            foreach ($product_list as $key => $category) {
-                                $cant_total += $category['cant'];
-                            }
-                            ?>
-
-                <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <?php // ThemeFusion edit for Avada theme: change table layout and columns. ?>
-                            <th class="product-name"><?php _e( 'Category', 'woocommerce' ); ?></th>
-                            <th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
-                            <th class="product-price"><?php _e( 'Price', 'woocommerce' ); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody id="gsCartContent">
-
-                        <?php
-                        $product_list = [];
-                        foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
-                            $_product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-                            $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
-
-                            $product_cat = get_the_terms($product_id, 'product_cat');
-                            $product_cat = $product_cat[0]->name;
-
-                            if (array_key_exists($product_cat, $product_list)){
-                                if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) )
-                                    $product_list[$product_cat]['cant'] += $cart_item['quantity'];
+				        $clientes = UserClientRelation::getClientByUserId($user->ID);
+                        $countClientes = count($clientes);
+                        $checkoutController = new CheckoutController();            
+            
+                        if ($countClientes > 1){ 
+                            echo ClienteDOM::selector($clientes);
+                            echo SucursalDOM::selector();
+                            $products = $checkoutController->_calculate();;
+                        } elseif ($countClientes == 1){ 
+                                    
+                            $cliente = $clientes[0];
+                            $sucursales = Sucursal::getByClientId($cliente['id']);
+                            $countSucursales = count($sucursales);
+                                    
+                            if ($countSucursales > 1){
+                                echo SucursalDOM::selector($sucursales);
+                                $products = $checkoutController->_calculate();;
+                            } elseif ($countSucursales == 1){
+                                $sucursal = $sucursales[0];
+                                $listas = ListaPrecios::getBySucursal($sucursal['id']);
+                                $products = $checkoutController->_calculate($listas);
                             } else{
-                                $product_list[$product_cat] = [];
-                                $product_list[$product_cat]['name'] = $product_cat;
-                                $product_list[$product_cat]['cant'] = $cart_item['quantity'];
+                                $listas = ListaPrecios::getByCliente($cliente['id']);
+                                $products = $checkoutController->_calculate($listas);
                             }
-                        }
-                        foreach ($product_list as $key => $category) { ?>
-                            <tr id="<?php echo str_replace(' ', '-', strtoupper($category['name'])) ?>">
-                                <td class="product_name">
-                                    <div class="product-info">
-                                        <a href="#" class="product-title"><?php echo strtoupper($category['name']) ?> </span>
-                                    </div>
-                                </td>
-                                <td class="product-quantity">
-                                    <div class="quantity"><?php echo $category['cant'] ?></div>
-                                </td>
-                                <td class="product-price">
-                                    <div class="price">0</div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        <tr>
-                            <td></td>
-                            <td class="total-ordered">Total pedido: <?php echo $cant_total ?></td>
-                            <td class="total-price">0</td>
-                        </tr>
+                        } 
+                        echo CartResumeDOM::cart($products);
+                    ?>
+                </div>
 
-                        <?php do_action( 'woocommerce_cart_contents' ); ?>
-
-                        <tr class="avada-cart-actions">
-                            <td colspan="6" class="actions">
-
-                                <?php if ( wc_coupons_enabled() ) { ?>
-                                    <div class="coupon">
-                                        <label for="coupon_code"><?php _e( 'Coupon:', 'woocommerce' ); ?></label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>" />
-                                        <?php do_action( 'woocommerce_cart_coupon' ); ?>
-                                    </div>
-                                <?php } ?>
-
-                                <input type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" />
-
-                                <?php do_action( 'woocommerce_cart_actions' ); ?>
-
-                                <?php wp_nonce_field( 'woocommerce-cart' ); ?>
-                            </td>
-                        </tr>
-                        <?php do_action( 'woocommerce_after_cart_contents' ); ?>
-                    </tbody>
-                </table>
                 <div class="user-actions">
                     <div class="save-order">
                         <input type="radio" name="pedido" value="G" checked=""> Agrega pendientes
                     </div>
-                <div class="null-order">
+                    <div class="null-order">
                         <input type="radio" name="pedido" value="A"> Anular pendientes
                     </div>
-
-            </div>
-                    <?php do_action( 'woocommerce_after_cart_table' ); ?>
-
+                </div>
             </form>
         </div>
-        <div class="cart-collaterals">
-            <?php
-                /**
-                 * woocommerce_cart_collaterals hook.
-                 *
-                 * @hooked woocommerce_cross_sell_display
-                 * @hooked woocommerce_cart_totals - 10
-                 */
-             //	do_action( 'woocommerce_cart_collaterals' );
-
-            ?>
-        </div>
-        <?php
-
-        do_action( 'woocommerce_after_cart' );
+        <?php }
     }
 }
+
+?>
