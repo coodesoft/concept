@@ -123,8 +123,8 @@ class ClientesController {
     public function loadSucursales(){
         if (isset($_POST['client'])){
             $sucursales = Sucursal::getByClientId($_POST['client']);
-            $count = count($sucursales);
 
+            $count = count($sucursales);
             $return = $count ? [ 'state' => State::LIST_SUCURSALES, 'data'  => $sucursales ] :
                                [ 'state' => State::NO_SUCURSALES, 'data'  => null ];
         } else
