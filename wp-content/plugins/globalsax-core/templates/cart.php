@@ -31,7 +31,7 @@ function gbs_cart($atts){
         <div id="gbsCheckout">
             <form class="woocommerce-cart-form gbs-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 
-                <p class="woocommerce-store-notice demo_store"> Su pedido es un compromiso de compra </p>
+                <p class="woocommerce-store-notice demo_store"> Su pedido es un compromiso de compra. La informaci&oacuten que contiene esta p&aacutegina web es de car&aacutecter informativo; la misma puede sufrir modificaciones en su contenido sin previo aviso, dependiendo de los listados de precios al d&iacutea de su facturaci&oacuten. </p>
                 
                 <div class="datos_user_cart">
 
@@ -69,10 +69,11 @@ function gbs_cart($atts){
                             } 
                         ?>
                     </div>
+		</div>
                     <div class="gsCartContent">
                         <?php echo CartResumeDOM::cart($products); ?>
                     </div>   
-                </div>
+                
 
                 <div class="user-actions">
                     <div class="save-order">
@@ -82,6 +83,7 @@ function gbs_cart($atts){
                         <input type="radio" name="pedido" value="A"> Anular pendientes
                     </div>
                 </div>
+		    <?php do_action( 'woocommerce_after_cart_table' ); ?>
             </form>
         </div>
         <?php }
