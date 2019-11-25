@@ -6,7 +6,7 @@ class ClienteDOM {
     
     static function selector($clientes){ ?>
        
-        <div id="clienteSelection cuatrocol" style="margin-right:1%">
+        <div class="clienteSelection cuatrocol" style="margin-right:1%">
             <div>Seleccione la Razón Social:</div>
             <div id="clientesList">
                 <select name="cliente_id" id ="cliente_id" required>
