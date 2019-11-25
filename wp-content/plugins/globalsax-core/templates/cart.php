@@ -39,36 +39,39 @@ function gbs_cart($atts){
                     //obtengo el usuario
                     $user = wp_get_current_user(); ?>
                     <div class="order-owner trescol"> Pedido de: <?php echo $user->user_firstname ." ". $user->user_lastname ?></div>
+                    <div class="gsSelectorContent">
+                        <?php
+                            $clientes = UserClientRelation::getClientByUserId($user->ID);
+                            $countClientes = count($clientes);
+                            $checkoutController = new CheckoutController();            
 
-                    <?php
-				        $clientes = UserClientRelation::getClientByUserId($user->ID);
-                        $countClientes = count($clientes);
-                        $checkoutController = new CheckoutController();            
-            
-                        if ($countClientes > 1){ 
-                            echo ClienteDOM::selector($clientes);
-                            echo SucursalDOM::selector();
-                            $products = $checkoutController->_calculate();;
-                        } elseif ($countClientes == 1){ 
-                                    
-                            $cliente = $clientes[0];
-                            $sucursales = Sucursal::getByClientId($cliente['id']);
-                            $countSucursales = count($sucursales);
-                                    
-                            if ($countSucursales > 1){
-                                echo SucursalDOM::selector($sucursales);
+                            if ($countClientes > 1){ 
+                                echo ClienteDOM::selector($clientes);
+                                echo SucursalDOM::selector();
                                 $products = $checkoutController->_calculate();;
-                            } elseif ($countSucursales == 1){
-                                $sucursal = $sucursales[0];
-                                $listas = ListaPrecios::getBySucursal($sucursal['id']);
-                                $products = $checkoutController->_calculate($listas);
-                            } else{
-                                $listas = ListaPrecios::getByCliente($cliente['id']);
-                                $products = $checkoutController->_calculate($listas);
-                            }
-                        } 
-                        echo CartResumeDOM::cart($products);
-                    ?>
+                            } elseif ($countClientes == 1){ 
+
+                                $cliente = $clientes[0];
+                                $sucursales = Sucursal::getByClientId($cliente['id']);
+                                $countSucursales = count($sucursales);
+
+                                if ($countSucursales > 1){
+                                    echo SucursalDOM::selector($sucursales);
+                                    $products = $checkoutController->_calculate();;
+                                } elseif ($countSucursales == 1){
+                                    $sucursal = $sucursales[0];
+                                    $listas = ListaPrecios::getBySucursal($sucursal['id']);
+                                    $products = $checkoutController->_calculate($listas);
+                                } else{
+                                    $listas = ListaPrecios::getByCliente($cliente['id']);
+                                    $products = $checkoutController->_calculate($listas);
+                                }
+                            } 
+                        ?>
+                    </div>
+                    <div class="gsCartContent">
+                        <?php echo CartResumeDOM::cart($products); ?>
+                    </div>   
                 </div>
 
                 <div class="user-actions">
