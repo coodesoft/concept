@@ -22,7 +22,7 @@ class CartResumeDOM {
                     $cant_total = 0;
                     $total_price = 0;
                     foreach ($product_list as $key => $category) { 
-                        $cant_total++;
+                        $cant_total += $category['cant'];
                         if ( isset($category['price']) )
                             $total_price += $category['price'];
                 ?>
