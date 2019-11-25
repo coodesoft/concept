@@ -44,12 +44,16 @@ class CheckoutController {
                //  if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ){
                  $product_list[$product_cat]['cant'] += $cart_item['quantity'];
                  $product_list[$product_cat]['price'] += $price['price'] * $cart_item['quantity'];
+                 $product_list[$product_cat]['price'] = round($product_list[$product_cat]['price'], 2);
+                 
              //    }
              } else{
                  $product_list[$product_cat] = [];
                  $product_list[$product_cat]['name'] = $product_cat;
                  $product_list[$product_cat]['cant'] = $cart_item['quantity'];
                  $product_list[$product_cat]['price'] = $price['price'] * $cart_item['quantity'];
+                 $product_list[$product_cat]['price'] = round($product_list[$product_cat]['price'], 2);
+
              }
         }
         return $product_list;
