@@ -69,10 +69,11 @@ function gbs_cart($atts){
                             } 
                         ?>
                     </div>
+		</div>
                     <div class="gsCartContent">
                         <?php echo CartResumeDOM::cart($products); ?>
                     </div>   
-                </div>
+                
 
                 <div class="user-actions">
                     <div class="save-order">
@@ -82,6 +83,7 @@ function gbs_cart($atts){
                         <input type="radio" name="pedido" value="A"> Anular pendientes
                     </div>
                 </div>
+		    <?php do_action( 'woocommerce_after_cart_table' ); ?>
             </form>
         </div>
         <?php }
