@@ -6,18 +6,18 @@ class CheckoutController {
 
 
     public function __construct(){
-        add_action('wp_ajax_gs_calculate_prices', array($this, 'calculate') );
+        add_action('wp_ajax_gs_calculate_prices', array($this, 'calculateBK') );
     }
 
     public function _calculate($priceLists = null){
-         
+
         if (isset($priceLists)){
 
             $countPriceLists = count($priceLists);
             $priceListIds = [];
-            for ($i=0; $i < $countPriceLists; $i++) 
+            for ($i=0; $i < $countPriceLists; $i++)
               $priceListIds[] = $priceLists[$i]['list_id'];
-            
+
             $prices = PreciosProductos::getByMultiplesListsIds($priceListIds);
         }
 
@@ -37,7 +37,7 @@ class CheckoutController {
                  'variation_sku' => $variation ? $variation->get_sku() : $variation,
              ];
              $criteria->prepare($inCart);
-             
+
              $price = isset($priceLists) ? Filter::filterArrayElement($prices, $criteria) : 0;
 
              if (array_key_exists($product_cat, $product_list) ){
@@ -45,7 +45,7 @@ class CheckoutController {
                  $product_list[$product_cat]['cant'] += $cart_item['quantity'];
                  $product_list[$product_cat]['price'] += $price['price'] * $cart_item['quantity'];
                  $product_list[$product_cat]['price'] = round($product_list[$product_cat]['price'], 2);
-                 
+
              //    }
              } else{
                  $product_list[$product_cat] = [];
@@ -58,9 +58,9 @@ class CheckoutController {
         }
         return $product_list;
     }
-    
 
-    public function calculate(){
+
+    public function calculateBK(){
         $priceLists = null;
 
         if ( isset($_POST['sucursal']) )
@@ -71,13 +71,13 @@ class CheckoutController {
 
         if ( $priceLists && !empty($priceLists) ){
             $product_list = $this->_calculate($priceLists);
-            
+
             $return =  ['state' => State::UPDATE_PRICELIST, 'data' => $product_list];
         } else
              $return = ['state' => State::PARAM_ERROR, 'data' => null];
-        
+
         echo json_encode($return);
-        wp_die(); 
+        wp_die();
     }
 }
 
