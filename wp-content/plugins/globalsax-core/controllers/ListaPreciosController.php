@@ -5,7 +5,6 @@ class ListaPreciosController {
 
     public function __construct(){
         add_action('wp_ajax_get_sincronizar_precios', array($this,'sincronice'));
-        add_action('wp_ajax_gs_load_pricelist_by_sucursal', array($this,'getBySucursal'));        
     }
 
     public function sincronice(){
@@ -85,20 +84,8 @@ class ListaPreciosController {
         wp_die();
 
     }
-    
-    public function getBySucursal(){
-        if (isset($_POST['sucursal'])){
-            $priceLists = ListaPreciosSucursal::getBySucursal($_POST['sucursal']);
-            $count = count($priceLists);
-            
-            $return = $count > 1 ? [ 'state' => State::MULTIPLE_PRICELIST, 'data'  => $priceLists ] :
-                                   [ 'state' => State::SINGLE_PRICELIST, 'data'  => $priceLists[0] ];
-        } else
-            $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
-        
-        echo json_encode($return);
-        wp_die();
-    }
+
+  
 }
 
 $listaPreciosController = new ListaPreciosController();

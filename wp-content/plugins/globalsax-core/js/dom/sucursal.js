@@ -10,7 +10,7 @@ var SucursalDOM = (function($){
             let sucursales  = params['sucursales'];
           //  let client      = params['client'];
 
-            let html = '<div id="sucursalSelection cuatrocol">';
+            let html = '<div class="sucursalSelection cuatrocol">';
 
           //  html += '<input id="clientId" type="hidden" name="clientId" value="'+client+'">';
             html += '<div>Seleccione la sucursal:</div>';

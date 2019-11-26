@@ -65,6 +65,9 @@ function theme_settings_page(){
           <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
         <?php } ?>
 
+        <?php  if ($activeTab == 'assignPrices'){ ?>
+          <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
+        <?php } ?>
 		</div>
 	<?php
 }
@@ -168,6 +171,7 @@ function display_opcion_sincronizar_clientes() {
 	<?php
 
 }
+
 function display_opcion_sincronizar_vendedores() {
   ?>
   <input type="button" name="sincronizar_vendedores" value="Sincronizar vendedores" onclick="sincronizarVendedores()"/>
@@ -264,6 +268,8 @@ function display_theme_panel_fields(){
     register_setting("section", "url");
   add_settings_field("error", "4) Ver errores", "display_opcion_ver_errores","theme-options", "section");
     register_setting("section", "error");
+  add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
+    register_setting("section", "precios");
 	/**/
   add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
     register_setting("section", "precios");

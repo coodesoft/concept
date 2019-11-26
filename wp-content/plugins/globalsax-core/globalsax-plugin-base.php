@@ -238,10 +238,12 @@ add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
     require_once("util/State.php");
     require_once("util/Requester.php");
+    
     require_once("filter/Filter.php");
     require_once("filter/ListaPreciosCriteria.php");
     require_once("filter/ClientesCriteria.php");
     require_once("filter/PrecioProductoCriteria.php");
+    
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
     require_once('db/Sucursal.php');
@@ -262,6 +264,10 @@ function cargar_funcionalidades() {
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
     require_once("funcionalidades/gbs_catalogo.php");
+    
+    require_once("templates/components/SucursalDOM.php");
+    require_once("templates/components/CartResumeDOM.php");
+    require_once("templates/components/ClienteDOM.php");
     require_once("templates/cart.php");
 }
 
