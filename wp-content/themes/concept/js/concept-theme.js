@@ -5,9 +5,8 @@ $( document ).ready(function() {
     navbar.classList.remove("fixed-top");
   	var sticky = navbar.offsetTop;
 
-    if ($('#page-section-container').length != 0) {
-      navbar.classList.add("fixed-top");
-    }
+    if ($('#page-section-container').length != 0) {  navbar.classList.add("fixed-top"); }
+    navbar.classList.remove("d-none");
 
   	function myFunction() {
   	  if (document.documentElement.scrollTop >= sticky -10) {
