@@ -1,14 +1,34 @@
 $( document ).ready(function() {
   (function($){
 
-  	var navbar = document.getElementById("main_menu");
-    navbar.classList.remove("fixed-top");
-  	var sticky = navbar.offsetTop;
+  	let navbar        = document.getElementById("main_menu");
+  	let sticky        = $(window).height();
+    let ultima_dat_id = '';
 
-    if ($('#page-section-container').length != 0) {  navbar.classList.add("fixed-top"); }
-    navbar.classList.remove("d-none");
+    if ($('.page-section-container').length == 0) {
+      myFunction();
+    } 
+    setActiveClass();
 
-  	function myFunction() {
+    function setActiveClass(){
+      let sections = $('section');
+      let pos_sec  = -1;
+      for (let c=0; c<sections.length; c++){
+        let sec = $(sections[c]);
+        if (window.scrollY < (sec.offset().top + sticky - $("#main_menu").outerHeight()) && (typeof sec.attr('data-id') !== 'undefined') ){
+          pos_sec = c; break;
+        }
+      }
+
+      if (pos_sec != -1){ ultima_dat_id = $(sections[pos_sec]).attr('data-id'); }
+
+      if ($('#nav-link-'+ultima_dat_id).length != 0){
+        $('#navbarCollapse li a').removeClass('active-item');
+        $('#nav-link-'+ultima_dat_id).addClass('active-item');
+      }
+    }
+
+    function myFunction() {
   	  if (document.documentElement.scrollTop >= sticky -10) {
   		 navbar.classList.add("fixed-top");
   	  } else {
@@ -17,15 +37,17 @@ $( document ).ready(function() {
   	}
 
   	window.onscroll = function() {
-      if ($('#page-section-container').length == 0) {
+      if ($('.page-section-container').length == 0) {
   		    myFunction();
       }
+
+      setActiveClass();
   	};
 
-      $('body').off().on('click', '#navbarCollapse li a', function(){
-          $('#navbarCollapse li a').removeClass('active-item');
-          $(this).addClass('active-item');
-      })
+    $('body').off().on('click', '#navbarCollapse li a', function(){
+        $('#navbarCollapse li a').removeClass('active-item');
+        $(this).addClass('active-item');
+    });
 
 
   })(jQuery);

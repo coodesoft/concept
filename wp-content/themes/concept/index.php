@@ -20,13 +20,10 @@ get_header();
 ?>
 
 <section class="page_section" id="#home">
-  <div class="page_background" style=""></div>
-  <div class="page_cover"></div>
-
-	<div id="home" class="wrapper_page container">
+  <div id="home" class="wrapper_page container">
 
     <div class="home_image">
-			<div class="home_image_wrapper col-sm-3 col-8">
+			<div class="home_image_wrapper">
 				<img src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt="home page main image" />
 			</div>
 		</div>
@@ -44,7 +41,7 @@ get_header();
 
 <?php
   get_template_part( 'template-parts/header/main', 'menu' );
-  
+
   $args = ['post_type' => 'page', 'orderby' => 'menu_order', 'order' => 'ASC'];
   $query = new WP_Query( $args );
   $c =0;
@@ -56,7 +53,7 @@ get_header();
       $c++;
       $class_par = 'even'; if ($c % 2 == 0){ $class_par = 'odd'; }
       ?>
-      <section class="page_section <?php echo $class_par; ?>" id="<?php echo $query->post->post_name; ?>">
+      <section class="page_section <?php echo $class_par; ?>" id="<?php echo $query->post->post_name; ?>" data-id="<?php echo $query->post->post_name; ?>">
         <div id="explore_page" class="wrapper_page container">
       <?php the_content(); ?>
         </div>

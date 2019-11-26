@@ -53,11 +53,10 @@ p, .btn, .card-text { font-family:Comfortaa !important; }
 section.page_section {
   position: relative;
   min-height: 100vh;
-  padding-top: 97px;
-  padding-bottom: 127px;
 }
 .wrapper_page {
   position: relative;
+  padding-top: 97px;
   z-index: 120;
 }
 .page_background {
@@ -86,12 +85,12 @@ section.page_section {
   padding-top: 0vh;
 }
 .home_image {
-  padding-top: 14vh;
+  padding-top: 16vh;
   position: relative;
 }
 .home_image_wrapper {
   margin: auto;
-  height: 9vh;
+  width: 40vh; height: auto;
   display: flex;
   align-items: center;
 }

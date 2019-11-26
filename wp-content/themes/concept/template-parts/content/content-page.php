@@ -9,7 +9,7 @@
  get_header();
 ?>
 
-<section class="page_section odd" id="page-section-container">
+<section class="page_section odd page-section-container" data-id="<?php echo esc_html( get_the_title() ); ?>">
   <div id="explore_page" class="wrapper_page container">
 
 		<?php the_content(); ?>
@@ -17,4 +17,8 @@
 	</div>
 </section>
 
-<?php get_template_part( 'template-parts/header/main', 'menu' ); ?>
+<?php
+  $to_single = 'true';
+  set_query_var( 'to_single', $to_single );
+  get_template_part( 'template-parts/header/main', 'menu' );
+?>
