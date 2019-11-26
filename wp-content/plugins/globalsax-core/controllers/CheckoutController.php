@@ -64,10 +64,10 @@ class CheckoutController {
         $priceLists = null;
 
         if ( isset($_POST['sucursal']) )
-            $priceLists = ListaPreciosSucursal::getBySucursal($_POST['sucursal']);
+            $priceLists = ListaPrecios::getBySucursal($_POST['sucursal']);
 
         if ( isset($_POST['client']) )
-            $priceLists = ListaPreciosCliente::getByClientId($_POST['client']);
+            $priceLists = ListaPrecios::getByClientId($_POST['client']);
 
         if ( $priceLists && !empty($priceLists) ){
             $product_list = $this->_calculate($priceLists);
