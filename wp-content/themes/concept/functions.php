@@ -115,14 +115,7 @@ function concept_woo_cat_0($attr){
           <div class="col col-12 col-sm-5" style="padding-top: 65px;">
             <div class="row cont-prodcat-l" >';
 
-    $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
-    $all_categories = get_categories( $args );
-
-    //echo json_encode($all_categories);
-    foreach ($all_categories as $k => $v){
-      if ($v->parent == 0)
-          $html .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>'.$v->name.'</span></div></div>';
-    }
+    $html .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>Product name</span></div></div>';
 
     $html .= '</div>
           </div>
@@ -140,55 +133,50 @@ add_shortcode('concept_woo_cat_0', 'concept_woo_cat_0');
 function concept_woo_cat_1($attr){
 	$html = '<div class="container" style="padding-top: 50px;">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 title-cat">
           <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
         </div>
       </div>
       <div class="row">
         <div class="col col-sm-8 offset-2">
-          <div class="row">
-            <div class="col col-12 col-sm-4">
-              <div class="row">
-                <div class="col col-12 col-sm-11">
+          <div class="row">';
 
-                  <div class="card" style="width: 100%;">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p class="card-text">Categoría 1</p>
-                      <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                    </div>
-                  </div>
+          $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
+          $all_categories = get_categories( $args );
 
-                </div>
-              </div>
-            </div>
-            <div class="col col-12 col-sm-4">
+          //echo json_encode($all_categories);
+          $c = 1;
+          $style_par = '';
+          foreach ($all_categories as $k => $v){
+
+            if ($v->parent == 0){
+              if ($c % 2 == 0){  $style_par = 'margin-top: 68px;';  } else { $style_par = ''; }
+              $c++;
+
+              $thumbnail_id = get_woocommerce_term_meta( $v->term_id, 'thumbnail_id', true );
+              $image        = wp_get_attachment_url( $thumbnail_id );
+
+              $html .= '
+          <div class="col col-12 col-sm-4">
+            <div class="row">
               <div class="col col-12 col-sm-11">
 
-                <div class="card" style="width: 100%; margin-top:92px;">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
+                <div class="card category-card" style="width: 100%; '.$style_par.'">
+                  <div class="img-cont"> <img src="'.$image.'" class="card-img-top" alt="..."> </div>
                   <div class="card-body">
-                    <p class="card-text">Categoría 2</p>
-                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                    <p class="card-text text-center">'.$v->name.'</p>
+                    <a href="#" class="btn btn-primary col-12" style="color: #fdbd18; border-radius:11px; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
                   </div>
                 </div>
 
               </div>
             </div>
-            <div class="col col-12 col-sm-4">
-              <div class="col col-12 col-sm-11">
+          </div>';
+            }
 
-                <div class="card" style="width: 100%;">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">Categoría 3</p>
-                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                  </div>
-                </div>
+          }
 
-              </div>
-            </div>
-          </div>
+    $html .= '</div>
         </div>
       </div>
     </div>';

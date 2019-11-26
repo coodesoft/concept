@@ -8,6 +8,8 @@ html {
   margin-left: auto; margin-right: auto;
 }
 
+.title-cat {margin-bottom: 30px; }
+
 .prod-cont-1{
   position: relative;
   display: inline-block;
@@ -213,4 +215,20 @@ footer .social-icons a img { width:39px; height: auto;}
   color: #000;
   font-family: Comfortaa; font-size: 10px;
   position: absolute; right: 20px; bottom:5px;
+}
+
+.category-card{
+  border-radius: 0px;
+  border: 2px solid #808080;
+}
+
+.category-card .img-cont{
+  width: 100%;
+  padding:16px;
+  border-radius: 10px;
+}
+
+.category-card .card-text{
+  font-weight: bold;
+  font-size: 22px;
 }
