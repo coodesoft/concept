@@ -69,7 +69,7 @@ function gbs_cart($atts){
                             } 
                         ?>
                     </div>
-		</div>
+		        </div>
                     <div class="gsCartContent">
                         <?php echo CartResumeDOM::cart($products); ?>
                     </div>   
