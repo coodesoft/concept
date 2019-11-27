@@ -11,31 +11,28 @@ html {
 .title-cat {margin-bottom: 30px; }
 
 .prod-cont-1{
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  padding-top: 18px;
   font-size: 18px;
-  padding-left: 20px;
   border-left: 1px solid #333;
   border-right: 1px solid #333;
   border-bottom: 1px solid #333;
   font-family: Comfortaa;
   background-color: #FFF;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
-.cont-prodcat-l:first-child .prod-cont-1{
+.p-cont-sqr {  display: flex; }
+
+.cont-prodcat-l .prod-cont-1:first-child{
   border-top: 1px solid #333;
 }
 
 .square {
   position: relative;
-  width: 20px;
-  height: 20px;
+  width: 16px;  height: 16px;
   display: inline-block;
   border: 1px solid #333;
-  margin-right: 20px;
+  margin-right: 16px; margin-top: auto; margin-bottom: auto; margin-left: 33%;
 }
 
 /* FUENTES */

@@ -110,12 +110,33 @@ function concept_woo_cat_0($attr){
       </div>
     </div>
     <div class="row">
-      <div class="col col-12 col-sm-8 offset-2">
+      <div class="col col-12 col-sm-8 offset-sm-1">
         <div class="row">
           <div class="col col-12 col-sm-5" style="padding-top: 65px;">
             <div class="row cont-prodcat-l" >';
 
-    $html .= '<div class="col-12"><div class="prod-cont-1"><div class="square"></div><span>Product name</span></div></div>';
+      $query = new WP_Query( array(
+              'post_type' => 'product',
+              'post_status' => 'publish',
+              'posts_per_page' => -1 ,
+              'tax_query' => array( array(
+                  'taxonomy' => 'product_visibility',
+                  'field'    => 'term_id',
+                  'terms'    => 'featured',
+                  'operator' => 'IN',
+              ) )
+          ) );
+
+     if ( $query->have_posts() ): while ( $query->have_posts() ): $query->the_post();
+         $product = wc_get_product( $query->post->ID );
+
+         $html .= '<div class="col-12 prod-cont-1">
+                      <div class="row">
+                          <div class="col-2 p-cont-sqr p-0"><div class="square"></div> </div>
+                          <div class="col-10">'.$product->get_title().'</div>
+                      </div>
+                  </div>';
+     endwhile; wp_reset_query();endif;
 
     $html .= '</div>
           </div>
@@ -138,7 +159,7 @@ function concept_woo_cat_1($attr){
         </div>
       </div>
       <div class="row">
-        <div class="col col-sm-8 offset-2">
+        <div class="col col-sm-8 offset-sm-2">
           <div class="row">';
 
           $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
