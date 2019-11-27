@@ -9,7 +9,7 @@ var ListaPreciosDOM = (function($){
             let target      = params['target']
             let listas  = params['listas'];
 
-            let html = '<div id="listaPreciosSelection cuatrocol">';
+            let html = '<div class="listaPreciosSelection cuatrocol">';
 
             html += '<div>Seleccione la lista de precios:</div>';
             html += '<div id="listaPreciosList">';

@@ -13,7 +13,9 @@ require_once(__DIR__.'/../db/UserClientRelation.php');
 add_shortcode( 'gbs_cart_template', 'gbs_cart');
 function gbs_cart($atts){
 
-    if ( !is_admin() ){ ?>        
+    if ( !is_admin() ){
+        
+        ?>
 
         <div id="gbsCheckout">
             <form class="woocommerce-cart-form gbs-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
@@ -26,58 +28,35 @@ function gbs_cart($atts){
                     //obtengo el usuario
                     $user = wp_get_current_user(); ?>
                     <div class="order-owner trescol"> Pedido de: <?php echo $user->user_firstname ." ". $user->user_lastname ?></div>
-                        
                     <div class="gsSelectorContent">
-                       <?php 
+                        <?php
                             $clientes = UserClientRelation::getClientByUserId($user->ID);
                             $countClientes = count($clientes);
                             $checkoutController = new CheckoutController();            
 
-                            if ($countClientes > 1){ ?>
-                            
-                                <div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-                                <div class="sucursalTarget"></div>
-                                <div class="priceListTarget"></div>
-                                
-                                <?php $products = $checkoutController->_calculate();;
-                            
+                            if ($countClientes > 1){ 
+                                echo ClienteDOM::selector($clientes);
+                                echo SucursalDOM::selector();
+                                $products = $checkoutController->_calculate();;
                             } elseif ($countClientes == 1){ 
 
                                 $cliente = $clientes[0];
                                 $sucursales = Sucursal::getByClientId($cliente['id']);
                                 $countSucursales = count($sucursales);
 
-                                if ($countSucursales > 1){ ?>
-                                   
-                                    <div class="sucursalTarget"><?php SucursalDOM::selector($sucursales); ?></div>
-                                    <div class="priceListTarget"></div>
-                                    
-                                    <?php $products = $checkoutController->_calculate();
-                                                          
-                                } elseif ($countSucursales == 1){ 
+                                if ($countSucursales > 1){
+                                    echo SucursalDOM::selector($sucursales);
+                                    $products = $checkoutController->_calculate();;
+                                } elseif ($countSucursales == 1){
                                     $sucursal = $sucursales[0];
                                     $listas = ListaPrecios::getBySucursal($sucursal['id']);
-                                    $countListas = count($listas);
-                                    
-                                    if ($countListas>1){ ?>
-                                       
-                                        <div class="priceListTarget"><?php ListaPreciosDOM::selector($listas); ?></div>
-                                        
-                                        <?php $products = $checkoutController->_calculate();
-                                                        
-                                    } elseif ($countListas == 1){
-                                        $lista = $listas[0];
-                                        $products = $checkoutController->_calculate($lista);
-                                    }
+                                    $products = $checkoutController->_calculate($listas);
                                 } else{
                                     $listas = ListaPrecios::getByCliente($cliente['id']);
                                     $products = $checkoutController->_calculate($listas);
                                 }
-                            }
+                            } 
                         ?>
-                       
-                        
-                        
                     </div>
 		        </div>
                     <div class="gsCartContent">
