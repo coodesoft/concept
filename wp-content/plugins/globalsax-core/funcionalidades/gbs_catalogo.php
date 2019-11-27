@@ -176,15 +176,17 @@ add_action( 'wp_ajax_gbs_create_order', 'gbs_create_order' );
 function gbs_create_order(){
   $user = wp_get_current_user();
   parse_str($_POST['data'], $values);
+  parse_str($_POST['user'], $Serialized_client);
+
   $address = array(
 		'first_name' => $user->user_firstname,
 		'last_name'  => $user->user_lastname,
 		'email'      => $user->user_lastname,
 		'country'    => 'ARG'
 	 );
-  
+
   $order = wc_create_order(array('customer_id' => $user->ID));
-    
+
   $cartItems = WC()->cart->get_cart();
   foreach ($cartItems as $key => $item) {
     $quantity = $item['quantity'];
@@ -204,7 +206,8 @@ function gbs_create_order(){
 	// Calculate totals
 	$order->calculate_totals();
 	$status = $order->update_status('completed');
-  $ws_json = gbs_biuld_ws_object($user->ID, $values, $order);
+  $gs_client = $Serialized_client['cliente_id'];
+  $ws_json = gbs_biuld_ws_object($gs_client, $values, $order);
   $commonurl = get_user_meta(1, "url", true);
   $endpoint = $commonurl . "/api/Order";
   $send_data = array(
@@ -212,13 +215,13 @@ function gbs_create_order(){
     'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
     'body'        => json_encode($ws_json)
     );
-
   $result = wp_remote_post($endpoint, $send_data);
-  $values = array( 'cliente_id' => $user->ID,
+  $values = array( 'cliente_id' => $gs_client,
                    'resultado' => $result,
                    'json' => $ws_json,
                    'tipo' => 'pedido');
   $types = array( '%d', '%s', '%s', '%s' );
+
   global $woocommerce;
   $woocommerce->cart->empty_cart();
 
@@ -261,7 +264,7 @@ function gbs_biuld_ws_object($user_id, $adicionales, $order){
      'Order_id' => $order->get_order_number(),
      'Client_ID' => $adicionales['cliente_id'],
      'UserID' => $user_id,
-     'Fecha_emision' => date('d/m/Y'),
+     'Fecha_emision' => date('m/d/Y'),
      'Seller_id' => $seller_id,
      'UserAction' => $adicionales['pedido'],
      'Detail' =>  $detalle ,

@@ -77,6 +77,7 @@
       var data = {
         'action': 'gbs_create_order',
         'data' : $('form.gbs-cart-form').serialize(),
+        'user' : clienteSerialize,
       }
       $.post(ajaxurl, data, function(data){
         $('body').removeClass('gbs-progress');
