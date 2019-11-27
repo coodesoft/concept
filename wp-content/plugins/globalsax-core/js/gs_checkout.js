@@ -1,15 +1,28 @@
 (function($){
 
+
+    let resetPricesView = function(){
+        $('.price').html('0');
+        $('.total-price').html('0');
+    }
+
     let calculatePrices = function(params){
         let target = params['target'];
+
         if (target != undefined)
             $(target).empty();
+
         let data = {
             'lista_id' : params['list_id'],
             'action' : 'gs_calculate_prices_by_sucursal',
         };
 
+        resetPricesView();
+        $('body').addClass('loading-cursor');
+
         $.post(ajaxurl, data, function(response){
+            $('body').removeClass('loading-cursor');
+
             response = JSON.parse(response);
             let state = response['state'];
 
@@ -28,7 +41,6 @@
             let price = params[key]['price'];
             totalPrice = totalPrice + parseFloat(price);
 
-            console.log(price);
             $('#'+target+" .product-price .price").html('$'+price);
             $('.total-price').html('$'+totalPrice);
         }
@@ -48,7 +60,7 @@
                          { 'target' : '.priceListTarget', 'list_id' : response['data']['list_id'] } :
                          //state.MULTIPLE_PRICELIST
                          { 'target' : '.priceListTarget', 'listas' : response['data'] };
-            console.log(response['state']);
+
             register.notify(response['state'], params);
         });
     }
@@ -58,10 +70,14 @@
     let state = State.getInstance();
 
     register.subscribe(state.LIST_SUCURSALES, SucursalDOM.getInstance().selector);
-    register.subscribe(state.MULTIPLE_PRICELIST, ListaPreciosDOM.getInstance().selector);
-    register.subscribe(state.SINGLE_PRICELIST, calculatePrices);
-    register.subscribe(state.UPDATE_PRICELIST, updatePriceView);
+
     register.subscribe(state.NO_SUCURSALES, loadListasPreciosByClient);
+
+    register.subscribe(state.MULTIPLE_PRICELIST, ListaPreciosDOM.getInstance().selector);
+
+    register.subscribe(state.SINGLE_PRICELIST, calculatePrices);
+
+    register.subscribe(state.UPDATE_PRICELIST, updatePriceView);
 
 
     // se cargan las sucursales dependiendo de la seleccion del cliente.
@@ -71,12 +87,18 @@
 	       'action' : 'gs_load_sucursales',
         };
 
-        $.post(ajaxurl, data, function(response){
-            response = JSON.parse(response);
+        $('.sucursalTarget').empty();
+        $('.priceListTarget').empty();
+        $('body').addClass('loading-cursor');
+        resetPricesView();
 
+        $.post(ajaxurl, data, function(response){
+            $('body').removeClass('loading-cursor');
+
+            response = JSON.parse(response);
             let params = (response['state'] == state.LIST_SUCURSALES) ?
                          { 'target' : '.sucursalTarget', 'sucursales' : response['data'] } :
-                         { 'targets' : ['.sucursalTarget', '.priceListTarget'], 'client' : data['client'] } ;
+                         { 'client' : data['client'] } ;
 
             register.notify( response['state'], params );
 
@@ -91,7 +113,12 @@
             'action': 'gs_load_pricelist_by_sucursal',
         };
 
+        $('.priceListTarget').empty();
+        $('body').addClass('loading-cursor');
+        resetPricesView();
+
         $.post(ajaxurl, data, function(response){
+            $('body').removeClass('loading-cursor');
             response = JSON.parse(response);
 
             let params = (response['state'] == state.SINGLE_PRICELIST) ?
