@@ -77,7 +77,7 @@ class GLOBALSAX_Plugin_Base {
 
         wp_register_script('globalsax-gs-register', plugins_url('/js/gs_register.js', __FILE__), array('globalsax-script'), '1.0', true);
         wp_enqueue_script('globalsax-gs-register');
-        
+
         wp_register_script('globalsax-gs-dom-sucursal', plugins_url('/js/dom/sucursal.js', __FILE__), array('globalsax-script'), '1.0', true);
         wp_enqueue_script('globalsax-gs-dom-sucursal');
 
@@ -86,10 +86,10 @@ class GLOBALSAX_Plugin_Base {
 
         wp_register_script('globalsax-gs-dom-cart', plugins_url('/js/dom/cart.js', __FILE__), array('globalsax-script'), '1.0', true);
         wp_enqueue_script('globalsax-gs-dom-cart');
-        
+
         wp_register_script('globalsax-gs-checkout', plugins_url('/js/gs_checkout.js', __FILE__), array('globalsax-script'), '1.0', true);
         wp_enqueue_script('globalsax-gs-checkout');
-        
+
     }
 
     /**
@@ -198,7 +198,7 @@ function globalsax_on_activate_callback() {
     require_once('db/Clientes.php');
     require_once('db/UserClientRelation.php');
 
-    
+
     ListaPrecios::createTable();
     PreciosProductos::createTable();
     Sucursal::createTable();
@@ -238,12 +238,12 @@ add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
     require_once("util/State.php");
     require_once("util/Requester.php");
-    
+
     require_once("filter/Filter.php");
     require_once("filter/ListaPreciosCriteria.php");
     require_once("filter/ClientesCriteria.php");
     require_once("filter/PrecioProductoCriteria.php");
-    
+
     require_once('db/ListaPrecios.php');
     require_once('db/PreciosProductos.php');
     require_once('db/Sucursal.php');
@@ -251,11 +251,11 @@ function cargar_funcionalidades() {
     require_once('db/ListaPreciosSucursal.php');
     require_once('db/Clientes.php');
     require_once('db/UserClientRelation.php');
-    
+
     require_once('controllers/ListaPreciosController.php');
     require_once('controllers/ClientesController.php');
     require_once('controllers/CheckoutController.php');
-    
+
 	require_once("funcionalidades/test.php");
 	require_once("funcionalidades/sincronizarProductos.php");
 	require_once("funcionalidades/sincronizarClientes.php");
@@ -264,10 +264,11 @@ function cargar_funcionalidades() {
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
     require_once("funcionalidades/gbs_catalogo.php");
-    
+
     require_once("templates/components/SucursalDOM.php");
     require_once("templates/components/CartResumeDOM.php");
     require_once("templates/components/ClienteDOM.php");
+    require_once("templates/components/ListaPreciosDOM.php");
     require_once("templates/cart.php");
 }
 
