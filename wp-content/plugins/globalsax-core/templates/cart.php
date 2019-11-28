@@ -45,7 +45,7 @@ function gbs_cart($atts){
                             $checkoutController = new CheckoutController();
 
                             if ($countClientes > 1){
-                                $products = $checkoutController->_calculate();;
+                                $products = $checkoutController->_calculate();
                             } elseif ($countClientes == 1){
 
                                 $cliente = $clientes[0];
@@ -62,7 +62,9 @@ function gbs_cart($atts){
                                     $listas = ListaPrecios::getByCliente($cliente['id']);
                                     $products = $checkoutController->_calculate($listas);
                                 }
-                            }
+                            } else{
+																$products = $checkoutController->_calculate();
+														}
                         ?>
 											<div class="gsSelectorContent">
 												<div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
