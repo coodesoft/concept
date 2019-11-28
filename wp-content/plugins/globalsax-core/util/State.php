@@ -6,6 +6,8 @@ class State {
     const NO_SUCURSALES        = '10000';
       
     const LIST_SUCURSALES      = '10001';
+    
+    const SINGLE_SUCURSAL      = '10002';
       
     const SINGLE_PRICELIST     = '20000';
       

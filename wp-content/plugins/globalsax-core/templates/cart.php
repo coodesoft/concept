@@ -27,81 +27,61 @@ function gbs_cart($atts){
                     $user = wp_get_current_user(); ?>
                     <div class="order-owner trescol"> Pedido de: <?php echo $user->user_firstname ." ". $user->user_lastname ?></div>
 
-                    <div class="gsSelectorContent">
                        <?php
                             $clientes = UserClientRelation::getClientByUserId($user->ID);
                             $countClientes = count($clientes);
                             $checkoutController = new CheckoutController();
 
-                            if ($countClientes > 1){ ?>
+                            if ($countClientes > 1)
+                                
+                                $products = $checkoutController->_calculate();
 
-                                <div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-                                <div class="sucursalTarget"></div>
-                                <div class="priceListTarget"></div>
-
-                                <?php $products = $checkoutController->_calculate();;
-
-                            } elseif ($countClientes == 1){
+                            elseif ($countClientes == 1){
 
                                 $cliente = $clientes[0];
                                 $sucursales = Sucursal::getByClientId($cliente['id']);
                                 $countSucursales = count($sucursales);
 
-                                if ($countSucursales > 1){
-																	throw new Exception("Error Processing Request", 1);
+                                if ($countSucursales > 1)
+                                    
+                                    $products = $checkoutController->_calculate();
 
-																	?>
-
-																		<div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-  																	<div class="sucursalTarget"><?php SucursalDOM::selector($sucursales); ?></div>
-                                    <div class="priceListTarget"></div>
-
-                                    <?php $products = $checkoutController->_calculate();
-
-                                } elseif ($countSucursales == 1){
+                                elseif ($countSucursales == 1){
                                     $sucursal = $sucursales[0];
 
                                     $listas = ListaPrecios::getBySucursal($sucursal['id']);
-                                    $countListas = count($listas);
+                                    $countListas = count($listas); 
+                                    
+                                    if ($countListas>1)
+                                        
+                                        $products = $checkoutController->_calculate();
 
-                                    if ($countListas>1){ ?>
-
-																				<div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-	  																		<div class="sucursalTarget"><?php SucursalDOM::selector($sucursales); ?></div>
-                                        <div class="priceListTarget"><?php ListaPreciosDOM::selector($listas); ?></div>
-
-                                        <?php $products = $checkoutController->_calculate();
-
-                                    } elseif ($countListas == 1){
+                                    elseif ($countListas == 1){
                                         $lista = $listas[0];
                                         $products = $checkoutController->_calculate($lista['list_id']);
                                     }
+                                    
                                 } else{
                                     $listas = ListaPrecios::getByCliente($cliente['id']);
-																		$countListas = count($listas);
+                                    $countListas = count($listas);
 
-																		if ($countListas > 1){ ?>
+                                    if ($countListas > 1)
+                                    
+                                        $products = $checkoutController->_calculate();
 
-																			<div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-																			<div class="sucursalTarget"><?php SucursalDOM::selector($sucursales); ?></div>
-																			<div class="priceListTarget"><?php ListaPreciosDOM::selector($listas); ?></div>
-
-																			<?php $products = $checkoutController->_calculate();
-
-																		} elseif ($countListas == 1){ ?>
-																			<div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
-																			<div class="sucursalTarget"><?php SucursalDOM::selector($sucursales); ?></div>
-																			<div class="priceListTarget"><?php ListaPreciosDOM::selector($listas); ?></div>
-
-																			<?php $lista = $listas[0];
-																			$products = $checkoutController->_calculate($lista['list_id']);
-																		} else
-																			$products = $checkoutController->_calculate();
-
-
+                                    elseif ($countListas == 1){
+                                        $lista = $listas[0];
+										$products = $checkoutController->_calculate($lista['list_id']);
+									} else
+                                        $products = $checkoutController->_calculate();
                                 }
                             }
                         ?>
+                    <div class="gsSelectorContent">
+                        <div class="clienteTarget"> <?php ClienteDOM::selector($clientes); ?> </div>
+                        <div class="sucursalTarget"><?php isset($sucursales) ? SucursalDOM::selector($sucursales) : '';?></div>
+                        <div class="priceListTarget"><?php isset($listas) ? ListaPreciosDOM::selector($listas): '' ?></div>
+
                     </div>
 		        	</div>
                     <div class="gsCartContent">

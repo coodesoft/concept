@@ -7,7 +7,9 @@ var State = (function($){
 
       self.NO_SUCURSALES        = '10000';
 
-      self.LIST_SUCURSALES      = '10001'
+      self.LIST_SUCURSALES      = '10001';
+      
+      self.SINGLE_SUCURSAL      = '10002';
 
       self.SINGLE_PRICELIST     = '20000';
 

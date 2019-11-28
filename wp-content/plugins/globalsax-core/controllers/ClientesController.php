@@ -124,10 +124,15 @@ class ClientesController {
     public function loadSucursales(){
         if (isset($_POST['client'])){
             $sucursales = Sucursal::getByClientId($_POST['client']);
-
             $count = count($sucursales);
-            $return = $count > 1 ? [ 'state' => State::LIST_SUCURSALES, 'data'  => $sucursales ] :
-                               [ 'state' => State::NO_SUCURSALES, 'data'  => null ];
+
+            if ($count > 1){
+                $return = [ 'state' => State::LIST_SUCURSALES, 'data'  => $sucursales ];
+            } elseif ($count == 1){
+                $return = [ 'state' => State::SINGLE_SUCURSAL, 'data'  => $sucursales[0] ];
+            } else{
+                $return = [ 'state' => State::NO_SUCURSALES, 'data'  => null ];
+            }
         } else
             $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
 
@@ -139,9 +144,15 @@ class ClientesController {
         if (isset($_POST['client'])){
             $priceLists = ListaPrecios::getByCliente($_POST['client']);
             $count = count($priceLists);
+                                   
+            if ($count>1){
+                $return = [ 'state' => State::MULTIPLE_PRICELIST, 'data'  => $priceLists ];
+            } elseif ($count == 1){
+                $return = [ 'state' => State::SINGLE_PRICELIST, 'data'  => $priceLists[0] ];
+            } else{
+                $return = [ 'state' => State::NO_PRICELIST, 'data' => null ];
+            }
             
-            $return = $count > 1 ? [ 'state' => State::MULTIPLE_PRICELIST, 'data'  => $priceLists ] :
-                                   [ 'state' => State::SINGLE_PRICELIST, 'data'  => $priceLists[0] ];
         } else
             $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
         

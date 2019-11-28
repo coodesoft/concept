@@ -27,8 +27,20 @@ var ListaPreciosDOM = (function($){
             $(target).html(html);
         }
 
-        self.noListaPrecios = () => {
-            return '<input type="hidden" name="sucursal" value="gbs_noSucursal">'
+        self.input = (params) => {
+            
+            let target = params['target']
+            let lista  = params['list'];
+            
+            let html = '<div class="listaPreciosList cuatrocol">';
+            
+            html += '<div>Lista de precios:</div>';
+            html += '<input type="text" disabled value="'+lista['list_id']+'" name="pricelist_name">';
+            html += '<input type="hidden" value="'+lista['name']+'" name="priceList">';
+            html += '</div>';
+            
+            $(target).html(html);
+        
         }
     }
 

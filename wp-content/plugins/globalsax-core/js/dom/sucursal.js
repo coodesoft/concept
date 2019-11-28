@@ -29,8 +29,20 @@ var SucursalDOM = (function($){
             $(target).html(html);                    
         }
     
-        self.noSucursal = () => {
-            return '<input type="hidden" name="sucursal" value="gbs_noSucursal">'
+        self.input = (params) => {
+            let target = params['target'];
+            let sucursal = params['sucursal'];
+            
+            let html = '<div class="sucursalesList cuatrocol">';
+            
+            html += '<div>Sucursal:</div>';
+            html += '<input type="text" disabled value="'+sucursal['id']+'" name="sucursal_name">';
+            html += '<input type="hidden" value="'+sucursal['sucursal']+'" name="sucursal">';
+            html += '</div>';
+              
+            $(target).html(html);
+          
+            
         }        
     }
     

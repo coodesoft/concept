@@ -13,7 +13,7 @@
             $(target).empty();
 
         let data = {
-            'lista_id' : params['list_id'],
+            'lista_id' : params['list']['list_id'],
             'action' : 'gs_calculate_prices_by_sucursal',
         };
 
@@ -46,24 +46,42 @@
         }
     }
 
+    let updatePriceListState = (response) => {
+        switch (response['state']){
+            case state.SINGLE_PRICELIST:
+                params = { 'target' : '.priceListTarget', 'list' : response['data'] };
+                break;
+            case state.MULTIPLE_PRICELIST:
+                params = { 'target' : '.priceListTarget', 'listas' : response['data'] };
+                break;
+        }
 
+        register.notify(response['state'], params);
+    }
+    
     let loadListasPreciosByClient = function(params){
         let data = {
             'client' : params['client'],
             'action' : 'gs_load_pricelist_by_client',
         };
-
+        $.post(ajaxurl, data, function(response){
+            response = JSON.parse(response);
+            updatePriceListState(response);
+       }); 
+    }
+    
+    let loadListasPreciosBySucursal = function(params){
+        let data = {
+            'sucursal' : params['sucursal']['id'],
+            'action' : 'gs_load_pricelist_by_sucursal',
+        };
 
         $.post(ajaxurl, data, function(response){
             response = JSON.parse(response);
-            let params = (response['state'] == state.SINGLE_PRICELIST) ?
-                         { 'target' : '.priceListTarget', 'list_id' : response['data']['list_id'] } :
-                         //state.MULTIPLE_PRICELIST
-                         { 'target' : '.priceListTarget', 'listas' : response['data'] };
-
-            register.notify(response['state'], params);
-        });
+            updatePriceListState(response);
+       }); 
     }
+
 
 
     let register = Register.getInstance();
@@ -71,12 +89,16 @@
 
     register.subscribe(state.LIST_SUCURSALES, SucursalDOM.getInstance().selector);
 
+    register.subscribe(state.SINGLE_SUCURSAL, SucursalDOM.getInstance().input);
+    register.subscribe(state.SINGLE_SUCURSAL, loadListasPreciosBySucursal);
+
     register.subscribe(state.NO_SUCURSALES, loadListasPreciosByClient);
 
     register.subscribe(state.MULTIPLE_PRICELIST, ListaPreciosDOM.getInstance().selector);
 
     register.subscribe(state.SINGLE_PRICELIST, calculatePrices);
-
+    register.subscribe(state.SINGLE_PRICELIST, ListaPreciosDOM.getInstance().input);
+    
     register.subscribe(state.UPDATE_PRICELIST, updatePriceView);
 
 
@@ -96,10 +118,19 @@
             $('body').removeClass('loading-cursor');
 
             response = JSON.parse(response);
-            let params = (response['state'] == state.LIST_SUCURSALES) ?
-                         { 'target' : '.sucursalTarget', 'sucursales' : response['data'] } :
-                         { 'client' : data['client'] } ;
-
+            let params;
+                         
+            switch (response['state']){
+                case state.LIST_SUCURSALES:
+                    params = { 'target' : '.sucursalTarget', 'sucursales' : response['data'] };
+                    break;
+                case state.SINGLE_SUCURSAL:
+                    params = { 'target' : '.sucursalTarget', 'sucursal' : response['data'] };
+                    break;
+                case state.NO_SUCURSALES:
+                    params = { 'client' : data['client'] };
+            }
+            
             register.notify( response['state'], params );
 
         });
@@ -119,20 +150,15 @@
 
         $.post(ajaxurl, data, function(response){
             $('body').removeClass('loading-cursor');
+
             response = JSON.parse(response);
-
-            let params = (response['state'] == state.SINGLE_PRICELIST) ?
-                         { 'target' : '.priceListTarget', 'list_id' : response['data']['list_id'] } :
-                         //state.MULTIPLE_PRICELIST
-                         { 'target' : '.priceListTarget', 'listas' : response['data'] };
-
-            register.notify(response['state'], params);
+            updatePriceListState(response);
         });
     });
 
     $('#gbsCheckout').on('change',  '#selectListaPrecios', function(){
          var data = {
-            'list_id': this.value,
+            'list': {list_id: this.value},
         };
         register.notify(state.SINGLE_PRICELIST, data);
     });
