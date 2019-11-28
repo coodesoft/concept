@@ -85,14 +85,14 @@ class ListaPrecios extends GSModel{
           throw new Exception("Se produjo un error al borrar una lista. Error de validación en el parámetro", 1);
     }
 
-    
+
     static function getBySucursal($id){
         if (isset($id) && is_numeric($id))
             return ListaPreciosSucursal::getBySucursal($id);
         else
             throw new Exception('ListPrecios - getBySucursal - error de validación en parámetros', 1);
     }
-    
+
     static function getByCliente($id){
         if (isset($id) && is_numeric($id))
             return ListaPreciosCliente::getByClientId($id);

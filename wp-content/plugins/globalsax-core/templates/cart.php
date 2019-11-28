@@ -53,7 +53,7 @@ function gbs_cart($atts){
                                 $countSucursales = count($sucursales);
 
                                 if ($countSucursales > 1){
-                                    $products = $checkoutController->_calculate();;
+                                    $products = $checkoutController->_calculate();
                                 } elseif ($countSucursales == 1){
                                     $sucursal = $sucursales[0];
                                     $listas = ListaPrecios::getBySucursal($sucursal['id']);

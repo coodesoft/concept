@@ -62,20 +62,23 @@ class CheckoutController {
 
     public function calculateBK(){
         $priceLists = null;
+        try {
+          if ( isset($_POST['sucursal']) )
+              $priceLists = ListaPrecios::getBySucursal(intval($_POST['sucursal']));
 
-        if ( isset($_POST['sucursal']) )
-            $priceLists = ListaPrecios::getBySucursal($_POST['sucursal']);
+          if ( isset($_POST['client']) )
+              $priceLists = ListaPrecios::getByCliente(intval($_POST['client']));
 
-        if ( isset($_POST['client']) )
-            $priceLists = ListaPrecios::getByClientId($_POST['client']);
+          if ( $priceLists && !empty($priceLists) ){
+              $product_list = $this->_calculate($priceLists);
 
-        if ( $priceLists && !empty($priceLists) ){
-            $product_list = $this->_calculate($priceLists);
+              $return =  ['state' => State::UPDATE_PRICELIST, 'data' => $product_list];
+          } else
+               $return = ['state' => State::PARAM_ERROR, 'data' => null];
 
-            $return =  ['state' => State::UPDATE_PRICELIST, 'data' => $product_list];
-        } else
-             $return = ['state' => State::PARAM_ERROR, 'data' => null];
-
+        } catch (Exception $e){
+          $return = ['state' => State::PARAM_ERROR, 'data' => null];
+        }
         echo json_encode($return);
         wp_die();
     }
