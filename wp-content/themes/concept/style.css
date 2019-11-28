@@ -56,6 +56,7 @@ section.page_section {
 .wrapper_page {
   position: relative;
   padding-top: 97px;
+  padding-bottom: 97px;
   z-index: 120;
 }
 .page_background {
@@ -216,14 +217,19 @@ footer .social-icons a img { width:39px; height: auto;}
 
 .category-card{
   border-radius: 0px;
-  border: 2px solid #808080;
+  border: 1px solid #808080;
+  padding: 15px; 
 }
 
-.category-card .img-cont{
+.category-card .img-cont-square{
   width: 100%;
   padding:16px;
   border-radius: 10px;
+  display: flex;
+  overflow: hidden;
 }
+
+.category-card .v-center{ margin-top: auto; margin-bottom: auto; }
 
 .category-card .card-text{
   font-weight: bold;

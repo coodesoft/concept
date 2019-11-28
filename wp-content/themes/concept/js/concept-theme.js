@@ -7,8 +7,9 @@ $( document ).ready(function() {
 
     if ($('.page-section-container').length == 0) {
       myFunction();
-    } 
+    }
     setActiveClass();
+    resize_images();
 
     function setActiveClass(){
       let sections = $('section');
@@ -51,4 +52,17 @@ $( document ).ready(function() {
 
 
   })(jQuery);
+
+  function resize_images(){
+    let obj = $('.img-cont-square');
+    
+    for (let c=0; c<obj.length; c++){
+      let o = $(obj[c]);
+      o.css('height',o.css('width'));
+    }
+  }
+
+  $( window ).resize(function() {
+   resize_images();
+  });
 });
