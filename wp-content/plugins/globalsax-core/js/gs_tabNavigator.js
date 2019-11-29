@@ -1,0 +1,276 @@
+var TabNavigator = (function($){
+
+    var instance;
+
+    function TabNavigator(){
+
+
+        let self = this;
+
+        let _root;
+
+        let _products;
+
+        let _inputs;
+
+        let _submitButton;
+
+        let _actualInputFocusIndex = 0;
+
+        let _actualProductFocusIndex = 0;
+
+        let _variationLoadFlag = true;
+
+
+        let _resetInputs = () => _inputs = [];
+
+        let _updateInputs = () => {
+            _actualInputFocusIndex = 0;
+            _inputs = document.querySelectorAll('#gbsAddVariationToCartForm input[type="number"]');
+        }
+
+        let _updateSubmitButton = () => _submitButton = document.getElementById('gbsAddVariationToCartButton');
+
+        let _updateProducts = () => {
+            _actualProductFocusIndex = 0;
+            _products = document.querySelectorAll('#gbs_productos_list li.product');
+        }
+
+
+        let _getNextFocusableInput = () => {
+
+            if (_actualInputFocusIndex < _inputs.length){
+                _inputs[_actualInputFocusIndex].focus();
+
+                if (_actualInputFocusIndex>0)
+                    _inputs[_actualInputFocusIndex-1].blur();
+
+                let input = _inputs[_actualInputFocusIndex];
+                _actualInputFocusIndex++;
+                return input;
+            } else{
+                 _inputs[_actualInputFocusIndex-1].blur();
+            }
+
+            return null;
+        }
+
+        let _getNextFocusableProduct = () => {
+            if (_actualProductFocusIndex < _products.length){
+                let product =  _products[_actualProductFocusIndex];
+                _actualProductFocusIndex++;
+                return product;
+            } else
+                return null;
+        }
+
+        let _focusAddVariationToCartButton = () => _submitButton.focus();
+
+        let _blurFocusAddVariationToCartButton = () => _submitButton.blur();
+
+        let _isAddVariationToCartButtonFocused = () => {
+            return document.activeElement == _submitButton;
+        };
+
+        let _changeVariationLoadFlag = () => {
+            _variationLoadFlag = !_variationLoadFlag;
+        }
+
+        let _getVariationLoadFlag = () => {
+            return _variationLoadFlag;
+        }
+
+
+        let _loadContentCallback = function(form, action, target, callback){
+            var data = {
+              'data': $(form).serialize(),
+              'action': action,
+            }
+
+            $.post(ajaxurl, data, function(data){
+                $(target).html(data);
+                $('body').removeClass('gbs-progress');
+
+                if (callback != undefined)
+                  callback(data);
+            });
+        }
+
+        let _loadVariationTable = function(id, self, callback){
+            var data = {
+              'product_id': id,
+              'action': 'gbs_load_variations',
+            }
+            _changeVariationLoadFlag();
+            $.post(ajaxurl, data, function(data){
+
+                // se limpia el contenido previamente cargado y el estilo.
+                $('.product-variations').empty();
+                $('.product-description').removeClass('active');
+                $('.product-type').css('margin-bottom', "");
+                $('#variation-'+id).removeClass('visible');
+                // se agrega la variaci贸n actualmente solicitada
+                $('#variation-'+id).html(data);
+                $('#variation-'+id).addClass('visible');
+                $('.gbs_data input').first().focus();
+
+                //se setea el estilo del actual producto y su variaci贸n
+                $(self).addClass('active');
+
+                let variationHeight = $('#variation-'+id).height() + 10;
+                let productContainerWidht = $('#gbs_productos_list .products').width() - 20;
+                let offset = $(self).parent().position().left;
+
+
+                $(self).parent().css('margin-bottom', variationHeight);
+                $('#variation-'+id).css('width', productContainerWidht);
+                $('#variation-'+id).css('left', -offset);
+
+
+                $('body').removeClass('gbs-progress');
+
+                 if (callback != undefined)
+                  callback(data);
+
+                _updateInputs();
+                _updateSubmitButton();
+                _changeVariationLoadFlag();
+
+                _getNextFocusableInput();
+
+            });
+        }
+
+        let _sendContent = function(form, action, target, callback){
+            var data = {
+              'data': $(form).serialize(),
+              'action': action,
+            }
+
+            $.post(ajaxurl, data, function(data){
+              data = JSON.parse(data);
+
+              if (target instanceof jQuery)
+                target.html(data['variations-added']);
+              else
+                $(target).html(data['variations-added']);
+
+              $('body').removeClass('gbs-progress');
+              if (callback != undefined)
+                callback(data);
+            });
+          }
+
+
+        let _init = () => {
+            _updateProducts();
+        }
+
+
+        self.configure = (root) => {
+            _root = root;
+
+            document.addEventListener('keydown', function(e) {
+
+                if (e.which == 9){
+                    console.log('presionaste la tecla TAB');
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (_getVariationLoadFlag() == true){
+                        let inputFocus = _getNextFocusableInput();
+                        if (inputFocus == null){
+
+                            if ( !_isAddVariationToCartButtonFocused() )
+                                _focusAddVariationToCartButton();
+                            else{
+                                _blurFocusAddVariationToCartButton();
+                                let product = _getNextFocusableProduct();
+
+                                if (product){
+                                    let id = product.getAttribute('data-product');
+                                    _loadVariationTable(id, product);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                if (e.which == 13){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if ( _isAddVariationToCartButtonFocused() ){
+                        let form = $('#gbsAddVariationToCartForm').submit();
+                        _blurFocusAddVariationToCartButton();
+                        let product = _getNextFocusableProduct();
+
+                        if (product){
+                            let id = product.getAttribute('data-product');
+                            _loadVariationTable(id, product);
+                        }
+                    }
+
+                }
+
+            });
+        }
+
+        self.run = () => {
+
+            $(_root).off().on('change', '#selectCategoryForm select', function(){
+
+                $('body').addClass('gbs-progress');
+                _loadContentCallback(this, 'gbs_get_products_by_category', '#gbs_productos_list', function(){
+                    _init();
+                    let firstProduct = _getNextFocusableProduct();
+                    let id = firstProduct.getAttribute('data-product');
+                    _loadVariationTable(id, firstProduct);
+
+                });
+            });
+
+            /*
+            $(_root).on('click', 'li.product .product-description', function(){
+                $('body').addClass('gbs-progress');
+
+                let id = $(this).parent().data('product');
+                _loadVariationTable(id, this);
+
+            });
+            */
+
+            $(_root).on('submit', '#gbsAddVariationToCartForm', function(e){
+                  e.preventDefault();
+                  e.stopPropagation();
+                  $('body').addClass('gbs-progress');
+                  let self = this;
+                  let target = $(this).closest('.product-type').find('span.qty');
+                  _sendContent(this, 'gbs_add_variations_to_cart', target, function(data){
+                    let parent = $(self).closest('.product-variations');
+                    parent.empty();
+                    parent.removeClass('visible');
+                    parent.css('width', "");
+                    parent.css('left', "");
+
+                    let producto = parent.closest('.product-type');
+                    producto.css('margin-bottom', "");
+
+                  });
+            });
+
+        }
+    }
+
+    return {
+        getInstance: function(root){
+            if (!instance)
+                instance = new TabNavigator();
+            instance.configure(root);
+            return instance;
+        }
+    }
+
+
+
+})(jQuery);
