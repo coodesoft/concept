@@ -51,10 +51,7 @@ var TabNavigator = (function($){
                 _inputs[_actualInputFocusIndex].focus();
                 let input = _inputs[_actualInputFocusIndex];
                 return input;
-            } else{
-                 _inputs[_actualInputFocusIndex-1].blur();
             }
-
             return null;
         }
 
@@ -122,7 +119,7 @@ var TabNavigator = (function($){
 
                 // se limpia el contenido previamente cargado y el estilo.
                 $('.product-variations').empty();
-                $('.product-description').removeClass('active');
+                $('.product').removeClass('active');
                 $('.product-type').css('margin-bottom', "");
                 $('#variation-'+id).removeClass('visible');
                 // se agrega la variaci贸n actualmente solicitada
@@ -185,7 +182,6 @@ var TabNavigator = (function($){
 
         self.configure = (root) => {
             _root = root;
-            console.log(_actualInputFocusIndex);
 
             document.addEventListener('keydown', function(e) {
 
@@ -200,8 +196,6 @@ var TabNavigator = (function($){
                         _focusActualInput();
                       }
 
-                      console.log(_actualInputFocusIndex);
-                      console.log(document.activeElement);
                     }
                   } else if (e.which == 9){
 
@@ -210,8 +204,7 @@ var TabNavigator = (function($){
 
                     if (_getVariationLoadFlag() == true){
                         let inputFocus = _getNextFocusableInput();
-                        console.log(_actualInputFocusIndex);
-                        console.log(document.activeElement);
+
                         if (inputFocus == null){
 
                             if ( !_isAddVariationToCartButtonFocused() )
