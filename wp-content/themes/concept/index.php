@@ -54,7 +54,7 @@ get_header();
       $class_par = 'even'; if ($c % 2 == 0){ $class_par = 'odd'; }
       ?>
       <section class="page_section <?php echo $class_par; ?>" id="<?php echo $query->post->post_name; ?>" data-id="<?php echo $query->post->post_name; ?>">
-        <div id="explore_page" class="wrapper_page container">
+        <div id="explore_page" class="wrapper_page">
       <?php the_content(); ?>
         </div>
       </section>

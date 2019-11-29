@@ -3,7 +3,7 @@
  * Displays the footer widget area
  *
  * @package WordPress
- * @subpackage Concept
+ * @subpackage Twenty_Nineteen
  * @since 1.0.0
  */
 

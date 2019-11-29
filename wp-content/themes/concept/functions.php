@@ -152,53 +152,49 @@ function concept_woo_cat_0($attr){
 add_shortcode('concept_woo_cat_0', 'concept_woo_cat_0');
 
 function concept_woo_cat_1($attr){
-	$html = '<div class="container" style="padding-top: 50px;">
+	$html = '<div class="col-12" style="padding-top: 50px;">
       <div class="row">
         <div class="col-12 title-cat">
-          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
+          <div class="text-center" style="position: relative;"><h3>Productos</h3><div class="borde-inf"></div></div>
         </div>
       </div>
-      <div class="row">
-        <div class="col col-sm-8 offset-sm-2">
-          <div class="row">';
 
-          $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
-          $all_categories = get_categories( $args );
-
-          //echo json_encode($all_categories);
-          $c = 1;
-          $style_par = '';
-          foreach ($all_categories as $k => $v){
-
-            if ($v->parent == 0){
-              if ($c % 2 == 0){  $style_par = 'margin-top: 68px;';  } else { $style_par = ''; }
-              $c++;
-
-              $thumbnail_id = get_woocommerce_term_meta( $v->term_id, 'thumbnail_id', true );
-              $image        = wp_get_attachment_url( $thumbnail_id );
-
-              $html .= '
-          <div class="col col-12 col-sm-4">
-            <div class="row">
-              <div class="col col-12 col-sm-11">
-
-                <div class="card category-card" style="width: 100%; '.$style_par.'">
-                  <div class="img-cont"> <img src="'.$image.'" class="card-img-top" alt="..."> </div>
-                  <div class="card-body">
-                    <p class="card-text text-center">'.$v->name.'</p>
-                    <a href="#" class="btn btn-primary col-12" style="color: #fdbd18; border-radius:11px; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                  </div>
+      <div class="row product-zone">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+          <div class="row">
+            <div class="col-12 categories-pr-view">
+              <div class="row">
+                <div class="col-12 title-cat">
+                  <div class="text-center" style="position: relative;"><h3>Categorías</h3><div class="borde-inf"></div></div>
                 </div>
-
               </div>
-            </div>
-          </div>';
-            }
 
-          }
+              <div class="row">';
+
+              $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
+              $all_categories = get_categories( $args );
+
+              foreach ($all_categories as $k => $v){
+
+                if ($v->parent == 0){
+                $html .= '<div class="col-12 prod-cat-prview">
+                             <div class="row">
+                                <div clas="col-12">
+                                  <a href="'.get_term_link( $v->term_id, 'product_cat' ).'" ><span>'.$v->name.'</span>('.$v->count.')<span></span></a>
+                                </div>
+                             </div>
+                         </div>';
+                }
+
+              }
 
     $html .= '</div>
+          </div>
         </div>
+      </div>
+
+      <div class="col-12 col-sm-8 col-md-9 col-lg-10">
+        '.do_shortcode( '[products][/products]' ).'
       </div>
     </div>';
 
@@ -210,60 +206,179 @@ add_shortcode('concept_woo_cat_1', 'concept_woo_cat_1');
 
 function concept_contact($attr){
 	$html = '<div class="container" style="padding-top: 50px;">
-      <div class="row">
-        <div class="col-12">
-          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-sm-8 offset-2">
-          <div class="row">
-            <div class="col col-12 col-sm-4">
-              <div class="row">
-                <div class="col col-12 col-sm-11">
 
-                  <div class="card" style="width: 100%;">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p class="card-text">Categoría 1</p>
-                      <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="col col-12 col-sm-4">
-              <div class="col col-12 col-sm-11">
-
-                <div class="card" style="width: 100%; margin-top:92px;">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">Categoría 2</p>
-                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="col col-12 col-sm-4">
-              <div class="col col-12 col-sm-11">
-
-                <div class="card" style="width: 100%;">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4Ze72kB16LAiTeTKjKveAYCtA7Y2Xb_uTcorcF-7blXwtZcFMEg&s" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <p class="card-text">Categoría 3</p>
-                    <a href="#" class="btn btn-primary" style="color: #fdbd18; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>';
 
   return $html;
 }
 add_shortcode('concept_contact', 'concept_contact');
+
+/**
+ * Determines if post thumbnail can be displayed.
+ */
+function concept_can_show_post_thumbnail() {
+	return apply_filters( 'twentynineteen_can_show_post_thumbnail', ! post_password_required() && ! is_attachment() && has_post_thumbnail() );
+}
+
+if ( ! function_exists( 'concept_post_thumbnail' ) ) :
+	/**
+	 * Displays an optional post thumbnail.
+	 *
+	 * Wraps the post thumbnail in an anchor element on index views, or a div
+	 * element when on single views.
+	 */
+	function concept_post_thumbnail() {
+		if ( ! concept_can_show_post_thumbnail() ) {
+			return;
+		}
+
+		if ( is_singular() ) :
+			?>
+
+			<figure class="post-thumbnail">
+				<?php the_post_thumbnail(); ?>
+			</figure><!-- .post-thumbnail -->
+
+			<?php
+		else :
+			?>
+
+		<figure class="post-thumbnail">
+			<a class="post-thumbnail-inner" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
+				<?php the_post_thumbnail( 'post-thumbnail' ); ?>
+			</a>
+		</figure>
+
+			<?php
+		endif; // End is_singular().
+	}
+endif;
+
+/**
+ * Gets the SVG code for a given icon.
+ */
+require get_template_directory() . '/classes/class-concept-svg-icons.php';
+function concept_get_icon_svg( $icon, $size = 24 ) {
+	return Concept_SVG_Icons::get_svg( 'ui', $icon, $size );
+}
+
+if ( ! function_exists( 'concept_posted_by' ) ) :
+	/**
+	 * Prints HTML with meta information about theme author.
+	 */
+	function concept_posted_by() {
+		printf(
+			/* translators: 1: SVG icon. 2: post author, only visible to screen readers. 3: author link. */
+			'<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
+			concept_get_icon_svg( 'person', 16 ),
+			__( 'Posted by', 'twentynineteen' ),
+			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+			esc_html( get_the_author() )
+		);
+	}
+endif;
+
+if ( ! function_exists( 'concept_comment_count' ) ) :
+	/**
+	 * Prints HTML with the comment count for the current post.
+	 */
+	function concept_comment_count() {
+		if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+			echo '<span class="comments-link">';
+			echo concept_get_icon_svg( 'comment', 16 );
+
+			/* translators: %s: Name of current post. Only visible to screen readers. */
+			comments_popup_link( sprintf( __( 'Leave a comment<span class="screen-reader-text"> on %s</span>', 'twentynineteen' ), get_the_title() ) );
+
+			echo '</span>';
+		}
+	}
+endif;
+
+if ( ! function_exists( 'concept_entry_footer' ) ) :
+	/**
+	 * Prints HTML with meta information for the categories, tags and comments.
+	 */
+	function concept_entry_footer() {
+
+		// Hide author, post date, category and tag text for pages.
+		if ( 'post' === get_post_type() ) {
+
+			// Posted by
+			concept_posted_by();
+
+			// Posted on
+			twentynineteen_posted_on();
+
+			/* translators: used between list items, there is a space after the comma. */
+			$categories_list = get_the_category_list( __( ', ', 'twentynineteen' ) );
+			if ( $categories_list ) {
+				printf(
+					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of categories. */
+					'<span class="cat-links">%1$s<span class="screen-reader-text">%2$s</span>%3$s</span>',
+					concept_get_icon_svg( 'archive', 16 ),
+					__( 'Posted in', 'twentynineteen' ),
+					$categories_list
+				); // WPCS: XSS OK.
+			}
+
+			/* translators: used between list items, there is a space after the comma. */
+			$tags_list = get_the_tag_list( '', __( ', ', 'twentynineteen' ) );
+			if ( $tags_list ) {
+				printf(
+					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of tags. */
+					'<span class="tags-links">%1$s<span class="screen-reader-text">%2$s </span>%3$s</span>',
+					concept_get_icon_svg( 'tag', 16 ),
+					__( 'Tags:', 'twentynineteen' ),
+					$tags_list
+				); // WPCS: XSS OK.
+			}
+		}
+
+		// Comment count.
+		if ( ! is_singular() ) {
+			concept_comment_count();
+		}
+
+		// Edit post link.
+		edit_post_link(
+			sprintf(
+				wp_kses(
+					/* translators: %s: Name of current post. Only visible to screen readers. */
+					__( 'Edit <span class="screen-reader-text">%s</span>', 'twentynineteen' ),
+					array(
+						'span' => array(
+							'class' => array(),
+						),
+					)
+				),
+				get_the_title()
+			),
+			'<span class="edit-link">' . concept_get_icon_svg( 'edit', 16 ),
+			'</span>'
+		);
+	}
+endif;
+
+if ( ! function_exists( 'concept_the_posts_navigation' ) ) :
+	/**
+	 * Documentation for function.
+	 */
+	function concept_the_posts_navigation() {
+		the_posts_pagination(
+			array(
+				'mid_size'  => 2,
+				'prev_text' => sprintf(
+					'%s <span class="nav-prev-text">%s</span>',
+					concept_get_icon_svg( 'chevron_left', 22 ),
+					__( 'Newer posts', 'twentynineteen' )
+				),
+				'next_text' => sprintf(
+					'<span class="nav-next-text">%s</span> %s',
+					__( 'Older posts', 'twentynineteen' ),
+					concept_get_icon_svg( 'chevron_right', 22 )
+				),
+			)
+		);
+	}
+endif;

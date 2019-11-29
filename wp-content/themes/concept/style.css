@@ -36,8 +36,9 @@ html {
 }
 
 /* FUENTES */
-@font-face { font-family: Comfortaa; src: "fonts/Comfortaa.ttf"; }
-@font-face { font-family: Comfortaa; src: "fonts/Comfortaa.ttf"; }
+@font-face { font-family: Comfortaa; src: url("/wp-content/themes/concept/fonts/Comfortaa Thin.ttf"); }
+@font-face { font-family: Comfortaa; src: url("/wp-content/themes/concept/fonts/Comfortaa Regular.ttf"); }
+@font-face { font-family: Poiret One; src: url("/wp-content/themes/concept/fonts/PoiretOne-Regular.ttf"); }
 
 html, h3 { font-family:Comfortaa !important; }
 p, .btn, .card-text { font-family:Comfortaa !important; }
@@ -177,6 +178,34 @@ footer .social-icons a { color:#000; }
 footer .social-icons a img { width:39px; height: auto;}
 
 /*  MENU PRINCIPAL **/
+
+.menu-abs-der {
+  position: absolute;
+  right: 0px;
+  height: 100%; min-width: 350px;
+  font-family: Comfortaa;
+}
+
+.menu-abs-der a {color: #000;}
+
+.menu-abs-der .cont-lnk{
+  padding-bottom: 5px;
+  padding-right: 40px;
+}
+
+.to-bottom, .to-right{ position: absolute; }
+.to-bottom { bottom: 0px; }
+.to-right  { right: 0px; }
+
+.cart-menu-link, .ingreso-registro-link{ display: inline-block; }
+.cart-menu-link div {
+  font-size: 0.7em; display: inline-block;
+  bottom: 0px;
+  position: absolute;
+}
+.cart-menu-link img { display: inline-block;}
+.cart-menu-link { padding-right: 30px; }
+
 .nav-light{  background-color: #FFF !important; }
 .navbar { height: 97px; }
 
@@ -229,3 +258,40 @@ footer .social-icons a img { width:39px; height: auto;}
   font-weight: bold;
   font-size: 22px;
 }
+
+
+/******************************* Productos *********************************/
+.product {
+    border: 4px solid #CCC;
+}
+
+.product .add_to_cart_button{
+  display: none !important;
+}
+
+.attachment-woocommerce_thumbnail {
+  border-bottom: 4px solid #CCC;
+  margin-bottom: 0px !important;
+}
+
+.woocommerce ul.products li.product .price {
+  text-align: center;
+  font-family: Poiret One !important; color: #000 !important; font-size: 10px !important;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title{
+  font-family: Comfortaa;  font-size: 12px;  color: #FDBC12;  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow: hidden;
+  width: 100%; height: 30px;
+}
+
+.woocommerce-page.columns-3 ul.products li.product, .woocommerce.columns-3 ul.products li.product {
+    width: 18.75% !important;
+    margin: 0 10% 3.55em 0 !important;
+}
+
+.product-zone { margin-top: 50px;}
+
+.categories-pr-view{ border: 4px solid #CCC; }

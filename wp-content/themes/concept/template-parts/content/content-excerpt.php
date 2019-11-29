@@ -21,13 +21,13 @@
 		?>
 	</header><!-- .entry-header -->
 
-	<?php twentynineteen_post_thumbnail(); ?>
+	<?php concept_post_thumbnail(); ?>
 
 	<div class="entry-content">
 		<?php the_excerpt(); ?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<?php twentynineteen_entry_footer(); ?>
+		<?php concept_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

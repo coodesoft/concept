@@ -3,7 +3,7 @@
  * The template for displaying Author info
  *
  * @package WordPress
- * @subpackage Concept
+ * @subpackage Twenty_Nineteen
  * @since 1.0.0
  */
 

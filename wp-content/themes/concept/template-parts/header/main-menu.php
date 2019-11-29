@@ -10,7 +10,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse center-margin" id="navbarCollapse">
-      <div class="ingreso-registro-link"><a href="<?php echo get_site_url().'/my-account'; ?>">ingresar / registrarse</a></div>
+      <div class="menu-abs-der">
+        <div class="cont-lnk to-bottom to-right">
+          <a class="cart-menu-link" href="<?php echo get_permalink( wc_get_page_id( 'cart' ) ); ?>">
+            <img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/cart.svg"/><div>Carrito (0)</div>
+          </a>
+          <a class="ingreso-registro-link" href="<?php echo get_site_url().'/my-account'; ?>">ingresar / registrarse</a>
+        </div>
+      </div>
       <img class="brand-img d-none d-md-block" src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt="">
       <?php
         $args = ['post_type' => 'page', 'orderby' => 'menu_order', 'order' => 'ASC'];
