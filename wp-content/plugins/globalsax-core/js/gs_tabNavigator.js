@@ -21,6 +21,13 @@ var TabNavigator = (function($){
 
         let _variationLoadFlag = true;
 
+        let _getProductPosition = (product) => {
+          for (var i = 0; i < _products.length; i++) {
+            if (_products[i] == product)
+              return i;
+          }
+          return -1;
+        }
 
         let _resetInputs = () => _inputs = [];
 
@@ -39,14 +46,10 @@ var TabNavigator = (function($){
 
         let _getNextFocusableInput = () => {
 
-            if (_actualInputFocusIndex < _inputs.length){
-                _inputs[_actualInputFocusIndex].focus();
-
-                if (_actualInputFocusIndex>0)
-                    _inputs[_actualInputFocusIndex-1].blur();
-
-                let input = _inputs[_actualInputFocusIndex];
+            if (_actualInputFocusIndex < _inputs.length - 1){
                 _actualInputFocusIndex++;
+                _inputs[_actualInputFocusIndex].focus();
+                let input = _inputs[_actualInputFocusIndex];
                 return input;
             } else{
                  _inputs[_actualInputFocusIndex-1].blur();
@@ -54,6 +57,19 @@ var TabNavigator = (function($){
 
             return null;
         }
+
+        let _getPrevFocusableInput = () => {
+            if (_actualInputFocusIndex > 0){
+              _actualInputFocusIndex--;
+              let input = _inputs[_actualInputFocusIndex];
+              input.focus();
+
+              return input;
+            } else
+              return null;
+        }
+
+        let _focusActualInput = () => _inputs[_actualInputFocusIndex].focus();
 
         let _getNextFocusableProduct = () => {
             if (_actualProductFocusIndex < _products.length){
@@ -64,9 +80,9 @@ var TabNavigator = (function($){
                 return null;
         }
 
-        let _focusAddVariationToCartButton = () => _submitButton.focus();
+        let _updateProductPosition = (pos) => _actualProductFocusIndex = pos;
 
-        let _blurFocusAddVariationToCartButton = () => _submitButton.blur();
+        let _focusAddVariationToCartButton = () => _submitButton.focus();
 
         let _isAddVariationToCartButtonFocused = () => {
             return document.activeElement == _submitButton;
@@ -136,7 +152,7 @@ var TabNavigator = (function($){
                 _updateSubmitButton();
                 _changeVariationLoadFlag();
 
-                _getNextFocusableInput();
+                _focusActualInput();
 
             });
         }
@@ -169,22 +185,38 @@ var TabNavigator = (function($){
 
         self.configure = (root) => {
             _root = root;
+            console.log(_actualInputFocusIndex);
 
             document.addEventListener('keydown', function(e) {
 
-                if (e.which == 9){
-                    console.log('presionaste la tecla TAB');
+                  if (e.shiftKey && e.which == 9){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (_getVariationLoadFlag() == true){
+
+                      if ( !_isAddVariationToCartButtonFocused() ){
+                        let input = _getPrevFocusableInput();
+                      } else{
+                        _focusActualInput();
+                      }
+
+                      console.log(_actualInputFocusIndex);
+                      console.log(document.activeElement);
+                    }
+                  } else if (e.which == 9){
+
                     e.preventDefault();
                     e.stopPropagation();
 
                     if (_getVariationLoadFlag() == true){
                         let inputFocus = _getNextFocusableInput();
+                        console.log(_actualInputFocusIndex);
+                        console.log(document.activeElement);
                         if (inputFocus == null){
 
                             if ( !_isAddVariationToCartButtonFocused() )
                                 _focusAddVariationToCartButton();
                             else{
-                                _blurFocusAddVariationToCartButton();
                                 let product = _getNextFocusableProduct();
 
                                 if (product){
@@ -213,6 +245,7 @@ var TabNavigator = (function($){
 
                 }
 
+
             });
         }
 
@@ -230,15 +263,19 @@ var TabNavigator = (function($){
                 });
             });
 
-            /*
+
             $(_root).on('click', 'li.product .product-description', function(){
                 $('body').addClass('gbs-progress');
 
-                let id = $(this).parent().data('product');
-                _loadVariationTable(id, this);
+                let position = _getProductPosition(this.parentNode);
+                _updateProductPosition(position);
+
+                let id = this.parentNode.getAttribute('data-product');
+                let product = _getNextFocusableProduct();
+                _loadVariationTable(id, product);
 
             });
-            */
+
 
             $(_root).on('submit', '#gbsAddVariationToCartForm', function(e){
                   e.preventDefault();
