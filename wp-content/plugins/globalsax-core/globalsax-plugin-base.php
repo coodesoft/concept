@@ -67,9 +67,6 @@ class GLOBALSAX_Plugin_Base {
     public function globalsax_add_JS() {
         wp_enqueue_script('jquery');
 
-        wp_register_script('globalsax-gs-requester', plugins_url('/js/gs_requester.js', __FILE__), array('jquery'), '1.0', true);
-        wp_enqueue_script('globalsax-gs-requester');
-
         wp_register_script('globalsax-gs-tabNavigator', plugins_url('/js/gs_tabNavigator.js', __FILE__), array('jquery'), '1.0', true);
         wp_enqueue_script('globalsax-gs-tabNavigator');
 
