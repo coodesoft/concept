@@ -12,8 +12,8 @@
 get_header();
 ?>
 
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+<section class="page_section odd page-section-container" data-id="<?php echo esc_html( get_the_title() ); ?>">
+	<div id="explore_page" class="wrapper_page container">
 
 		<?php if ( have_posts() ) : ?>
 
@@ -40,7 +40,7 @@ get_header();
 			endwhile;
 
 			// Previous/next page navigation.
-			twentynineteen_the_posts_navigation();
+			concept_the_posts_navigation();
 
 			// If no content, include the "No posts found" template.
 		else :
@@ -48,8 +48,12 @@ get_header();
 
 		endif;
 		?>
-		</main><!-- #main -->
-	</section><!-- #primary -->
+
+	</div>
+</section>
 
 <?php
-get_footer();
+	$to_single = 'true';
+	set_query_var( 'to_single', $to_single );
+	get_template_part( 'template-parts/header/main', 'menu' );
+	get_footer();
