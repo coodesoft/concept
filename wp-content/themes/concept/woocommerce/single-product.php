@@ -19,42 +19,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-get_header( 'shop' ); ?>
+get_header();
+//se comprueba si el usuario está logueado para redirigir a página de registro
+if (!is_user_logged_in()){
+	wp_redirect( get_site_url().'/my-account' );
+	exit;
+}
+?>
+<section class="page_section page-section-container" id="#content-single-product">
+  <div id="content-single-product" class="wrapper_page container-fluid">
+		<div class="row">
+		<?php	//do_action( 'woocommerce_before_main_content' );	?>
 
-	<?php
-		/**
-		 * woocommerce_before_main_content hook.
-		 *
-		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
-		 * @hooked woocommerce_breadcrumb - 20
-		 */
-		do_action( 'woocommerce_before_main_content' );
-	?>
+			<?php while ( have_posts() ) : the_post(); ?>
 
-		<?php while ( have_posts() ) : the_post(); ?>
+				<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
-			<?php wc_get_template_part( 'content', 'single-product' ); ?>
+			<?php endwhile; // end of the loop. ?>
 
-		<?php endwhile; // end of the loop. ?>
+		<?php
+			/**
+			 * woocommerce_after_main_content hook.
+			 *
+			 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
+			 */
+			do_action( 'woocommerce_after_main_content' );
+		?>
 
-	<?php
-		/**
-		 * woocommerce_after_main_content hook.
-		 *
-		 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
-		 */
-		do_action( 'woocommerce_after_main_content' );
-	?>
+		<?php	//do_action( 'woocommerce_sidebar' );	?>
 
-	<?php
-		/**
-		 * woocommerce_sidebar hook.
-		 *
-		 * @hooked woocommerce_get_sidebar - 10
-		 */
-		do_action( 'woocommerce_sidebar' );
-	?>
-
-<?php get_footer( 'shop' );
+		</div>
+	</div>
+</section>
+<?php get_footer();
 
 /* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */
+
+	$to_single = 'true';
+	set_query_var( 'to_single', $to_single );
+	get_template_part( 'template-parts/header/main', 'menu' );
+?>

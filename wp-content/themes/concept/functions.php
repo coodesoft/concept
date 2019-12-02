@@ -9,6 +9,11 @@
  * @since 1.0.0
  */
 
+function concept_add_woocommerce_support() {
+     add_theme_support( 'woocommerce' );
+}
+add_action( 'after_setup_theme', 'concept_add_woocommerce_support' );
+
 
 add_theme_support( 'automatic-feed-links' );
 
@@ -152,56 +157,59 @@ function concept_woo_cat_0($attr){
 add_shortcode('concept_woo_cat_0', 'concept_woo_cat_0');
 
 function concept_woo_cat_1($attr){
-	$html = '<div class="col-12" style="padding-top: 50px;">
+	$html = '<div class="container" style="padding-top: 50px;">
       <div class="row">
         <div class="col-12 title-cat">
-          <div class="text-center" style="position: relative;"><h3>Productos</h3><div class="borde-inf"></div></div>
+          <div class="text-center" style="position: relative;"><h3>Categorias</h3><div class="borde-inf"></div></div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-12 col-xl-10 offset-xl-1">
+          <div class="row">';
 
-      <div class="row product-zone">
-        <div class="col-12 col-sm-4 col-md-3 col-lg-2">
-          <div class="row">
-            <div class="col-12 categories-pr-view">
-              <div class="row">
-                <div class="col-12 title-cat">
-                  <div class="text-center" style="position: relative;"><h3>Categorías</h3><div class="borde-inf"></div></div>
+          $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
+          $all_categories = get_categories( $args );
+
+          //echo json_encode($all_categories);
+          $c = 1;
+          $style_par = '';
+          foreach ($all_categories as $k => $v){
+
+            if ($v->parent == 0){
+              if ($c % 2 == 0){  $style_par = 'margin-top: 68px;';  } else { $style_par = ''; }
+              $c++;
+
+              $thumbnail_id = get_woocommerce_term_meta( $v->term_id, 'thumbnail_id', true );
+              $image        = wp_get_attachment_url( $thumbnail_id );
+
+              $html .= '
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+              <div class="col col-12 col-sm-11">
+
+                <div class="card category-card" style="width: 100%; '.$style_par.'">
+                  <div class="img-cont"> <img src="'.$image.'" class="card-img-top" alt="..."> </div>
+                  <div class="card-body">
+                    <p class="card-text text-center">'.$v->name.'</p>
+                    <a href="'.get_term_link( $v->term_id, 'product_cat' ).'" class="btn btn-primary col-12" style="color: #fdbd18; border-radius:11px; background-color: #fff; border-color: #fdbd18;">Ver productos</a>
+                  </div>
                 </div>
+
               </div>
+            </div>
+          </div>';
+            }
 
-              <div class="row">';
-
-              $args           = ['taxonomy' => 'product_cat', 'hierarchical' => 1, 'hide_empty' => 1 ];
-              $all_categories = get_categories( $args );
-
-              foreach ($all_categories as $k => $v){
-
-                if ($v->parent == 0){
-                $html .= '<div class="col-12 prod-cat-prview">
-                             <div class="row">
-                                <div clas="col-12">
-                                  <a href="'.get_term_link( $v->term_id, 'product_cat' ).'" ><span>'.$v->name.'</span>('.$v->count.')<span></span></a>
-                                </div>
-                             </div>
-                         </div>';
-                }
-
-              }
+          }
 
     $html .= '</div>
-          </div>
         </div>
-      </div>
-
-      <div class="col-12 col-sm-8 col-md-9 col-lg-10">
-        '.do_shortcode( '[products][/products]' ).'
       </div>
     </div>';
 
   return $html;
 }
 add_shortcode('concept_woo_cat_1', 'concept_woo_cat_1');
-
 
 
 function concept_contact($attr){
@@ -382,3 +390,19 @@ if ( ! function_exists( 'concept_the_posts_navigation' ) ) :
 		);
 	}
 endif;
+
+/************************************************************************************************************/
+/*******************************   CUSTOM METABOX                ********************************************/
+/************************************************************************************************************/
+
+function custom_meta_box_markup()
+{
+
+}
+
+function add_custom_meta_box()
+{
+    add_meta_box("demo-meta-box", "Custom Meta Box", "custom_meta_box_markup", "post", "side", "high", null);
+}
+
+add_action("add_meta_boxes", "add_custom_meta_box");

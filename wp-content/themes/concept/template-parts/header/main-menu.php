@@ -12,10 +12,15 @@
     <div class="collapse navbar-collapse center-margin" id="navbarCollapse">
       <div class="menu-abs-der">
         <div class="cont-lnk to-bottom to-right">
-          <a class="cart-menu-link" href="<?php echo get_permalink( wc_get_page_id( 'cart' ) ); ?>">
-            <img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/cart.svg"/><div>Carrito (0)</div>
-          </a>
-          <a class="ingreso-registro-link" href="<?php echo get_site_url().'/my-account'; ?>">ingresar / registrarse</a>
+          <?php
+          if (is_user_logged_in()){ ?>
+            <a class="cart-menu-link" href="<?php echo get_permalink( wc_get_page_id( 'cart' ) ); ?>">
+              <img src="<?php echo get_site_url(); ?>/wp-content/themes/concept/img/cart.svg"/><div>Carrito (<?php echo WC()->cart->get_cart_contents_count(); ?>)</div>
+            </a>
+            <div class="ingreso-registro-link"><a href="<?php echo wp_logout_url(); ?>">Salir</a></div>
+          <?php } else { ?>
+            <div class="ingreso-registro-link"><a href="<?php echo get_site_url().'/my-account'; ?>">Mi cuenta</a></div>
+          <?php } ?>
         </div>
       </div>
       <img class="brand-img d-none d-md-block" src="<?php echo wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ) , 'full' )[0]; ?>" alt="">
