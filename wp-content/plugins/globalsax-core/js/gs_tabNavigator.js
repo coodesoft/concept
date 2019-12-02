@@ -132,12 +132,10 @@ var TabNavigator = (function($){
 
                 let variationHeight = $('#variation-'+id).height() + 10;
                 let productContainerWidht = $('#gbs_productos_list .products').width() - 20;
-                let offset = $(self).parent().position().left;
+                let offset = $(self).position().left;
 
 
                 $(self).css('margin-bottom', variationHeight);
-                console.log($(self));
-                console.log(variationHeight);
                 $('#variation-'+id).css('width', productContainerWidht);
                 $('#variation-'+id).css('left', -offset);
 
