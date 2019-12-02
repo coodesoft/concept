@@ -135,7 +135,9 @@ var TabNavigator = (function($){
                 let offset = $(self).parent().position().left;
 
 
-                $(self).parent().css('margin-bottom', variationHeight);
+                $(self).css('margin-bottom', variationHeight);
+                console.log($(self));
+                console.log(variationHeight);
                 $('#variation-'+id).css('width', productContainerWidht);
                 $('#variation-'+id).css('left', -offset);
 
