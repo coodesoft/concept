@@ -79,7 +79,12 @@ var TabNavigator = (function($){
 
         let _updateProductPosition = (pos) => _actualProductFocusIndex = pos;
 
-        let _focusAddVariationToCartButton = () => _submitButton.focus();
+        let _focusAddVariationToCartButton = () => {
+          _submitButton.focus();
+          
+           if ( !_submitButton.classList.contains('submit-active') )
+              _submitButton.classList.add('submit-active');
+        }
 
         let _isAddVariationToCartButtonFocused = () => {
             return document.activeElement == _submitButton;
@@ -227,7 +232,6 @@ var TabNavigator = (function($){
                     e.stopPropagation();
                     if ( _isAddVariationToCartButtonFocused() ){
                         let form = $('#gbsAddVariationToCartForm').submit();
-                        _blurFocusAddVariationToCartButton();
                         let product = _getNextFocusableProduct();
 
                         if (product){
