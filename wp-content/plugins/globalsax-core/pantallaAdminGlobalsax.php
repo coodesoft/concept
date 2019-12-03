@@ -32,7 +32,7 @@ function theme_settings_page(){
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignSeller')?>" class="nav-tab">Asignar Seller</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=adminUrl')?>" class="nav-tab">Administrar URL</a>
           <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=errorTab')?>" class="nav-tab">Listado de errores</a>
-          <a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignPrices')?>" class="nav-tab">Asignar Precios</a>
+          <?php /*<a href="<?= admin_url('admin.php?page='.$pluginPageUID.'&tab=assignPrices')?>" class="nav-tab">Asignar Precios</a>*/ ?>
         </h2>
 
       <div class="panel-body">
@@ -65,9 +65,9 @@ function theme_settings_page(){
           <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
         <?php } ?>
 
-        <?php  if ($activeTab == 'assignPrices'){ ?>
+        <?php /* if ($activeTab == 'assignPrices'){ ?>
           <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
-        <?php } ?>
+        <?php } */?>
 		</div>
 	<?php
 }
@@ -106,9 +106,9 @@ function display_opcion_sincronizar_productos(){
             } else{
                 jQuery('input[name="sincronizar_prductos"]').closest('tr').addClass('error-operation');
                 alert(response['msg']);
-                
+
             }
-              
+
             jQuery('body').removeClass('loading-cursor');
         },
         error: function() {
@@ -143,7 +143,7 @@ function display_opcion_sincronizar_clientes() {
     <script>
 
       function sincronizarClientes(){
-        
+
         jQuery('body').addClass('loading-cursor');
         jQuery.ajax({
           type : "post",
@@ -157,9 +157,9 @@ function display_opcion_sincronizar_clientes() {
             } else{
                 jQuery('input[name="sincronizar_clientes"]').closest('tr').addClass('error-operation');
                 alert(response['msg']);
-                
+
             }
-              
+
             jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {
@@ -191,11 +191,11 @@ function display_opcion_sincronizar_vendedores() {
             } else{
                 jQuery('input[name="sincronizar_vendedores"]').closest('tr').addClass('error-operation');
                 alert(response['msg']);
-                
+
             }
-              
-            jQuery('body').removeClass('loading-cursor');          
-            
+
+            jQuery('body').removeClass('loading-cursor');
+
       },
       error: function( data ) {
         console.log(data);
@@ -212,12 +212,12 @@ function display_opcion_sincronizar_precios() {
     <input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
     <script>
       function sincronizarPrecios(){
-          
+
         var data = {
           action: 'get_sincronizar_precios',
           security : '<?php echo wp_create_nonce('globalsax'); ?>',
         }
-        
+
         jQuery('body').addClass('loading-cursor')
         jQuery.ajax({
           type : "post",
@@ -231,9 +231,9 @@ function display_opcion_sincronizar_precios() {
             } else{
                 jQuery('input[name="sincronizar_precios"]').closest('tr').addClass('error-operation');
                 alert(response['msg']);
-                
+
             }
-              
+
             jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {

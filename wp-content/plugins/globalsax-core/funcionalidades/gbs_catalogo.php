@@ -157,12 +157,12 @@ function gbs_add_variations_to_cart(){
     if ($counter == 0)
       echo json_encode([
           'msg' => 'Se produjo un error al agregar al carrito',
-          'variations-added' => '(Cantidad pedida: '.$counter.")",
+          'variations-added' => '(<span class="cant_pedida">Cantidad pedida: </span>'.$counter.")",
         ]);
     else
     echo json_encode([
         'msg' => 'Se agregron las variaciones correctamente al carrito',
-        'variations-added' => '(Cantidad pedida: '.$counter.")",
+        'variations-added' => '(<span class="cant_pedida">Cantidad pedida:</span>'.$counter.")",
       ]);
   }
   wp_die();
@@ -336,7 +336,7 @@ function gbs_products_list($products, $cartItems){ ?>
               <h3 class="product-title" data-fontsize="16" data-lineheight="24"><?php echo substr($product->get_name(), 2) ?></h3>
               <?php $p_id = $product->get_id();
               if ( isset($cartItems[$p_id]) && $cartItems[$p_id]>0 ){ ?>
-                <span class="qty" data-fontsize="13">(Cantidad pedida: <?php echo $cartItems[$p_id]; ?> ) </span>
+                <span class="qty" data-fontsize="13">(<span class="cant_pedida">Cantidad pedida: </span> <?php echo $cartItems[$p_id]; ?> ) </span>
               <?php } else { ?>
                 <span class="qty" data-fontsize="13"></span>
               <?php } ?>

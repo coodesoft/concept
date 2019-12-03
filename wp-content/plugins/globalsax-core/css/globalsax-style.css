@@ -162,3 +162,19 @@ body.gbs-progress{
 .loading-cursor{
     cursor: progress;
 }
+@media (max-width: 600px) {
+  .cant_pedida{
+    display:none;
+  }
+  #gbs_productos_list {
+    margin-top: 30px;
+}
+}
+@media (min-width: 601px) {
+  .cant_pedida{
+    display:inherit;
+  }
+  #gbs_productos_list {
+    margin-top: 0px;
+}
+}
