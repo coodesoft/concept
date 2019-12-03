@@ -312,7 +312,7 @@ function gbs_catalog($atts){
     <div id="selectCategoryForm">
       <label for="product_cat_selection">Seleccione una categoría</label>
       <select name="Category" id="product_cat_selection">
-          <option value="">Categoría</option>
+          <option value="" disabled selected>Categoría</option>
         <?php foreach ($categories as $key => $cat) { ?>
           <option value="<?php echo $cat['id']?>"><?php echo $cat['name']?></option>
         <?php } ?>
