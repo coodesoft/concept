@@ -49,7 +49,10 @@ var TabNavigator = (function($){
             if (_actualInputFocusIndex < _inputs.length - 1){
                 _actualInputFocusIndex++;
                 _inputs[_actualInputFocusIndex].focus();
+                _inputs[_actualInputFocusIndex].select();
                 let input = _inputs[_actualInputFocusIndex];
+
+
                 return input;
             }
             return null;
@@ -60,13 +63,15 @@ var TabNavigator = (function($){
               _actualInputFocusIndex--;
               let input = _inputs[_actualInputFocusIndex];
               input.focus();
-
               return input;
             } else
               return null;
         }
 
-        let _focusActualInput = () => _inputs[_actualInputFocusIndex].focus();
+        let _focusActualInput = () => {
+          _inputs[_actualInputFocusIndex].focus();
+          _inputs[_actualInputFocusIndex].select();
+        }
 
         let _getNextFocusableProduct = () => {
             if (_actualProductFocusIndex < _products.length){
@@ -81,7 +86,7 @@ var TabNavigator = (function($){
 
         let _focusAddVariationToCartButton = () => {
           _submitButton.focus();
-          
+
            if ( !_submitButton.classList.contains('submit-active') )
               _submitButton.classList.add('submit-active');
         }
@@ -230,19 +235,14 @@ var TabNavigator = (function($){
                 if (e.which == 13){
                     e.preventDefault();
                     e.stopPropagation();
-                    if ( _isAddVariationToCartButtonFocused() ){
-                        let form = $('#gbsAddVariationToCartForm').submit();
-                        let product = _getNextFocusableProduct();
+                    let form = $('#gbsAddVariationToCartForm').submit();
+                    let product = _getNextFocusableProduct();
 
-                        if (product){
-                            let id = product.getAttribute('data-product');
-                            _loadVariationTable(id, product);
-                        }
+                    if (product){
+                        let id = product.getAttribute('data-product');
+                        _loadVariationTable(id, product);
                     }
-
                 }
-
-
             });
         }
 
