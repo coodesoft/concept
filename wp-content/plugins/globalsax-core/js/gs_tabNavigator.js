@@ -43,6 +43,14 @@ var TabNavigator = (function($){
             _products = document.querySelectorAll('#gbs_productos_list li.product');
         }
 
+        let _validateInputs = function(){
+          for (var i = 0; i < _inputs.length; i++) {
+            let input = _inputs[i];
+            if ( (input.value % 2) != 0)
+              return false;
+          }
+          return true;
+        }
 
         let _getNextFocusableInput = () => {
 
@@ -235,12 +243,17 @@ var TabNavigator = (function($){
                 if (e.which == 13){
                     e.preventDefault();
                     e.stopPropagation();
-                    let form = $('#gbsAddVariationToCartForm').submit();
-                    let product = _getNextFocusableProduct();
 
-                    if (product){
-                        let id = product.getAttribute('data-product');
-                        _loadVariationTable(id, product);
+                    if (_validateInputs()){
+                      let form = $('#gbsAddVariationToCartForm').submit();
+                      let product = _getNextFocusableProduct();
+
+                      if (product){
+                          let id = product.getAttribute('data-product');
+                          _loadVariationTable(id, product);
+                      }
+                    } else{
+                      alert('Se ingresaron valores impares en la tabla.');
                     }
                 }
             });
