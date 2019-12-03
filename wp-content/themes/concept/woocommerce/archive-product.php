@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 	//se comprueba si el usuario está logueado para redirigir a página de registro
 	if (!is_user_logged_in()){
-		wp_redirect( get_site_url().'/my-account' ); 
+		wp_redirect( get_site_url().'/my-account' );
     exit;
 	}
 
@@ -75,25 +75,19 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div class="col-12 col-sm-7 col-md-8 col-lg-9 col-xl-8 offset-xl-1">
+				<div class="row">
 				<?php if ( woocommerce_product_loop() ) {
-
 					woocommerce_product_loop_start();
-
 					if ( wc_get_loop_prop( 'total' ) ) {
 						while ( have_posts() ) {
 							the_post();
 
-							/**
-							 * Hook: woocommerce_shop_loop.
-							 */
 							do_action( 'woocommerce_shop_loop' );
 
 							wc_get_template_part( 'content', 'product' );
 						}
 					}
-
-					woocommerce_product_loop_end();
-
+          woocommerce_product_loop_end();
 					do_action( 'woocommerce_after_shop_loop' );
 				} else {
 					do_action( 'woocommerce_no_products_found' );
@@ -101,6 +95,7 @@ defined( 'ABSPATH' ) || exit;
 
 				do_action( 'woocommerce_after_main_content' );
 				?>
+				</div>
 			</div>
 		</div>
 

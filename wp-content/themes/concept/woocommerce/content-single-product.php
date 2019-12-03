@@ -43,8 +43,9 @@ $description = apply_filters( 'description', $post->post_excerpt );
 //die(var_dump($product));
 ?>
 
-
-<?php do_action( 'woocommerce_before_single_product' ); ?>
+<div class="col-12 col-sm-10 col-md-10 col-lg-8 offset-sm-1 offset-md-1 offset-lg-2">
+	<?php do_action( 'woocommerce_before_single_product' ); ?>
+</div>
 <div class="col-12 col-sm-10 col-md-10 col-lg-8 offset-sm-1 offset-md-1 offset-lg-2" id="product-<?php the_ID(); ?>" <?php wc_product_class('' , $product ); ?> >
 			<div class="row">
 				<div class="col-12 title-cat">
@@ -55,63 +56,55 @@ $description = apply_filters( 'description', $post->post_excerpt );
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-12">
-
-					<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
-						<figure class="woocommerce-product-gallery__wrapper">
-							<?php
-							if ( $product->get_image_id() ) {
-								$html = wc_get_gallery_image_html( $post_thumbnail_id, true );
-							} else {
-								$html  = '<div class="woocommerce-product-gallery__image--placeholder">';
-								$html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
-								$html .= '</div>';
-							}
-
-							echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $post_thumbnail_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-
-							do_action( 'woocommerce_product_thumbnails' );
-							?>
-						</figure>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-12">
-					<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) );?>"><?php echo $product->get_price_html(); ?></p>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-12">
-					<?php wc_get_template( 'single-product/add-to-cart/simple.php' ); ?>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-12">
+			<div class="row single-product-cont">
+				<div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-4">
 					<div class="row">
-						<div class="col-12 title-cat">
-							<div class="text-center" style="position: relative;">
-								<h3>Descripción</h3><div class="borde-inf">
-							</div></div>
+						<div class="col-12">
+							<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
+								<figure class="woocommerce-product-gallery__wrapper">
+									<?php
+									if ( $product->get_image_id() ) {
+										$html = wc_get_gallery_image_html( $post_thumbnail_id, true );
+									} else {
+										$html  = '<div class="woocommerce-product-gallery__image--placeholder">';
+										$html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
+										$html .= '</div>';
+									}
+
+									echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $post_thumbnail_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+
+									do_action( 'woocommerce_product_thumbnails' );
+									?>
+								</figure>
+							</div>
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 description-cont">
 							<?php echo $description; ?>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-12">
+				<div class="col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-8">
+
+					<div class="row">
+						<div class="col-12">
+							<p class="price-cont <?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) );?>">
+								<?php echo $product->get_price_html(); ?>
+							</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12 add-to-cart-cont">
+							<?php wc_get_template( 'single-product/add-to-cart/simple.php' ); ?>
+						</div>
+					</div>
+
 				</div>
+
 			</div>
 
 			<?php do_action( 'woocommerce_after_single_product' ); ?>

@@ -13,7 +13,8 @@ function concept_add_woocommerce_support() {
      add_theme_support( 'woocommerce' );
 }
 add_action( 'after_setup_theme', 'concept_add_woocommerce_support' );
-
+//esconder boton de agregar al carrito y de ver mas
+remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
 
 add_theme_support( 'automatic-feed-links' );
 
