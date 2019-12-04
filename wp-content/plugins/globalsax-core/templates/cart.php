@@ -12,13 +12,16 @@ require_once(__DIR__.'/../db/UserClientRelation.php');
 
 add_shortcode( 'gbs_cart_template', 'gbs_cart');
 function gbs_cart($atts){
+	wc_print_notices();
+
+	do_action( 'woocommerce_before_cart' );
 
     if ( !is_admin() ){ ?>
 
         <div id="gbsCheckout">
             <form class="woocommerce-cart-form gbs-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 
-                <p class="woocommerce-store-notice demo_store"> Su pedido es un compromiso de compra. La informaci&oacuten que contiene esta p&aacutegina web es de car&aacutecter informativo; la misma puede sufrir modificaciones en su contenido sin previo aviso, dependiendo de los listados de precios al d&iacutea de su facturaci&oacuten. </p>
+                <p class="woocommerce-store-notice demo_store" id="msgCheckout"> Su pedido es un compromiso de compra. La informaci&oacuten que contiene esta p&aacutegina web es de car&aacutecter informativo; la misma puede sufrir modificaciones en su contenido sin previo aviso, dependiendo de los listados de precios al d&iacutea de su facturaci&oacuten. </p>
 
                 <div class="datos_user_cart">
 
@@ -33,7 +36,7 @@ function gbs_cart($atts){
                             $checkoutController = new CheckoutController();
 
                             if ($countClientes > 1)
-                                
+
                                 $products = $checkoutController->_calculate();
 
                             elseif ($countClientes == 1){
@@ -43,30 +46,30 @@ function gbs_cart($atts){
                                 $countSucursales = count($sucursales);
 
                                 if ($countSucursales > 1)
-                                    
+
                                     $products = $checkoutController->_calculate();
 
                                 elseif ($countSucursales == 1){
                                     $sucursal = $sucursales[0];
 
                                     $listas = ListaPrecios::getBySucursal($sucursal['id']);
-                                    $countListas = count($listas); 
-                                    
+                                    $countListas = count($listas);
+
                                     if ($countListas>1)
-                                        
+
                                         $products = $checkoutController->_calculate();
 
                                     elseif ($countListas == 1){
                                         $lista = $listas[0];
                                         $products = $checkoutController->_calculate($lista['list_id']);
                                     }
-                                    
+
                                 } else{
                                     $listas = ListaPrecios::getByCliente($cliente['id']);
                                     $countListas = count($listas);
 
                                     if ($countListas > 1)
-                                    
+
                                         $products = $checkoutController->_calculate();
 
                                     elseif ($countListas == 1){

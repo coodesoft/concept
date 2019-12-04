@@ -169,6 +169,9 @@ body.gbs-progress{
   #gbs_productos_list {
     margin-top: 30px;
 }
+  #msgCheckout{
+    margin-top: 30px;
+  }
 }
 @media (min-width: 601px) {
   .cant_pedida{
