@@ -8,12 +8,7 @@
  */
 
 ?>
-<?php
-add_shortcode( 'gbs_news', 'gbs_news');
 
-function gbs_news($attr){
-	echo "algo";
-?>
 <div id="posts-container" class="fusion-blog-archive <?php echo esc_attr( $wrapper_class ); ?>fusion-clearfix">
 	<div class="<?php echo esc_attr( $container_class ); ?>" data-pages="<?php echo (int) $number_of_pages; ?>">
 		<?php if ( 'timeline' === $blog_layout ) : ?>
@@ -39,7 +34,7 @@ function gbs_news($attr){
 		<?php endif; ?>
 
     <?php // Start the main loop. ?>
-<?php while ( have_posts() ) : the_post(); ?>
+<?php //while ( have_posts() ) : the_post(); ?>
   <?php
   // Set the time stamps for timeline month/year check.
   $alignment_class = '';
@@ -64,5 +59,6 @@ function gbs_news($attr){
       echo '<h3 class="fusion-timeline-date">' . get_the_date( Avada()->settings->get( 'timeline_date_format' ) ) . '</h3>';
       echo '<div class="fusion-collapse-month">';
     }
-  }
-}
+	}
+		wp_die();
+	 //endwhile;

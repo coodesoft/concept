@@ -408,3 +408,8 @@ function add_custom_meta_box()
 }
 
 add_action("add_meta_boxes", "add_custom_meta_box");
+
+add_shortcode( 'gbs_news', 'gbs_news');
+function gbs_news(){
+	get_template_part('news');
+}
