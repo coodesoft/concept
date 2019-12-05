@@ -100,6 +100,7 @@ add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_customizer_sty
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+//require get_template_directory() . '/news.php';
 
 /** EN LA INCIALIZACION DEL TEMPLATE **/
 function concept_after_setup_theme(){

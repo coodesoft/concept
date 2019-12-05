@@ -1,3 +1,19 @@
+<?php
+/**
+ * The template for displaying image attachments
+ *
+ * @package WordPress
+ * @subpackage Concept
+ * @since 1.0.0
+ */
+
+?>
+<?php
+add_shortcode( 'gbs_news', 'gbs_news');
+
+function gbs_news($attr){
+	echo "algo";
+?>
 <div id="posts-container" class="fusion-blog-archive <?php echo esc_attr( $wrapper_class ); ?>fusion-clearfix">
 	<div class="<?php echo esc_attr( $container_class ); ?>" data-pages="<?php echo (int) $number_of_pages; ?>">
 		<?php if ( 'timeline' === $blog_layout ) : ?>
@@ -49,3 +65,4 @@
       echo '<div class="fusion-collapse-month">';
     }
   }
+}
