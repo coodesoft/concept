@@ -50,3 +50,15 @@ body.plugin-base-admin_page_wissc-remote-subpage h3 {
 .gs-text-center{text-align:center}
 #clientsList {margin-top:10px}
 #clientsList select {margin-left:20%}
+
+.loading-cursor{
+    cursor: progress;
+}
+
+.success-operation{
+    border: 1px solid green;
+}
+
+.error-operation{
+    border: 1ps solid red;
+}

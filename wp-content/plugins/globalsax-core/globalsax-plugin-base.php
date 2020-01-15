@@ -2,10 +2,10 @@
 /**
  * Plugin Name: GLOBALSAX - Core
  * Description: Agregar funcionalidades a nuestro Ecommerce GLOBALSAX
- * Plugin URI: http://quintesco.com/
- * Author: Eduardo Quintero
- * Author URI: http://quintesco.com/
- * Version: 1.0
+ * Plugin URI: https://coodesoft.com.ar
+ * Author: Coodesoft Development Team
+ * Author URI: https://coodesoft.com.ar
+ * Version: 2.0
  * Text Domain: globalsax-core
  * License: GPL2
  */
@@ -28,7 +28,7 @@ define('GLOBALSAX_URL_INCLUDES', GLOBALSAX_URL . '/inc');
 class GLOBALSAX_Plugin_Base {
 
     public function __construct() {
-		add_action('wp_enqueue_scripts', array($this,'globalsax_add_JS'));
+		    add_action('wp_enqueue_scripts', array($this,'globalsax_add_JS'));
         add_action('wp_enqueue_scripts', array($this,'globalsax_add_CSS'));
 
         // add scripts and styles only available in admin
@@ -66,11 +66,33 @@ class GLOBALSAX_Plugin_Base {
      */
     public function globalsax_add_JS() {
         wp_enqueue_script('jquery');
+
+        wp_register_script('globalsax-gs-tabNavigator', plugins_url('/js/gs_tabNavigator.js', __FILE__), array('jquery'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-tabNavigator');
+
         wp_register_script('globalsax-script', plugins_url('/js/globalsax-script.js', __FILE__), array('jquery'), '1.0', true);
         wp_enqueue_script('globalsax-script');
 
         wp_register_script('google-maps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA-sMde0_QIgUq_tMtSqK0RamPViALBZSs');
         wp_enqueue_script('google-maps');
+
+        wp_register_script('globalsax-gs-state', plugins_url('/js/gs_state.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-state');
+
+        wp_register_script('globalsax-gs-register', plugins_url('/js/gs_register.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-register');
+
+        wp_register_script('globalsax-gs-dom-sucursal', plugins_url('/js/dom/sucursal.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-dom-sucursal');
+
+        wp_register_script('globalsax-gs-dom-listaPrecios', plugins_url('/js/dom/listaPrecios.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-dom-listaPrecios');
+
+        wp_register_script('globalsax-gs-dom-cart', plugins_url('/js/dom/cart.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-dom-cart');
+
+        wp_register_script('globalsax-gs-checkout', plugins_url('/js/gs_checkout.js', __FILE__), array('globalsax-script'), '1.0', true);
+        wp_enqueue_script('globalsax-gs-checkout');
 
     }
 
@@ -173,10 +195,21 @@ class GLOBALSAX_Plugin_Base {
  */
 function globalsax_on_activate_callback() {
     require_once('db/ListaPrecios.php');
+    require_once('db/PreciosProductos.php');
+    require_once('db/Sucursal.php');
+    require_once('db/ListaPreciosCliente.php');
+    require_once('db/ListaPreciosSucursal.php');
+    require_once('db/Clientes.php');
+    require_once('db/UserClientRelation.php');
 
-    ListaPrecios::createTables();
-    // do something on activation
 
+    ListaPrecios::createTable();
+    PreciosProductos::createTable();
+    Sucursal::createTable();
+    ListaPreciosCliente::createTable();
+    ListaPreciosSucursal::createTable();
+    Clientes::createTable();
+    UserClientRelation::createTable();
 }
 
 /**
@@ -207,15 +240,40 @@ $globalsax_plugin_base = new GLOBALSAX_Plugin_Base();
 /**************************************************************************************************************/
 add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
+    require_once("util/State.php");
+    require_once("util/Requester.php");
+
+    require_once("filter/Filter.php");
+    require_once("filter/ListaPreciosCriteria.php");
+    require_once("filter/ClientesCriteria.php");
+    require_once("filter/PrecioProductoCriteria.php");
+
+    require_once('db/ListaPrecios.php');
+    require_once('db/PreciosProductos.php');
+    require_once('db/Sucursal.php');
+    require_once('db/ListaPreciosCliente.php');
+    require_once('db/ListaPreciosSucursal.php');
+    require_once('db/Clientes.php');
+    require_once('db/UserClientRelation.php');
+
+    require_once('controllers/ListaPreciosController.php');
+    require_once('controllers/ClientesController.php');
+    require_once('controllers/CheckoutController.php');
+
 	require_once("funcionalidades/test.php");
 	require_once("funcionalidades/sincronizarProductos.php");
 	require_once("funcionalidades/sincronizarClientes.php");
-	require_once("funcionalidades/sincronizarPrecios.php");
-  require_once("funcionalidades/sincronizarVendedores.php");
+	//require_once("funcionalidades/sincronizarPrecios.php");
+    require_once("funcionalidades/sincronizarVendedores.php");
 	require_once("funcionalidades/catalogo.php");
 	require_once("funcionalidades/botonComprar.php");
-  require_once("funcionalidades/gbs_catalogo.php");
+    require_once("funcionalidades/gbs_catalogo.php");
 
+    require_once("templates/components/SucursalDOM.php");
+    require_once("templates/components/CartResumeDOM.php");
+    require_once("templates/components/ClienteDOM.php");
+    require_once("templates/components/ListaPreciosDOM.php");
+    require_once("templates/cart.php");
 }
 
 add_action('wp_head', 'globalsax_ajaxurl');

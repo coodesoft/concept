@@ -111,7 +111,6 @@ function insert_products ($products){
 function insert_product($product_data){
 
 	$IdWp = get_user_meta(1,'key_'.$product_data['Product_Id'], true);
-	echo $IdWp ." - ";
 
 	if( !isset($IdWp) || empty($IdWp)){
 
@@ -488,7 +487,8 @@ function ajax_delete_product_key(){
 }
 function delete_product_key(){
 		global $wpdb;
-		$query = "DELETE FROM `wd_usermeta` WHERE SUBSTR(meta_key, 1, 4) = 'key_'";
+		$table_name =$wpdb->prefix.'usermeta';
+		$query = "DELETE FROM $table_name WHERE SUBSTR(meta_key, 1, 4) = 'key_'";
 		return $wpdb->query($query);
 }
 ?>

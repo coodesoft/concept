@@ -1,8 +1,10 @@
 <?php
 define('GLOBALSAX_CORE','globalsax-core');
 
-function theme_settings_page()
-{
+require_once('db/UserClientRelation.php');
+require_once('db/Clientes.php');
+
+function theme_settings_page(){
   global $wpdb;
   $error_table = $wpdb->prefix . ('gs_error');
   if($wpdb->get_var("SHOW TABLES LIKE '$error_table'") != $error_table) {
@@ -59,6 +61,9 @@ function theme_settings_page()
         <?php  if ($activeTab == 'errorTab'){ ?>
   				<div class="gs-tab" id="errorTab"><?php errorTab(); ?></div>
   			<?php } ?>
+        <?php  if ($activeTab == 'assignPrices'){ ?>
+          <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
+        <?php } ?>
 
         <?php  if ($activeTab == 'assignPrices'){ ?>
           <div class="gs-tab" id="editPrices"><?php errorTab(); ?></div>
@@ -77,8 +82,7 @@ function settings(){
 </form>
 <?php
 }
-function display_opcion_sincronizar_productos()
-{
+function display_opcion_sincronizar_productos(){
 
 	?>
 
@@ -88,13 +92,24 @@ function display_opcion_sincronizar_productos()
     <script>
 
       function sincronizarProductos(){
+        jQuery('body').addClass('loading-cursor');
+
         jQuery.ajax({
           type : "post",
           url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
           data : 'action=get_sincronizar_producto&security=<?php echo wp_create_nonce('globalsax'); ?>',
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_prductos"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_prductos"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function() {
           console.log('error');
@@ -128,14 +143,24 @@ function display_opcion_sincronizar_clientes() {
     <script>
 
       function sincronizarClientes(){
-
+        
+        jQuery('body').addClass('loading-cursor');
         jQuery.ajax({
           type : "post",
           url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
           data : 'action=get_sincronizar_cliente&security=<?php echo wp_create_nonce('globalsax'); ?>',
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_clientes"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_clientes"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {
           console.log(data);
@@ -146,20 +171,31 @@ function display_opcion_sincronizar_clientes() {
 	<?php
 
 }
+
 function display_opcion_sincronizar_vendedores() {
   ?>
   <input type="button" name="sincronizar_vendedores" value="Sincronizar vendedores" onclick="sincronizarVendedores()"/>
   <script>
 
     function sincronizarVendedores(){
-
+    jQuery('body').addClass('loading-cursor')
       jQuery.ajax({
         type : "post",
         url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
         data : 'action=get_sincronizar_vendedor&security=<?php echo wp_create_nonce('globalsax'); ?>',
         success: function( response ) {
-          console.log(response);
-          //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_vendedores"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_vendedores"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');          
+            
       },
       error: function( data ) {
         console.log(data);
@@ -167,32 +203,47 @@ function display_opcion_sincronizar_vendedores() {
       });
     }
   </script>
-<?php
+  <?php
 }
+
 function display_opcion_sincronizar_precios() {
   ?>
 
-		<input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
+    <input type="button" name="sincronizar_precios" value="Sincronizar precios" onclick="sincronizarPrecios()"/>
     <script>
-
       function sincronizarPrecios(){
-
+          
+        var data = {
+          action: 'get_sincronizar_precios',
+          security : '<?php echo wp_create_nonce('globalsax'); ?>',
+        }
+        
+        jQuery('body').addClass('loading-cursor')
         jQuery.ajax({
           type : "post",
-          url : "<?php echo home_url('/wp-admin/admin-ajax.php'); ?>",
-          data : 'action=get_sincronizar_precios&security=<?php echo wp_create_nonce('globalsax'); ?>',
+          url : ajaxurl,
+          data : data,
           success: function( response ) {
-            console.log(response);
-            //location.reload();
+            response = JSON.parse(response);
+            if (response['status']){
+                jQuery('input[name="sincronizar_precios"]').closest('tr').addClass('success-operation');
+                alert(response['msg']);
+            } else{
+                jQuery('input[name="sincronizar_precios"]').closest('tr').addClass('error-operation');
+                alert(response['msg']);
+                
+            }
+              
+            jQuery('body').removeClass('loading-cursor');
         },
         error: function( data ) {
-          console.log(data);
+
+          console.log('Error:' + data);
         }
         });
       }
     </script>
 	<?php
-
 }
 
 function display_opcion_administrar_url() {
@@ -220,7 +271,10 @@ function display_theme_panel_fields(){
   add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
     register_setting("section", "precios");
 	/**/
+  add_settings_field("precios", "5) Sincronizar listas de precios", "display_opcion_sincronizar_precios","theme-options", "section");
+    register_setting("section", "precios");
 }
+
 add_action("admin_init", "display_theme_panel_fields");
 
 function get_Sellers(){
@@ -311,13 +365,14 @@ function delete_GS_rel($rel_ID){
 function assignClient(){
   if (!empty($_POST['client'])){
     if (!empty($_POST['user'])) {
-      insert_GS_user($_POST['client'], $_POST['user']);
+      UserClientRelation::add($_POST['user'], $_POST['client']);
+
     }}
     if (!empty($_POST['borrar'])){
-      delete_GS_rel($_POST['borrar']);
+      UserClientRelation::delete($_POST['borrar']);
   }
 
-?>
+  ?>
 
   <table>
       <tr>
@@ -328,15 +383,15 @@ function assignClient(){
       <tr>
         <?php
         $users_assigned = array();
-        $rel_clientes_usuarios = get_clients_user_table();
-        foreach ($rel_clientes_usuarios as $key => $cliente_usuario) {
-          $userByID = get_user_by('ID', $cliente_usuario->user_id);
-          $gs_client = get_GS_client($cliente_usuario->client_id);
+        $userClientRelation = UserClientRelation::getAll();
+        foreach ($userClientRelation as $key => $relation) {
+          $userByID = get_user_by('ID', $relation['user_id']);
+          $gs_client = Clientes::getByClientId($relation['client_id']);
           ?>
           <form class="" method="post" >
-            <td><?php echo $gs_client[0]["Name"]; ?></td>
+            <td><?php echo $gs_client["name"]; ?></td>
             <td><?php echo $userByID->display_name; ?></td>
-            <td><button type="submit" name="borrar" value="<?php echo $cliente_usuario->rel_id?>">Borrar</button></td>
+            <td><button type="submit" name="borrar" value="<?php echo $relation['id']?>">Borrar</button></td>
         </form>
       </tr>
     <?php } ?>
@@ -346,11 +401,11 @@ function assignClient(){
     <select name="client" id="client" required>
       <option value="" disabled selected>Seleccione un cliente</option>
       <?php
-        $gs_clientes = get_GS_clients();
+        $gs_clientes = Clientes::getAll();
 
       foreach ($gs_clientes as $key => $cliente) {
         ?>
-                <option value="<?php echo $cliente->Client_ID ?> "><?php echo $cliente->Name ?></option>
+                <option value="<?php echo $cliente['client_id'] ?>"><?php echo $cliente['name'] ?></option>
       <?php } ?>
   </select>
   <select name="user" id="user" required>
@@ -368,7 +423,7 @@ function assignClient(){
     </div>
   </form>
 
-<?php
+  <?php
 }
 
 function adminUrl(){

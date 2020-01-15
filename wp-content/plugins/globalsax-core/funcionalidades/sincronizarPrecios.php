@@ -1,7 +1,5 @@
 <?php
 /**LLAMADA AJAX**/
-add_action('wp_ajax_get_sincronizar_precios', 'ajax_get_sincronizar_precios');
-add_action('wp_ajax_nopriv_get_sincronizar_precios', 'ajax_get_sincronizar_precios');
 
 function ajax_get_sincronizar_precios(){
 	get_sincronizar_precios();
@@ -103,5 +101,5 @@ function opal_varient_price( $price, $variation ) {
 }
 //add_filter( 'woocommerce_product_variation_get_regular_price', 'opal_varient_price' , 99, 2 );
 //add_filter( 'woocommerce_product_variation_get_sale_price', 'opal_varient_price' , 99, 2 );
-add_filter( 'woocommerce_product_variation_get_price', 'opal_varient_price', 99, 2 );
+//add_filter( 'woocommerce_product_variation_get_price', 'opal_varient_price', 99, 2 );
 ?>

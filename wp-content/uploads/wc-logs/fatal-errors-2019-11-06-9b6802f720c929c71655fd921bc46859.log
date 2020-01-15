@@ -1,0 +1,157 @@
+2019-11-06T14:51:32+00:00 CRITICAL Uncaught Exception: http://askipusax.dyndns.biz:6790/api/Product in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php:27
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): get_sincronizar_producto('')
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#2 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#3 /opt/lampp/htdocs/concept/wp-admin/admin-ajax.php(173): do_action('wp_ajax_get_sin...')
+#4 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php on line 27
+
+2019-11-06T14:51:42+00:00 CRITICAL Uncaught Exception: http://askipusax.dyndns.biz:6790/api/Product in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php:27
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): get_sincronizar_producto('')
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#2 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#3 /opt/lampp/htdocs/concept/wp-admin/admin-ajax.php(173): do_action('wp_ajax_get_sin...')
+#4 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php on line 27
+
+2019-11-06T14:52:47+00:00 CRITICAL Uncaught Exception: http://askipusax.dyndns.biz:6790/api/Product in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php:27
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): get_sincronizar_producto('')
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#2 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#3 /opt/lampp/htdocs/concept/wp-admin/admin-ajax.php(173): do_action('wp_ajax_get_sin...')
+#4 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/funcionalidades/sincronizarProductos.php on line 27
+
+2019-11-06T15:33:49+00:00 CRITICAL syntax error, unexpected 'return' (T_RETURN) in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/util/Requester.php on line 16
+
+2019-11-06T15:33:49+00:00 CRITICAL syntax error, unexpected 'return' (T_RETURN) in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/util/Requester.php on line 16
+
+2019-11-06T15:33:50+00:00 CRITICAL syntax error, unexpected 'return' (T_RETURN) in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/util/Requester.php on line 16
+
+2019-11-06T15:53:03+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback(false)
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/includes/plugin.php(672): do_action('activate_global...', false)
+#5 /opt/lampp/htdocs/concept/wp-admin/plugins.php(44): activate_plugin('globalsax-core/...', 'http://localhos...', false)
+#6 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:53:04+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:53:04+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:53:15+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback(false)
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/includes/plugin.php(672): do_action('activate_global...', false)
+#5 /opt/lampp/htdocs/concept/wp-admin/plugins.php(44): activate_plugin('globalsax-core/...', 'http://localhos...', false)
+#6 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:53:16+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:53:16+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:7
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController::init()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 7
+
+2019-11-06T15:59:20+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback(false)
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/includes/plugin.php(672): do_action('activate_global...', false)
+#5 /opt/lampp/htdocs/concept/wp-admin/plugins.php(44): activate_plugin('globalsax-core/...', 'http://localhos...', false)
+#6 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
+2019-11-06T15:59:20+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
+2019-11-06T15:59:21+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
+2019-11-06T16:00:37+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback(false)
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/includes/plugin.php(672): do_action('activate_global...', false)
+#5 /opt/lampp/htdocs/concept/wp-admin/plugins.php(44): activate_plugin('globalsax-core/...', 'http://localhos...', false)
+#6 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
+2019-11-06T16:00:38+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
+2019-11-06T16:00:38+00:00 CRITICAL Uncaught Exception: Error Processing Request in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php:10
+Stack trace:
+#0 /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/globalsax-plugin-base.php(179): ListaPreciosController->__construct()
+#1 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(286): globalsax_on_activate_callback('')
+#2 /opt/lampp/htdocs/concept/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /opt/lampp/htdocs/concept/wp-includes/plugin.php(465): WP_Hook->do_action(Array)
+#4 /opt/lampp/htdocs/concept/wp-admin/plugins.php(177): do_action('activate_global...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/concept/wp-content/plugins/globalsax-core/controllers/ListaPreciosController.php on line 10
+
