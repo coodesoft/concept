@@ -211,6 +211,7 @@ var TabNavigator = (function($){
                       if ( !_isAddVariationToCartButtonFocused() ){
                         let input = _getPrevFocusableInput();
                       } else{
+                        _submitButton.classList.remove('submit-active');
                         _focusActualInput();
                       }
 
