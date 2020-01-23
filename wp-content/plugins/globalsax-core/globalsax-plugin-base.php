@@ -242,7 +242,9 @@ add_action('wp_loaded', 'cargar_funcionalidades',0);
 function cargar_funcionalidades() {
     require_once("util/State.php");
     require_once("util/Requester.php");
-
+    
+    require_once('services/CoreService.php');
+    
     require_once("filter/Filter.php");
     require_once("filter/ListaPreciosCriteria.php");
     require_once("filter/ClientesCriteria.php");
@@ -274,6 +276,8 @@ function cargar_funcionalidades() {
     require_once("templates/components/ClienteDOM.php");
     require_once("templates/components/ListaPreciosDOM.php");
     require_once("templates/cart.php");
+    require_once("modules/BaseModule.php");
+    require_once("modules/buyOnBehalfOf/BuyOnBehalfOfModule.php");
 }
 
 add_action('wp_head', 'globalsax_ajaxurl');
