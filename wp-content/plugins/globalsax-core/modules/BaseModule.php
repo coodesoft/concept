@@ -37,7 +37,7 @@ class BaseModule {
         $count = count($styles);
         for($t=0 ; $t<$count; $t++){
             $pathToStyle = $this->createRelativePath() . '/css/'. $styles[$t] . '.css';
-            wp_register_style('gs-CSS-'.$styles[$t], plugins_url($pathToStyle, __FILE__), array('jquery'), '1.0', true);
+            wp_register_style('gs-CSS-'.$styles[$t], plugins_url($pathToStyle, __FILE__), array(), '1.0', 'screen');
             wp_enqueue_style('gs-CSS-'.$styles[$t]);
         }
     }
