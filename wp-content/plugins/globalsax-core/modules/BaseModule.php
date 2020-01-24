@@ -10,8 +10,6 @@ class BaseModule {
     private function createRelativePath(){
 
         $path = isset($this->modulePath) ? $this->modulePath : '';
-        $path .= '/js/';
-
         return $path;
     }
 
@@ -24,14 +22,24 @@ class BaseModule {
 
         $count = count($assets);
         for($t=0 ; $t<$count; $t++){
-            $pathToAsset = $this->createRelativePath() . $assets[$t] . '.js';
-            wp_register_script('gs-'.$assets[$t], plugins_url($pathToAsset, __FILE__), array('jquery'), '1.0', true);
-            wp_enqueue_script('gs-'.$assets[$t]);
+            $pathToAsset = $this->createRelativePath() ."/js/". $assets[$t] . '.js';
+            wp_register_script('gs-JS-'.$assets[$t], plugins_url($pathToAsset, __FILE__), array('jquery'), '1.0', true);
+            wp_enqueue_script('gs-JS-'.$assets[$t]);
         }
     }
 
-    protected function registerCSSAssets($styleName = null){
-        //TODO: implementar el agregado de estilos
+    protected function registerCSSAssets($styleNames = null){
+        if (!$styleNames)
+            return;
+
+        $styles = is_array($styleNames) ?  $styleNames : [$styleNames];
+
+        $count = count($styles);
+        for($t=0 ; $t<$count; $t++){
+            $pathToStyle = $this->createRelativePath() . '/css/'. $styles[$t] . '.css';
+            wp_register_style('gs-CSS-'.$styles[$t], plugins_url($pathToStyle, __FILE__), array('jquery'), '1.0', true);
+            wp_enqueue_style('gs-CSS-'.$styles[$t]);
+        }
     }
 
     /************************************** PUBLIC FUNCTION ***********************************/
