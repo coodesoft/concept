@@ -13,7 +13,7 @@ class ClienteDOM {
                     <select name="cliente_id" id ="cliente_id" required>
                       <option  value="" disabled selected>Seleccione una Razón Social</option>
                       <?php foreach ($clientes as $key => $cliente) { ?>
-                          <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['name']?></option>
+                          <option value="<?php echo $cliente['client_id']; ?>"><?php echo $cliente['name']?></option>
                       <?php } ?>
                     </select>
                 </div>
@@ -21,7 +21,7 @@ class ClienteDOM {
               <div class="clientesList cuatrocol">
                 <div>Cliente:</div>
                 <input type="text" disabled value="<?php echo $clientes[0]['name']?>" name="cliente_name" >
-                <input type="hidden" value="<?php echo $clientes[0]['id']?>" name="cliente_id">
+                <input type="hidden" value="<?php echo $clientes[0]['client_id']?>" name="cliente_id">
               </div>
             <?php } ?>
         </div>
