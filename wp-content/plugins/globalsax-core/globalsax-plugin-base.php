@@ -201,7 +201,7 @@ function globalsax_on_activate_callback() {
     require_once('db/ListaPreciosSucursal.php');
     require_once('db/Clientes.php');
     require_once('db/UserClientRelation.php');
-
+    require_once('db/GSError.php');
 
     ListaPrecios::createTable();
     PreciosProductos::createTable();
@@ -210,6 +210,7 @@ function globalsax_on_activate_callback() {
     ListaPreciosSucursal::createTable();
     Clientes::createTable();
     UserClientRelation::createTable();
+    //GSError::createTable();
 }
 
 /**
@@ -255,6 +256,7 @@ function cargar_funcionalidades() {
     require_once('db/ListaPreciosSucursal.php');
     require_once('db/Clientes.php');
     require_once('db/UserClientRelation.php');
+    require_once('db/GSError.php');
 
     require_once('controllers/ListaPreciosController.php');
     require_once('controllers/ClientesController.php');
@@ -274,7 +276,7 @@ function cargar_funcionalidades() {
     require_once("templates/components/ClienteDOM.php");
     require_once("templates/components/ListaPreciosDOM.php");
     require_once("templates/cart.php");
-    
+
     require_once("modules/BaseModule.php");
     require_once("modules/buyOnBehalfOf/BuyOnBehalfOfModule.php");
 }

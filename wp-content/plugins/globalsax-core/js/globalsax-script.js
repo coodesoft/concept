@@ -36,7 +36,7 @@
 
   var enviarPedido = function(){
     let selectCliente = $('#clientesList select').length;
-    let clienteSerialize = $('#clientesList select').serialize();
+    let clienteSerialize = $('[name="cliente_id"]').val();
 
     if ( !selectCliente || (selectCliente && clienteSerialize.length)){
       $('body').addClass('gbs-progress');

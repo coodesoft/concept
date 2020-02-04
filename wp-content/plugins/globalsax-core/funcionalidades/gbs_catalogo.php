@@ -174,9 +174,10 @@ function gbs_add_variations_to_cart(){
 add_action( 'wp_ajax_nopriv_gbs_create_order', 'gbs_create_order' );
 add_action( 'wp_ajax_gbs_create_order', 'gbs_create_order' );
 function gbs_create_order(){
+
   $user = wp_get_current_user();
   parse_str($_POST['data'], $values);
-  parse_str($_POST['user'], $Serialized_client);
+  $gs_client = $_POST['user'];
 
   $address = array(
 		'first_name' => $user->user_firstname,
@@ -206,32 +207,39 @@ function gbs_create_order(){
 	// Calculate totals
 	$order->calculate_totals();
 	$status = $order->update_status('completed');
-  $gs_client = $Serialized_client['cliente_id'];
   $ws_json = gbs_biuld_ws_object($gs_client, $values, $order);
-  $commonurl = get_user_meta(1, "url", true);
-  $endpoint = $commonurl . "/api/Order";
+
   $send_data = array(
     'timeout'     => 180,
     'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
     'body'        => json_encode($ws_json)
-    );
-  $result = wp_remote_post($endpoint, $send_data);
-  $values = array( 'cliente_id' => $gs_client,
-                   'resultado' => $result,
-                   'json' => $ws_json,
-                   'tipo' => 'pedido');
-  $types = array( '%d', '%s', '%s', '%s' );
+  );
+  $commonurl = get_user_meta(1, "url", true);
+  $result = wp_remote_post($commonurl . "/api/Order", $send_data);
 
   global $woocommerce;
-  $woocommerce->cart->empty_cart();
+  //$woocommerce->cart->empty_cart();
 
-  if ($status)
-    echo json_encode(['status' => 'gbs-success', 'msg' => 'El pedido se ha realizado con éxito', 'WSResult' => $result, 'ws_json' => $ws_json]);
-  else
+  if ($status){
+    if ( is_wp_error($result) )
+      echo json_encode(['status' => 'gbs-error', 'msg' => 'Se produjo un error al generar el pedido. No se pudo completar el envío al sistema SAX', 'WSResult' => $result, 'ws_json' => $ws_json]);
+    else
+      echo json_encode(['status' => 'gbs-success', 'msg' => 'El pedido se ha realizado con éxito', 'WSResult' => $result, 'ws_json' => $ws_json]);
+  } else
     echo json_encode(['status' => 'gbs-error', 'msg' => 'Se ha producido un error al procesar el pedido', 'WSResult' => $result, 'ws_json' => $ws_json]);
-    global $wpdb;
-    $error_table = $wpdb->prefix . ('gs_error');
-    $wpdb->insert($error_table, $values ,$types);
+
+    $values = array( 'cliente_id' => $gs_client,
+                     'resultado' => is_wp_error($result) ? json_encode($result->errors) : json_encode($result),
+                     'json' => 'dummy field',
+                     'tipo' => 'pedido');
+    try {
+      GSError::add($values);
+    } catch (Exception $e) {
+      error_log($e->getMessage(), 3, '/opt/lampp/logs/php_error_log');
+    }
+
+
+
   wp_die();
 }
 
@@ -256,16 +264,13 @@ function gbs_biuld_ws_object($user_id, $adicionales, $order){
     $detalle[] = $data;
   };
 
-  global $wpdb;
-  $gs_clients_table = $wpdb->prefix . ('gs_clients');
-  $select_seller_id = "SELECT seller_id FROM ". $gs_clients_table . " WHERE Client_ID = " . $adicionales['cliente_id'];
-  $seller_id = $wpdb->get_var($select_seller_id);
-   $params = [
+  $cliente = Clientes::getByClientId($adicionales['cliente_id']);
+  $params = [
      'Order_id' => $order->get_order_number(),
      'Client_ID' => $adicionales['cliente_id'],
      'UserID' => $user_id,
      'Fecha_emision' => date('m/d/Y'),
-     'Seller_id' => $seller_id,
+     'Seller_id' => $cliente['seller_id'],
      'UserAction' => $adicionales['pedido'],
      'Detail' =>  $detalle ,
    ];
