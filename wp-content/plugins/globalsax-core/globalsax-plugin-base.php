@@ -23,7 +23,7 @@ define('GLOBALSAX_URL_INCLUDES', GLOBALSAX_URL . '/inc');
 /**
  * The plugin base class - the root of all WP goods!
  *
- * @author nofearinc
+ * @author maikndawer
  */
 class GLOBALSAX_Plugin_Base {
 
