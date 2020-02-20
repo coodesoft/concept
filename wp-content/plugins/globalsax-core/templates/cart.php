@@ -33,46 +33,36 @@ function gbs_cart($atts){
                             $checkoutController = new CheckoutController();
 
                             if ($countClientes > 1)
-                                
                                 $products = $checkoutController->_calculate();
-
                             elseif ($countClientes == 1){
-
                                 $cliente = $clientes[0];
                                 $sucursales = Sucursal::getByClientId($cliente['id']);
                                 $countSucursales = count($sucursales);
 
                                 if ($countSucursales > 1)
-                                    
                                     $products = $checkoutController->_calculate();
-
                                 elseif ($countSucursales == 1){
                                     $sucursal = $sucursales[0];
 
                                     $listas = ListaPrecios::getBySucursal($sucursal['id']);
-                                    $countListas = count($listas); 
-                                    
-                                    if ($countListas>1)
-                                        
-                                        $products = $checkoutController->_calculate();
+                                    $countListas = count($listas);
 
+                                    if ($countListas>1)
+                                        $products = $checkoutController->_calculate();
                                     elseif ($countListas == 1){
                                         $lista = $listas[0];
                                         $products = $checkoutController->_calculate($lista['list_id']);
                                     }
-                                    
                                 } else{
                                     $listas = ListaPrecios::getByCliente($cliente['id']);
                                     $countListas = count($listas);
 
                                     if ($countListas > 1)
-                                    
                                         $products = $checkoutController->_calculate();
-
                                     elseif ($countListas == 1){
                                         $lista = $listas[0];
-										$products = $checkoutController->_calculate($lista['list_id']);
-									} else
+																				$products = $checkoutController->_calculate($lista['list_id']);
+																		} else
                                         $products = $checkoutController->_calculate();
                                 }
                             }

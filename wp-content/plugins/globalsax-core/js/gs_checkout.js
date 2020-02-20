@@ -58,7 +58,7 @@
 
         register.notify(response['state'], params);
     }
-    
+
     let loadListasPreciosByClient = function(params){
         let data = {
             'client' : params['client'],
@@ -67,9 +67,9 @@
         $.post(ajaxurl, data, function(response){
             response = JSON.parse(response);
             updatePriceListState(response);
-       }); 
+       });
     }
-    
+
     let loadListasPreciosBySucursal = function(params){
         let data = {
             'sucursal' : params['sucursal']['id'],
@@ -79,7 +79,7 @@
         $.post(ajaxurl, data, function(response){
             response = JSON.parse(response);
             updatePriceListState(response);
-       }); 
+       });
     }
 
 
@@ -98,12 +98,12 @@
 
     register.subscribe(state.SINGLE_PRICELIST, calculatePrices);
     register.subscribe(state.SINGLE_PRICELIST, ListaPreciosDOM.getInstance().input);
-    
+
     register.subscribe(state.UPDATE_PRICELIST, updatePriceView);
 
 
     // se cargan las sucursales dependiendo de la seleccion del cliente.
-    $('#clientesList').on('change', '#cliente_id', function(){
+    $('#gbsCheckout').off().on('change', '#cliente_id', function(){
         var data = {
 	       'client' : this.value,
 	       'action' : 'gs_load_sucursales',
@@ -119,7 +119,7 @@
 
             response = JSON.parse(response);
             let params;
-                         
+
             switch (response['state']){
                 case state.LIST_SUCURSALES:
                     params = { 'target' : '.sucursalTarget', 'sucursales' : response['data'] };
@@ -130,7 +130,7 @@
                 case state.NO_SUCURSALES:
                     params = { 'client' : data['client'] };
             }
-            
+
             register.notify( response['state'], params );
 
         });
@@ -138,7 +138,7 @@
 
 
     // se cargan las listas de precios o se calcula el precio si es unica lista dependiendo de la sucursal
-    $('#gbsCheckout').off().on('change', '#selectSucursal', function(){
+    $('#gbsCheckout').on('change', '#selectSucursal', function(){
         var data = {
             'sucursal': this.value,
             'action': 'gs_load_pricelist_by_sucursal',

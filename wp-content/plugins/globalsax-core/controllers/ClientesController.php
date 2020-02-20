@@ -5,7 +5,7 @@ class ClientesController {
     public function __construct(){
         add_action('wp_ajax_get_sincronizar_cliente', array($this, 'sincronizar') );
         add_action('wp_ajax_gs_load_sucursales', array($this, 'loadSucursales') );
-                add_action('wp_ajax_gs_load_pricelist_by_client', array($this, 'loadPriceLists') );
+        add_action('wp_ajax_gs_load_pricelist_by_client', array($this, 'loadPriceLists') );
     }
 
     public function sincronizar(){
@@ -144,7 +144,7 @@ class ClientesController {
         if (isset($_POST['client'])){
             $priceLists = ListaPrecios::getByCliente($_POST['client']);
             $count = count($priceLists);
-                                   
+
             if ($count>1){
                 $return = [ 'state' => State::MULTIPLE_PRICELIST, 'data'  => $priceLists ];
             } elseif ($count == 1){
@@ -152,13 +152,13 @@ class ClientesController {
             } else{
                 $return = [ 'state' => State::NO_PRICELIST, 'data' => null ];
             }
-            
+
         } else
             $return = [ 'state' => State::PARAM_ERROR, 'data'  => null ];
-        
+
         echo json_encode($return);
         wp_die();
-    }    
+    }
 }
 
 $clientesController = new ClientesController();
