@@ -34,7 +34,7 @@
     });
   }
 
-  var enviarPedido = function(){
+  var enviarPedido = function(callback){
     let selectCliente = $('#clientesList select').length;
     let clienteSerialize = $('[name="cliente_id"]').val();
 
@@ -51,6 +51,8 @@
         data = JSON.parse(data);
         let response = '<p class="cart-response '+data['status']+'">'+data['msg']+'</p>';
         $('#gbsCheckout').html(response);
+
+        callback();
       });
     } else{
       alert('Debe seleccionar una Razón Social');
@@ -75,7 +77,13 @@
 
 
     $(rootCartForm).on('click', '#gbsEnviarPedido', function(){
-      enviarPedido();
+      $('#gsMask').remove()
+    
+      let maskMessage = '<div id="gsMask"><div id="gsMaskMessage"><span>El pedido se está enviando. Este proceso puede llevar un tiempo. Por favor espere...<span><div class="fa-3x"><i class="fas fa-cog fa-spin"></i></div></div></div>';
+      console.log(maskMessage);
+      $('body').prepend(maskMessage);
+      
+      enviarPedido( () => $('#gsMask').remove() );
     })
 
 
