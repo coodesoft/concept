@@ -79,7 +79,7 @@
     $(rootCartForm).on('click', '#gbsEnviarPedido', function(){
       $('#gsMask').remove()
     
-      let maskMessage = '<div id="gsMask"><div id="gsMaskMessage"><span>El pedido se está enviando. Este proceso puede llevar un tiempo. Por favor espere...<span><div class="fa-3x"><i class="fas fa-cog fa-spin"></i></div></div></div>';
+      let maskMessage = '<div id="gsMask"><div id="gsMaskMessage">El pedido se está enviando. Este proceso puede llevar un tiempo. Por favor espere..</div></div>';
       console.log(maskMessage);
       $('body').prepend(maskMessage);
       
