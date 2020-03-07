@@ -168,3 +168,51 @@ body.gbs-progress{
   outline: 0 !important;
   border: 2px solid #422d38;
 }
+
+
+#gsMask{
+  position: absolute;
+  z-index: 11000;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left:0;
+  background: rgba(0,0,0,0.9);
+
+}
+
+
+#maskMessage{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 40px;
+  text-align: center;
+  color: #ccc;    
+}
+
+.total-price{
+	text-align:center;
+}
+
+@media (max-width: 600px) {
+  .cant_pedida{
+    display:none;
+  }
+  #gbs_productos_list {
+    margin-top: 30px;
+    }
+  #msgCheckout{
+    margin-top: 30px;
+  }
+}
+@media (min-width: 601px) {
+  .cant_pedida{
+    display:inherit;
+  }
+  #gbs_productos_list {
+    margin-top: 0px;
+}
+}
